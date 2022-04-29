@@ -27,7 +27,7 @@ try {
 
 <div class="container-fluid ">
     <div class="row">
-    <button class="btn btn-primary" onclick="openModalAddSchedulazione()">Aggiungi Azienda</button>
+    <button class="btn btn-primary" onclick="creaAzienda()">Aggiungi Azienda</button>
         <table class="table table-hover table-bordered">
             <thead>
                 <tr class="bg-light">
@@ -44,8 +44,8 @@ try {
                 ?>
                     <tr>
                         <td class="col-1"><?php echo $row->id; ?>
-                            &nbsp;<span class="bi bi-eye-fill selectable" onclick="showLog(<?php echo $row->id; ?>)"></span>
-                            &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaBck(<?php echo $row->id; ?>);">&nbsp;</span>
+                            &nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>)"></span>
+                            &nbsp;<span class="bi bi-pencil-square selectable" onclick="modificaAzienda(<?php echo $row->id; ?>);">&nbsp;</span>
                         </td>
 
                         <td class="col-1" style="color: <?php echo $row->color; ?>"><?php echo $row->nome; ?></td>
@@ -58,3 +58,7 @@ try {
         </table>
     </div>
 </div>
+
+<?php
+
+require_once "modal_azienda.php";
