@@ -70,6 +70,7 @@ if (isset($_POST['cmd'])) {
                 $sqlStmt = "INSERT INTO azienda
                     (nome, telefono, sito_web, indirizzo, citta, cap, provincia, nazione)
                     VALUES(:nome, :telefono, :sito, :indirizzo, :citta, :cap, :provincia, :nazione)";
+                    
                 $parArr = array(
                     ":nome" => $nome,
                     ":telefono" => $telefono,

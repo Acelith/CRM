@@ -5,12 +5,18 @@
  * @author Joël Moix  
  */
 
- # Controllo se l'utente è loggato
-if(!utente::isLogged()){
+# Controllo se l'utente è loggato
+if (!utente::isLogged()) {
     die();
 }
 
-$sqlStmt = "SELECT * FROM Azienda";
+$flt = " ";
+
+if(isset($_GET['src'])){
+    $flt .= "or nome LIKE '%". $_GET['src']. "%'";
+}
+
+$sqlStmt = "SELECT * FROM Azienda where 1=1" . $flt;
 
 
 try {
@@ -27,7 +33,18 @@ try {
 
 <div class="container-fluid ">
     <div class="row">
-    <button class="btn btn-primary" onclick="openModalcreaAzienda()">Aggiungi Azienda</button>
+        <button class="btn btn-primary" onclick="openModalcreaAzienda()">Aggiungi Azienda</button> &nbsp;
+        <button class="btn btn-primary" onclick="delParams()">Resetta filtro</button>
+
+        <div style="width: 20%;" class="input-group mb-3 "> &nbsp;
+            <div class="input-group-prepend">
+                <span class="input-group-text">Cerca azienda</span>
+            </div>
+            <input type="text" class="form-control" onchange="changeParam('src', this.value )">
+        </div>
+
+        
+
         <table class="table table-hover table-bordered">
             <thead>
                 <tr class="bg-light">
@@ -44,13 +61,13 @@ try {
                 ?>
                     <tr>
                         <td class="col-1"><?php echo $row->id; ?>
-                            &nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
-                            &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaAzienda(<?php echo $row->id; ?>);">&nbsp;</span>
+                        &nbsp;&nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
+                        &nbsp; &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaAzienda(<?php echo $row->id; ?>);">&nbsp;</span>
                         </td>
 
                         <td class="col-1"><?php echo $row->nome; ?></td>
                         <td class="col-1"><?php echo $row->citta; ?></td>
-                        <td class="col-2"><a target="_blank"  href="<?php echo $row->sito_web; ?>"><?php echo $row->sito_web; ?></a></td>
+                        <td class="col-2"><a target="_blank" href="<?php echo $row->sito_web; ?>"><?php echo $row->sito_web; ?></a></td>
                         <td class="col-1"><a href="tel:+<?php echo $row->telefono; ?>"><?php echo $row->telefono; ?></a></td>
                     </tr>
                 <?php } ?>

@@ -20,8 +20,7 @@
   }
 
 /**
- * Funzione per la creazione di un'azienda 
- * @returns {"ajax_result":"ok","error":""}
+ * Funzione per la creazione di un'azienda
  */
 function creaAzienda(){
   $.ajax({
@@ -101,7 +100,9 @@ function creaAzienda(){
       },
   });
   }
-  
+  /**
+  * Apre la modal per la modifica dell'azienda 
+  */
   function openModalModificaAzienda(p_id_azienda){
     $.ajax({
       type: "POST",
@@ -145,6 +146,9 @@ function creaAzienda(){
   });
   }
 
+ /**
+  * Modifica un'azienda 
+  */
   function modificaAzienda(){
     $.ajax({
       type: "POST",
@@ -179,3 +183,4 @@ function creaAzienda(){
       },
   });
   }
+  

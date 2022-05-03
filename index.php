@@ -54,7 +54,7 @@ if (!utente::isLogged()) {
     <?php
     # Importo la navbar
     echo $ret['navbar'];
-
+    echo "<br>";
     # Importo il file php principale del modulo
     require_once $ret['php'];
     ?>
