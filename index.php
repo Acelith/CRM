@@ -1,4 +1,4 @@
-bo<?php
+<?php
 
 /**
  * index.php    file principale per il caricamento del programma 

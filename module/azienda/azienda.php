@@ -50,7 +50,7 @@ try {
 
                         <td class="col-1" style="color: <?php echo $row->color; ?>"><?php echo $row->nome; ?></td>
                         <td class="col-1"><?php echo $row->citta; ?></td>
-                        <td class="col-2"><a target="_blank" href="<?php echo $row->sito_web; ?>"><?php echo $row->sito_web; ?></td>
+                        <td class="col-2"><a target="_blank"  href="<?php echo $row->sito_web; ?>"><?php echo $row->sito_web; ?></a></td>
                         <td class="col-1"><a href="tel:+<?php echo $row->telefono; ?>"><?php echo $row->telefono; ?></a></td>
                     </tr>
                 <?php } ?>
