@@ -152,7 +152,6 @@ function creaAzienda(){
       data: {
           cmd: "modAzienda",
           id:  $("#id_azienda").val(),
-          cmd: "creaAzienda",
           nome: $("#nome").val(),
           telefono: $("#telefono").val(),
           sito: $("#sito").val(),

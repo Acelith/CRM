@@ -108,7 +108,7 @@ if (isset($_POST['cmd'])) {
                 $nazione = $_POST['nazione'];
 
                 $sqlStmt = "UPDATE azienda
-                SET nome=':nome', telefono=':telefono', sito_web=':sito', indirizzo=':indirizzo', citta=':citta', cap=':cap', provincia=':provincia', nazione=:nazione
+                SET nome=:nome, telefono=:telefono, sito_web=:sito, indirizzo=:indirizzo, citta=:citta, cap=:cap, provincia=:provincia, nazione=:nazione
                 WHERE id=:id";
 
                 $parArr = array(
