@@ -25,4 +25,38 @@ class utente{
             return true;
         }
     }
+
+    /* Ritorna l'id dell'utente corrente. */
+    static function getCurrentUserId(){
+        return $_SESSION['id_utente'];
+    }
+
+/* Controlla se l'utente è un'amministratore. */
+    static function isAdmin(){
+        $id = utente::getCurrentUserId();
+        
+        $sqlStmt = "SELECT admin from utente where id=:id";
+
+        $parArr = array(
+            ":id" => $id
+        );
+
+        try {
+            # faccio la connessione al databse
+            $dbConnect = DB::connect();
+            $sth = $dbConnect->prepare($sqlStmt);
+            # Eseguo la query;
+            $sth->execute($parArr);
+        } catch (PDOException $e) {
+            return "errore query: " . $e;
+        }
+
+        $row = $sth->fetch(PDO::FETCH_OBJ);
+
+        if($row->admin){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

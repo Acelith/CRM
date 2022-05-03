@@ -124,7 +124,12 @@ class Module {
             }
 
             # Controllo se il modulo è abilitato
-            if($row->abilitato == 1){
+            if($row->abilitato == 1 ){
+                if($row->admin == 1){
+                    if(utente::isAdmin() == 0){
+                        continue;
+                    }
+                }
                 # Controllo quale modulo è di defualt
                 if ($row->id == $defaultModule) {
                     $firstItem = "
