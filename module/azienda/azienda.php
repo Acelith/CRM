@@ -27,7 +27,7 @@ try {
 
 <div class="container-fluid ">
     <div class="row">
-    <button class="btn btn-primary" onclick="creaAzienda()">Aggiungi Azienda</button>
+    <button class="btn btn-primary" onclick="openModalcreaAzienda()">Aggiungi Azienda</button>
         <table class="table table-hover table-bordered">
             <thead>
                 <tr class="bg-light">

@@ -48,6 +48,45 @@ if(isset($_POST['cmd'])){
                 
                 $retArr['ajax_result'] = "ok";
                 break;
+
+                case 'creaAzienda':
+                    $nome = $_POST['nome'];
+                    $telefono = $_POST['telefono'];
+                    $sito = $_POST['sito'];
+                    $indirizzo = $_POST['indirizzo'];
+                    $citta = $_POST['citta']; 
+                    $cap = $_POST['cap'];
+                    $provincia = $_POST['provincia'];
+                    $nazione = $_POST['nazione'];
+
+                    $sqlStmt = "INSERT INTO azienda
+                    (nome, telefono, sito_web, indirizzo, citta, cap, provincia, nazione)
+                    VALUES(:nome, :telefono, :sito, :indirizzo, :citta, :cap, :provincia, :nazione)";
+                    $parArr = array(
+                        ":nome" => $nome,
+                        ":telefono" => $telefono,
+                        ":sito" => $sito,
+                        ":indirizzo" => $indirizzo,
+                        ":citta" => $citta,
+                        ":cap" => $cap,
+                        ":provincia" => $provincia,
+                        ":nazione" => $nazione
+                    );
+    
+                    try {
+                        # faccio la connessione al databse
+                        $dbConnect = DB::connect();
+                        $sth = $dbConnect->prepare($sqlStmt);
+    
+                        # Eseguo la query;
+                        $sth->execute($parArr);
+    
+                        $retArr['ajax_result'] = "ok";
+                    } catch (PDOException $e) {
+                        $retArr['error'] = "err";
+                    }
+                    
+                    break;
         }
     } catch(Exception $e){
         $retArr['ajax_result'] = "error";
