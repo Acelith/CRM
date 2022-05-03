@@ -44,8 +44,8 @@ try {
                 ?>
                     <tr>
                         <td class="col-1"><?php echo $row->id; ?>
-                            &nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>)"></span>
-                            &nbsp;<span class="bi bi-pencil-square selectable" onclick="modificaAzienda(<?php echo $row->id; ?>);">&nbsp;</span>
+                            &nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
+                            &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaAzienda(<?php echo $row->id; ?>);">&nbsp;</span>
                         </td>
 
                         <td class="col-1" style="color: <?php echo $row->color; ?>"><?php echo $row->nome; ?></td>

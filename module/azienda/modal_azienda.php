@@ -10,32 +10,43 @@
                     <div class="modal-body">
                         <!-- body -->
                         <span class="hidden" id="id_azienda"></span>
+                        <h3>Dettagli</h3>
                         <div class="row">
                             <div class="col">
+                                <label for="nome">Azienda</label>
                                 <input type="text" id="nome" class="form-control" id="nome" placeholder="Nome">
                             </div>
                             <div class="col">
+                                <label for="telefono">Numero di telefono</label>
                                 <input type="text" id="telefono" class="form-control" placeholder="Telefono">
                             </div>
                             <div class="col">
+                                <label for="sito">Sito Web</label>
                                 <input type="text" id="sito" class="form-control" placeholder="Sito Web">
                             </div>
                         </div>
                         <br>
+                        <hr>
+                        <h3>Indirizzo di fatturazione</h3>
                         <div class="row">
                         <div class="col">
+                                <label for="indirizzo">Indirizzo</label>  
                                 <input type="text" id="indirizzo" class="form-control" placeholder="Indirizzo">
                             </div>
                             <div class="col">
+                                <label for="citta">Città</label>
                                 <input type="text" id="citta" class="form-control" placeholder="Città">
                             </div>
                             <div class="col">
+                                <label for="cap">Cap</label>
                                 <input type="text" id="cap" class="form-control" placeholder="Cap">
                             </div>
                             <div class="col">
+                                <label for="provincia">Provincia</label>
                                 <input type="text" id="provincia" class="form-control" placeholder="Provincia">
                             </div>
                             <div class="col">
+                                <label for="nazione">Nazione</label>
                                 <input type="text" id="nazione" class="form-control" placeholder="Nazione">
                             </div>
                         </div>
