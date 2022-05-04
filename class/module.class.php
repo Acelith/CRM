@@ -98,7 +98,7 @@ class Module {
      * @return string      Contiene la navbar per la navigazione
      */
     static function getNavBar($p_moduleId = null) {
-        $sqlStmt = "SELECT * FROM modulo where id<>0";
+        $sqlStmt = "SELECT * FROM modulo where id<>0 order by id asc";
 
         try {
             # faccio la connessione al databse
@@ -112,6 +112,7 @@ class Module {
         
         # mi faccio ritornare il modulo di default
         $menuItems = "";
+        $adminItems = "";
         $defaultModule = Impostazioni::getDefaultModule();
 
         while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
@@ -127,6 +128,12 @@ class Module {
             if($row->abilitato == 1 ){
                 if($row->admin == 1){
                     if(utente::isAdmin() == 0){
+                        continue;
+                    } else {
+                        $adminItems .= "
+                        <li class='nav-item'>
+                            <a class='nav-link selectable $status' onclick='changeModule($row->id);'><span class='$row->icona'></span>&nbsp;&nbsp;&nbsp;$row->nome</a>
+                        </li> ";
                         continue;
                     }
                 }
@@ -158,6 +165,7 @@ class Module {
                 </div>
                 <div class='navbar-collapse collapse w-100 order-3 dual-collapse2'>
                 <ul class='navbar-nav ml-auto'>
+                " . $adminItems . "
                     <li class='nav-item'>
                             <a class='nav-link active selectable' onclick='logout();'><i class='bi bi-box-arrow-right'>&nbsp;</i>Logout</a>
                     </li>
