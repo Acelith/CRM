@@ -47,14 +47,9 @@ try {
         <div class="input-group-prepend">
             <span class="input-group-text">Cerca azienda</span>
         </div>
-        <input type="text" class="form-control" value="<?php echo $src ?>" onchange="changeParam('src', this.value )">
+        <input type="text" class="form-control" value="<?php echo $src ?>" onchange="changeParam('src', this.value )"> &nbsp;
+        <?php echo getComboUtenti("test"); ?>
     </div>
-
-
-
-
-
-
 
     <table class="table table-hover table-bordered">
         <thead>
