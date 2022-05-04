@@ -60,31 +60,31 @@ if (isset($_POST['cmd'])) {
                 $admin = $_POST["admin"];
 
                 # Controlla se la password è da cambiare 
-                if(!empty($password) && !empty($confPassword)){
-                    if($password == $confPassword){
+                if (!empty($password) && !empty($confPassword)) {
+                    if ($password == $confPassword) {
                         $ret = utente::changePassword($id, $password);
-                        if($ret != "ok"){
+                        if ($ret != "ok") {
                             $retArr['ajax_result'] == "error";
                             $retArr['error'] = "Impossibile cambiare la password";
-                            break;    
+                            break;
                         }
                     } else {
                         $retArr['ajax_result'] == "error";
                         $retArr['error'] = "Le password non sono uguali";
                         break;
-                    } 
-                } 
+                    }
+                }
 
-                if($admin == "true"){
+                if ($admin == "true") {
                     $admin = "1";
                 } else {
                     $admin = "0";
-                } 
+                }
 
                 $sqlStmt = "UPDATE utente
                 SET email=:email, nome=:nome, cognome=:cognome, admin=:admin
                 WHERE id=:id";
-                                
+
                 $parArr = array(
                     ":id" => $id,
                     ":cognome" => $cognome,
@@ -106,6 +106,75 @@ if (isset($_POST['cmd'])) {
 
                 break;
 
+            case "creUtente":
+                $nome = $_POST['nome'];
+                $cognome = $_POST['cognome'];
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                $confPassword = $_POST['confPassword'];
+                $admin = $_POST["admin"];
+
+                # Controlla se la password è da cambiare 
+                if (!empty($password) && !empty($confPassword)) {
+                    if ($password != $confPassword) {
+                        $retArr['ajax_result'] == "error";
+                        $retArr['error'] = "Le password non sono uguali";
+                        break;
+                    }
+                }
+
+                if ($admin == "true") {
+                    $admin = "1";
+                } else {
+                    $admin = "0";
+                }
+
+                $sqlStmt = "INSERT INTO utente
+                    (email, password, nome, cognome, admin)
+                    VALUES(:email,:password, :nome, :cognome, :admin)";
+
+                $parArr = array(
+                    ":cognome" => $cognome,
+                    ":nome" => $nome,
+                    ":email" => $email,
+                    ":admin" => $admin,
+                    ":password" => password_hash($password, PASSWORD_BCRYPT),
+                );
+
+                try {
+                    # faccio la connessione al databse
+                    $dbConnect = DB::connect();
+                    $sth = $dbConnect->prepare($sqlStmt);
+                    # Eseguo la query;
+                    $sth->execute($parArr);
+                    $retArr["ajax_result"] = "ok";
+                } catch (PDOException $e) {
+                    return "errore query: " . $e;
+                }
+
+                break;
+
+            case "delUtente":
+                $id = $_POST['id'];
+
+                $sqlStmt = "DELETE FROM utente
+                                WHERE id=:id";
+
+                $parArr = array(
+                    ":id" => $id
+                );
+
+                try {
+                    # faccio la connessione al databse
+                    $dbConnect = DB::connect();
+                    $sth = $dbConnect->prepare($sqlStmt);
+                    # Eseguo la query;
+                    $sth->execute($parArr);
+                    $retArr["ajax_result"] = "ok";
+                } catch (PDOException $e) {
+                    return "errore query: " . $e;
+                }
+                break;
         }
     } catch (Exception $e) {
         $retArr['ajax_result'] = "error";

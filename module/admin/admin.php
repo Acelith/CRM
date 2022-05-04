@@ -23,7 +23,7 @@ $sqlStmt = "SELECT nome, cognome, email, admin, dt_last_login, id FROM utente";
 }
 
  ?>
-
+<button class="btn btn-primary" onclick="openModalCreaUtente()">Aggiungi Utente</button> &nbsp;
 <table class="table table-hover table-bordered">
             <thead>
                 <tr class="bg-light">
