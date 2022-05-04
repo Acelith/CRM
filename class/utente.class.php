@@ -19,7 +19,7 @@ class utente{
      * @return bool     ritorna true se è loggato, false se non lo è
      */
     static function isLogged(){
-        if(!isset($_SESSION['loggato']) or $_SESSION['loggato'] == false){
+        if(!isset($_SESSION['loggato']) or $_SESSION['loggato'] == false or !isset($_SESSION['id_utente'])){
             return false;
         } else {
             return true;

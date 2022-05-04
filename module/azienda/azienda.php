@@ -13,10 +13,10 @@ if (!utente::isLogged()) {
 $flt = " ";
 
 if(isset($_GET['src'])){
-    $flt .= "or nome LIKE '%". $_GET['src']. "%'";
+    $flt .= "and nome LIKE '%". $_GET['src']. "%'";
 }
 
-$sqlStmt = "SELECT * FROM Azienda where 1=1" . $flt;
+$sqlStmt = "SELECT * FROM Azienda where 1=1" . $flt . " order by nome asc";
 
 
 try {

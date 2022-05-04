@@ -21,7 +21,7 @@ if(isset($_GET['src'])){
 $sqlStmt = "select ct.*, az.nome as azienda "
 . "from contatto as ct "
     . "inner join azienda as az on az.id=ct.id_azienda "
-    . "where 1=1 " . $flt;
+    . "where 1=1 " . $flt . " order by az.nome asc";
 
 try {
     # faccio la connessione al databse
