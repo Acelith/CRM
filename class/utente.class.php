@@ -10,7 +10,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php
 session_start();
 
 /**
- * Classe per gestire l'utente corrente
+ * Classe per gestire l'utente 
  */
 class utente{
     /**
@@ -57,6 +57,35 @@ class utente{
             return true;
         } else {
             return false;
+        }
+    }
+
+   /**
+     * Cambia la password di un utente
+     * @param  int   $p_id_utente   id dell'utente da cambiare la passoword
+     * @param  int   $password      password da cambiare 
+     * @return string     
+     */
+    static function changePassword($p_id_utente, $password){
+        $sqlStmt = "UPDATE utente
+                    SET password=:password
+                    WHERE id=:id";
+
+        $parArr = array(
+            ":id" => $p_id_utente,
+            ":password" => password_hash($password, PASSWORD_BCRYPT),
+        );
+
+        try {
+            # faccio la connessione al databse
+            $dbConnect = DB::connect();
+            $sth = $dbConnect->prepare($sqlStmt);
+            # Eseguo la query;
+            $sth->execute($parArr);
+            return "ok";
+            
+        } catch (PDOException $e) {
+            return "errore query: " . $e;
         }
     }
 }
