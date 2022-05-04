@@ -6,7 +6,6 @@
 /**
  * Pulisce il filtro di ricerca 
  */
-
 function clearSearch(){
-    changeParam("src", "");
+    delParam("src");
 }
