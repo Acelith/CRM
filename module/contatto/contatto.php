@@ -27,8 +27,8 @@ if (isset($_GET['usr'])) {
 
 $sqlStmt = "select ct.*, az.nome as azienda, CONCAT(ute.nome, ' ',ute.cognome) as utente  "
     . "from contatto as ct "
-    . "inner join azienda as az on az.id=ct.id_azienda "
-    . "inner join utente as ute on ute.id=az.id_utente "
+    . "left join azienda as az on az.id=ct.id_azienda "
+    . "left join utente as ute on ute.id=az.id_utente "
     . "where 1=1 " . $flt . " order by az.nome asc";
 
 try {

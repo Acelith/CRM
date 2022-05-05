@@ -4,6 +4,11 @@
  * @author Joël Moix
  */
 
+ $( document ).ready(function() {
+  $("#numero_pagina").val(getParam("pag"));
+})
+
+
 /**
  * Imposta l'utenet di ricerca per la query
  * @param p_val - l'ID dell'utente da cercare
@@ -240,4 +245,35 @@ function assegnaUtente(){
       }
     },
   });
+}
+
+/**
+ * funzione per andare in dietro di una pagina
+ */
+function precedentePagina(){
+  var pag = getParam("pag");
+  if(pag == 1 || pag == null){
+    pag = 1;
+  } else {
+    pag = Number(pag) - Number("1"); 
+  }
+  changeParam("pag", pag);
+}
+
+/**
+ * funzione per andare avanti di una pagina
+ */
+function prossimaPagina(){
+  var pag = getParam("pag");
+  pag = Number(pag) + Number("1"); 
+  changeParam("pag", pag);
+}
+/**
+ * funzione per cambiare pagina
+ * 
+ * @param obj   oggetto da passare per estrarre il valore
+ */
+function changePage(p_page){
+  var page = $(p_page).val();
+  changeParam("pag", page);
 }

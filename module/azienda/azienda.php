@@ -11,6 +11,38 @@ if (!utente::isLogged()) {
     die();
 }
 
+$sqlStmt = "SELECT COUNT(*) as record FROM azienda";
+
+try {
+    # faccio la connessione al databse
+    $dbConnect = DB::connect();
+    $sth = $dbConnect->prepare($sqlStmt);
+    # Eseguo la query;
+    $sth->execute();
+    $res = $sth->fetch(PDO::FETCH_OBJ);
+    $numRows = $res->record;
+} catch (PDOException $e) {
+    echo "errore query: " . $e;
+}
+
+$nav = "
+<button class='btn btn-primary' onclick='precedentePagina()'><</button>
+    <input class='form-control' onchange='changePage(this)' id='numero_pagina' type='text'></input>
+<button class='btn btn-primary' onclick='prossimaPagina()'>></button>
+";
+
+$limit = "";
+if (isset($_GET['pag'])) {
+    if($_GET['pag'] == ""){
+        $pag = 1;
+    } else {
+        $pag = $_GET['pag'];
+    }    
+    $end = 25 * $pag;
+    $start = $end - 25;
+    $limit = "LIMIT $start, $end";
+}
+
 $flt = " ";
 $src = "";
 if (isset($_GET['src'])) {
@@ -27,7 +59,7 @@ if (isset($_GET['usr'])) {
 $sqlStmt = "SELECT az.*, CONCAT(ute.nome, ' ',ute.cognome) as utente "
 . "FROM azienda as az "
 . "left join utente as ute on ute.id=az.id_utente "
-. "where 1=1" . $flt . " order by nome asc";
+. "where 1=1" . $flt . " order by nome asc " . $limit;
 
 
 try {
@@ -49,7 +81,8 @@ try {
             <span class="input-group-text">Cerca azienda</span>
         </div>
         <input type="text" class="form-control" value="<?php echo $src ?>" onchange="changeParam('src', this.value )"> &nbsp;
-        <?php echo getComboUtenti("setUsr"); ?>
+        <?php echo getComboUtenti("setUsr"); ?> &nbsp;
+        <?php echo $nav; ?>
     </div>
 
     <table class="table table-hover table-bordered">
