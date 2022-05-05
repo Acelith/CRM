@@ -66,22 +66,27 @@ function changeParam(p_param_name, p_param_value) {
 
 /**
  * Cancella un parametro dall'URL
- * 
- * @param p_param_name nome del parametro da eliminare
+ *
+ * @param p_param nome del parametro da eliminare
  */
-function delParam(p_param_name) {
-  // Prendo l'url corrente
+function delParam(p_param) {
   var url = new URL(window.location.href);
 
   var params = url.searchParams;
 
-  // Cancello il parametro dall'url
-  params.delete(p_param_name);
-
+  if (Array.isArray(p_param)) {
+    p_param.forEach((element) => {
+      params.delete(element);
+      
+    });
+  } else {
+    // Cancello il parametro dall'url
+    params.delete(p_param);
+  }
   url.search = params.toString();
 
   var new_url = url.toString();
-  // Ricarico la pagina con i parametri nuvoi
+  // Ricarico la pagina con i parametri nuovi
   location.assign(new_url);
 }
 
@@ -94,4 +99,21 @@ function delParams() {
   var new_url = url.toString();
 
   location.assign(new_url);
+}
+
+/**
+ * Ritorna il parametro richiesto
+ * @param p_param - Il parametro da richiedere
+ * @returns Il valore del parametro
+ */
+function getParam(p_param) {
+  // Prendo l'url corrente
+  var url = new URL(window.location.href);
+
+  var params = url.searchParams;
+
+  // Imposto il nuovo parametro nell'url, nel caso non esistesse lo aggiunge
+  var param = params.get(p_param);
+
+  return param;
 }

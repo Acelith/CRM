@@ -28,11 +28,11 @@ function getComboUtenti( $p_identificativo_dropdown ) {
 
     $utenti = '';
     while ( $row = $sth->fetch( PDO::FETCH_OBJ ) ) {
-        $utenti .= "<a class='dropdown-item' id='$row->id'>$row->nome $row->cognome</a>";
+        $utenti .= "<a class='dropdown-item' onclick='setUsr(this)' id='$row->id'>$row->nome $row->cognome</a>";
     }
 
     $combo = "<div class='btn-group'>
-    <button id='" . $p_identificativo_dropdown . "'type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+    <button type='button'  id='" . $p_identificativo_dropdown . "' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
       Seleziona utente
     </button>
     <div class='dropdown-menu'>

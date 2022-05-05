@@ -26,6 +26,11 @@ if (isset($_GET['src'])) {
     $src = $_GET['src'];
 }
 
+if (isset($_GET['usr'])) {
+    $flt .= "and id_utente=" . $_GET["usr"] . " ";
+}
+
+
 $sqlStmt = "SELECT * FROM Azienda where 1=1" . $flt . " order by nome asc";
 
 
@@ -43,7 +48,7 @@ try {
 <div class="container-fluid">
     <div style="width: 40%;" class="input-group mb-3 ">
         <button class="btn btn-primary" onclick="openModalcreaAzienda()">Aggiungi Azienda</button> &nbsp;
-        <button class="btn btn-primary" onclick="delParam('src')">Resetta filtro</button>&nbsp;
+        <button class="btn btn-primary" onclick="resetFlt()">Resetta filtro</button>&nbsp;
         <div class="input-group-prepend">
             <span class="input-group-text">Cerca azienda</span>
         </div>
