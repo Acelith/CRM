@@ -50,7 +50,7 @@ class Module {
         }
 
         $module = $sth->fetch(PDO::FETCH_OBJ);
-        $moduleName = $module->nome;
+        $cartellaModulo = $module->cartella;
         if(! $module->abilitato){
             die();
         }
@@ -69,22 +69,22 @@ class Module {
 
         # Controllo se esiste il file php
         
-        if (file_exists(MODULE_PATH . $moduleName . DIRECTORY_SEPARATOR . $moduleName . ".php")) {
-            $ret['php'] = MODULE_PATH . $moduleName . DIRECTORY_SEPARATOR . $moduleName . '.php';
+        if (file_exists(MODULE_PATH . $cartellaModulo . DIRECTORY_SEPARATOR . $cartellaModulo . ".php")) {
+            $ret['php'] = MODULE_PATH . $cartellaModulo . DIRECTORY_SEPARATOR . $cartellaModulo . '.php';
         } else {
             $ret['php'] = ROOT_PATH . "module" . DIRECTORY_SEPARATOR . 'default.php';
             return $ret;
         }
 
         # Controllo se esiste il file javascript
-        if (file_exists(MODULE_PATH . $moduleName .  DIRECTORY_SEPARATOR . $moduleName . ".js")) {
-            $ret['js'] .= " <script type='text/javascript' src='" . DIRECTORY_SEPARATOR . "module" . DIRECTORY_SEPARATOR . $moduleName .  DIRECTORY_SEPARATOR . $moduleName . ".js'></script>";
+        if (file_exists(MODULE_PATH . $cartellaModulo .  DIRECTORY_SEPARATOR . $cartellaModulo . ".js")) {
+            $ret['js'] .= " <script type='text/javascript' src='" . DIRECTORY_SEPARATOR . "module" . DIRECTORY_SEPARATOR . $cartellaModulo .  DIRECTORY_SEPARATOR . $cartellaModulo . ".js'></script>";
 
         }
 
         # Controllo se esiste il file css
-        if (file_exists(MODULE_PATH . $moduleName .  DIRECTORY_SEPARATOR . $moduleName . ".css")) {
-            $ret['css'] .= "<link href='" . DIRECTORY_SEPARATOR . "module" . DIRECTORY_SEPARATOR . $moduleName .  DIRECTORY_SEPARATOR . $moduleName . ".css' rel='stylesheet' type='text/css'>";
+        if (file_exists(MODULE_PATH . $cartellaModulo .  DIRECTORY_SEPARATOR . $cartellaModulo . ".css")) {
+            $ret['css'] .= "<link href='" . DIRECTORY_SEPARATOR . "module" . DIRECTORY_SEPARATOR . $cartellaModulo .  DIRECTORY_SEPARATOR . $cartellaModulo . ".css' rel='stylesheet' type='text/css'>";
         }
 
        
