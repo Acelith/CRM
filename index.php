@@ -52,15 +52,18 @@ if (!utente::isLogged()) {
 </head>
 
 <body>
-    <img class="img_header" src="/img/acme-logo.png">
-    <div class="welcome-msg">
-        <p>Buongiorno
-            <?php
-            $info = utente::getUserInformation(utente::getCurrentUserId(), array("nome", "cognome"));
-            echo $info['nome'] . "&nbsp;" . $info['cognome'];
-            ?>
-        </p>
-    </div>
+    <?php
+    if (utente::isLogged()) {
+        echo "<img class='img_header' src='/img/acme-logo.png'>";
+        echo " <div class='welcome-msg'>";
+        echo "<p>Buongiorno&nbsp;";
+        $info = utente::getUserInformation(utente::getCurrentUserId(), array("nome", "cognome"));
+        echo $info['nome'] . "&nbsp;" . $info['cognome'];
+        echo "</p>";
+        echo "</div>";
+    }
+    ?>
+
     <?php
     # Importo la navbar
     echo $ret['navbar'];

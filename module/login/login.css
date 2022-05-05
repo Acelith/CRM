@@ -7,6 +7,13 @@
 /*
 * Login 
 */
+.img_login{
+    width: 30%;
+}
+.img_login_he{
+    display: flex;
+    justify-content: center;
+}
 .login {
     width: 400px;
     background-color: #ffffff;

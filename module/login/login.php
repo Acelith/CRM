@@ -32,6 +32,9 @@ if (isset($_GET['err'])) {
 ?>
 <div class="login">
 	<h1>Login</h1>
+	<div class="img_login_he">
+	<img class="img_login" src="/img/acme-logo.png">
+</div>
 	<form>
 		<label for="email">
 			<i class="fas fa-user"></i>
