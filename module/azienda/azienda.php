@@ -25,7 +25,7 @@ if (isset($_GET['usr'])) {
 
 
 $sqlStmt = "SELECT az.*, CONCAT(ute.nome, ' ',ute.cognome) as utente "
-. "FROM Azienda as az "
+. "FROM azienda as az "
 . "left join utente as ute on ute.id=az.id_utente "
 . "where 1=1" . $flt . " order by nome asc";
 

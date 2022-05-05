@@ -68,6 +68,7 @@ class Module {
         }
 
         # Controllo se esiste il file php
+        
         if (file_exists(MODULE_PATH . $moduleName . DIRECTORY_SEPARATOR . $moduleName . ".php")) {
             $ret['php'] = MODULE_PATH . $moduleName . DIRECTORY_SEPARATOR . $moduleName . '.php';
         } else {
@@ -183,7 +184,7 @@ class Module {
      * @return array        array contenente gli script da caricare 
      */
     static function loadLogin(){
-        $ret = self::loadMOdule(0);
+        $ret = self::loadModule(0);
         return $ret; 
     }
 }
