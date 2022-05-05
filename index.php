@@ -54,7 +54,7 @@ if (!utente::isLogged()) {
 <body>
     <?php
     if (utente::isLogged()) {
-        echo "<img class='img_header' src='/img/acme-logo.png'>";
+        echo "<img class='img_header' src='/img/" . impostazioni::getSetting("immagine_azienda") . "'>";
         echo " <div class='welcome-msg'>";
         echo "<p>Buongiorno&nbsp;";
         $info = utente::getUserInformation(utente::getCurrentUserId(), array("nome", "cognome"));
