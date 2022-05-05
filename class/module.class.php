@@ -153,7 +153,7 @@ class Module {
         }
 
         $buff = "
-        <nav class='navbar navbar-expand-lg navbar-dark bg-primary'>
+        <nav class='navbar navbar-expand-lg navbar-dark bg-primary sticky-top'>
             <div class='container-fluid'>
                 <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarColor02' aria-controls='navbarColor02' aria-expanded='false' aria-label='Toggle navigation'>
                     <span class='navbar-toggler-icon'></span>

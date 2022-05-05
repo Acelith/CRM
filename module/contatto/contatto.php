@@ -69,7 +69,7 @@ try {
             while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
             ?>
                 <tr>
-                    <td class="col-1"><?php echo $row->id; ?>
+                    <td class="col-1">
                         &nbsp;&nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
                         &nbsp; &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaAzienda(<?php echo $row->id; ?>);">&nbsp;</span>
                     </td>
