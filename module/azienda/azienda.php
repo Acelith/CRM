@@ -26,8 +26,11 @@ if (isset($_GET['pag'])) {
 
 $nav = "
 <button class='btn btn-primary' onclick='precedentePagina()'><</button>
-    <input class='form-control' onchange='changePage(this)' id='numero_pagina' type='text'></input>
+<div style='width:5%'>
+    <input class='form-control'  onchange='changePage(this)' id='numero_pagina' type='text'></input>
+    </div>
 <button class='btn btn-primary' onclick='prossimaPagina()'>></button>
+
 ";
 
 
@@ -62,7 +65,7 @@ try {
 
 ?>
 <div class="container-fluid">
-    <div style="width: 40%;" class="input-group mb-3 ">
+    <div style="width: 50%;" class="input-group mb-3 ">
         <button class="btn btn-primary" onclick="openModalcreaAzienda()">Aggiungi Azienda</button> &nbsp;
         <button class="btn btn-primary" onclick="resetFlt()">Resetta filtro</button>&nbsp;
         <div class="input-group-prepend">

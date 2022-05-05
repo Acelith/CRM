@@ -24,8 +24,10 @@ if (isset($_GET['pag'])) {
 
 $nav = "
 <button class='btn btn-primary' onclick='precedentePagina()'><</button>
+<div style='width:5%'>
     <input class='form-control' onchange='changePage(this)' id='numero_pagina' type='text'></input>
-<button class='btn btn-primary' onclick='prossimaPagina()'>></button>
+    </div>
+    <button class='btn btn-primary' onclick='prossimaPagina()'>></button>
 ";
 
 $flt = " ";
@@ -60,12 +62,13 @@ try {
 
 ?>
 <div class="container-fluid">
-    <div style="width: 30%;" class="input-group mb-3 ">
+    <div style="width: 50%;" class="input-group mb-3 ">
         <button class="btn btn-primary" onclick="resetFlt()">Resetta filtro</button> &nbsp;
         <div class="input-group-prepend">
             <span class="input-group-text">Cerca</span>
         </div>
-        <input type="text" class="form-control" value="<?php echo $src ?>" onchange="changeParam('src', this.value )"> &nbsp;
+        <input type="text" class="form-control" value="<?php echo $src ?>" onchange="changeParam('src', this.value )">
+        &nbsp;
         <?php echo getComboUtenti("setUsr"); ?> &nbsp;
         <?php echo $nav; ?>
     </div>
@@ -86,18 +89,20 @@ try {
             <?php
             while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
             ?>
-                <tr>
-                    <td class="col-1">
-                        &nbsp;&nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
-                        &nbsp; &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaAzienda(<?php echo $row->id; ?>);">&nbsp;</span>
-                    </td>
+            <tr>
+                <td class="col-1">
+                    &nbsp;&nbsp;<span class="bi bi-eye-fill selectable"
+                        onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
+                    &nbsp; &nbsp;<span class="bi bi-pencil-square selectable"
+                        onclick="openModalModificaAzienda(<?php echo $row->id; ?>);">&nbsp;</span>
+                </td>
 
-                    <td class="col-1"><?php echo $row->nome; ?></td>
-                    <td class="col-1"><?php echo $row->cognome; ?></td>
-                    <td class="col-1"><a href="tel:+<?php echo $row->telefono; ?>"><?php echo $row->telefono; ?></a></td>
-                    <td class="col-2"><?php echo $row->azienda; ?></td>
-                    <td class="col-2"><?php echo $row->utente; ?></td>
-                </tr>
+                <td class="col-1"><?php echo $row->nome; ?></td>
+                <td class="col-1"><?php echo $row->cognome; ?></td>
+                <td class="col-1"><a href="tel:+<?php echo $row->telefono; ?>"><?php echo $row->telefono; ?></a></td>
+                <td class="col-2"><?php echo $row->azienda; ?></td>
+                <td class="col-2"><?php echo $row->utente; ?></td>
+            </tr>
             <?php } ?>
         </tbody>
     </table>

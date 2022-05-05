@@ -47,7 +47,15 @@ if (!utente::isLogged()) {
     <!-- importo custom css -->
     <?php echo $ret['css']; ?>
 
-    <title>Gestionale</title>
+    <title>Gestionale 
+        <?php
+        if (utente::isLogged()) {
+             $info = utente::getUserInformation(utente::getCurrentUserId(), array("nome", "cognome"));
+             echo " - " . $info['nome'] . "&nbsp;" . $info['cognome'];
+        }
+        ?>
+    </title>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 </head>
 
 <body>
