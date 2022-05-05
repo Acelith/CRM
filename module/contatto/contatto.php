@@ -10,6 +10,23 @@
 if (!utente::isLogged()) {
     die();
 }
+$limit = "";
+if (isset($_GET['pag'])) {
+    if($_GET['pag'] == ""){
+        $pag = 1;
+    } else {
+        $pag = $_GET['pag'];
+    }    
+    $end = 50 * $pag;
+    $start = $end - 50;
+    $limit = "LIMIT $start, $end";
+}
+
+$nav = "
+<button class='btn btn-primary' onclick='precedentePagina()'><</button>
+    <input class='form-control' onchange='changePage(this)' id='numero_pagina' type='text'></input>
+<button class='btn btn-primary' onclick='prossimaPagina()'>></button>
+";
 
 $flt = " ";
 $src = "";
@@ -29,7 +46,7 @@ $sqlStmt = "select ct.*, az.nome as azienda, CONCAT(ute.nome, ' ',ute.cognome) a
     . "from contatto as ct "
     . "left join azienda as az on az.id=ct.id_azienda "
     . "left join utente as ute on ute.id=az.id_utente "
-    . "where 1=1 " . $flt . " order by az.nome asc";
+    . "where 1=1 " . $flt . " order by az.nome asc " . $limit;
 
 try {
     # faccio la connessione al databse
@@ -49,7 +66,8 @@ try {
             <span class="input-group-text">Cerca</span>
         </div>
         <input type="text" class="form-control" value="<?php echo $src ?>" onchange="changeParam('src', this.value )"> &nbsp;
-        <?php echo getComboUtenti("setUsr"); ?>
+        <?php echo getComboUtenti("setUsr"); ?> &nbsp;
+        <?php echo $nav; ?>
     </div>
 
 

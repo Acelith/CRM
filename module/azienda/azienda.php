@@ -11,25 +11,6 @@ if (!utente::isLogged()) {
     die();
 }
 
-$sqlStmt = "SELECT COUNT(*) as record FROM azienda";
-
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-    $res = $sth->fetch(PDO::FETCH_OBJ);
-    $numRows = $res->record;
-} catch (PDOException $e) {
-    echo "errore query: " . $e;
-}
-
-$nav = "
-<button class='btn btn-primary' onclick='precedentePagina()'><</button>
-    <input class='form-control' onchange='changePage(this)' id='numero_pagina' type='text'></input>
-<button class='btn btn-primary' onclick='prossimaPagina()'>></button>
-";
 
 $limit = "";
 if (isset($_GET['pag'])) {
@@ -38,10 +19,17 @@ if (isset($_GET['pag'])) {
     } else {
         $pag = $_GET['pag'];
     }    
-    $end = 25 * $pag;
-    $start = $end - 25;
+    $end = 50 * $pag;
+    $start = $end - 50;
     $limit = "LIMIT $start, $end";
 }
+
+$nav = "
+<button class='btn btn-primary' onclick='precedentePagina()'><</button>
+    <input class='form-control' onchange='changePage(this)' id='numero_pagina' type='text'></input>
+<button class='btn btn-primary' onclick='prossimaPagina()'>></button>
+";
+
 
 $flt = " ";
 $src = "";

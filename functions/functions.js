@@ -117,3 +117,35 @@ function getParam(p_param) {
 
   return param;
 }
+
+
+/**
+ * funzione per andare in dietro di una pagina
+ */
+ function precedentePagina(){
+  var pag = getParam("pag");
+  if(pag == 1 || pag == null){
+    pag = 1;
+  } else {
+    pag = Number(pag) - Number("1"); 
+  }
+  changeParam("pag", pag);
+}
+
+/**
+ * funzione per andare avanti di una pagina
+ */
+function prossimaPagina(){
+  var pag = getParam("pag");
+  pag = Number(pag) + Number("1"); 
+  changeParam("pag", pag);
+}
+/**
+ * funzione per cambiare pagina
+ * 
+ * @param obj   oggetto da passare per estrarre il valore
+ */
+function changePage(p_page){
+  var page = $(p_page).val();
+  changeParam("pag", page);
+}
