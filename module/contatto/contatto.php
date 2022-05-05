@@ -19,7 +19,9 @@ if (isset($_GET['pag'])) {
     }    
     $end = 50 * $pag;
     $start = $end - 50;
-    $limit = "LIMIT $start, $end";
+    $limit = "LIMIT $start, 50";
+} else {
+    $limit = "LIMIT 0, 50";
 }
 
 $nav = "
@@ -38,7 +40,7 @@ if (isset($_GET['src'])) {
     $flt .= "or az.nome LIKE '%" . $_GET['src'] . "%' ";
 
     $src = $_GET['src'];
-}
+} 
 
 if (isset($_GET['usr'])) {
     $flt .= "and id_utente=" . $_GET["usr"] . " ";

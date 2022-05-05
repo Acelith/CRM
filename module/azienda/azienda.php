@@ -21,7 +21,9 @@ if (isset($_GET['pag'])) {
     }    
     $end = 50 * $pag;
     $start = $end - 50;
-    $limit = "LIMIT $start, $end";
+    $limit = "LIMIT $start, 50";
+} else {
+    $limit = "LIMIT 0, 50";
 }
 
 $nav = "
