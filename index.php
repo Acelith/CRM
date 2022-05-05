@@ -7,7 +7,10 @@
  */
 
 #Importo i file necessari 
-require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php";;
+require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php";
+
+echo $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php<br>";
+echo CLASS_PATH ;
 
 # Controllo se l'utente è già loggato, nel caso non lo fosse visualizzo il modulo di login
 if (!utente::isLogged()) {
