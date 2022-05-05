@@ -29,28 +29,35 @@
                         <hr>
                         <h3>Indirizzo di fatturazione</h3>
                         <div class="row">
-                        <div class="col">
-                                <label for="indirizzo">Indirizzo</label>  
+                            <div class="col-4"><br>
+                                <label for="indirizzo">Indirizzo</label>
                                 <input type="text" id="indirizzo" class="form-control" placeholder="Indirizzo">
                             </div>
-                            <div class="col">
+                            <div class="col-4"><br>
                                 <label for="citta">Città</label>
                                 <input type="text" id="citta" class="form-control" placeholder="Città">
                             </div>
-                            <div class="col">
+                            <div class="col-4"><br>
                                 <label for="cap">Cap</label>
                                 <input type="text" id="cap" class="form-control" placeholder="Cap">
                             </div>
-                            <div class="col">
+                            <div class="col-4"><br>
                                 <label for="provincia">Provincia</label>
                                 <input type="text" id="provincia" class="form-control" placeholder="Provincia">
                             </div>
-                            <div class="col">
+                            <div class="col-4"><br>
                                 <label for="nazione">Nazione</label>
                                 <input type="text" id="nazione" class="form-control" placeholder="Nazione">
                             </div>
                         </div>
-
+                        <br>
+                        <hr>
+                        <h3>Note</h3>
+                        <div class="row">
+                            <div class="col">
+                                <textarea class="form-control" id="note" rows="5"></textarea>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger mr-auto" id="btn_cancella"

@@ -24,6 +24,15 @@ function resetFlt(){
  * Apre la modal per la creazione dell'azienda
  */
 function openModalcreaAzienda() {
+  $("#nome").val("");
+  $("#telefono").val("");
+  $("#sito").val("");
+  $("#indirizzo").val("");
+  $("#citta").val("");
+  $("#cap").val("");
+  $("#provincia").val("");
+  $("#nazione").val("");
+  $("#note").val("")
   $("#btn_cancella").hide();
   $("#btn_modifica").hide();
   $("#titolo_modal_azienda").html("Aggiungi azienda");
@@ -47,6 +56,7 @@ function creaAzienda() {
       cap: $("#cap").val(),
       provincia: $("#provincia").val(),
       nazione: $("#nazione").val(),
+      note: $("#note").val(),
     },
     success: function (text) {
       try {
@@ -95,6 +105,7 @@ function showDettagli(p_id_azienda, p_readonly) {
           $("#cap").val(objVal.cap).prop("readOnly", p_readonly);
           $("#provincia").val(objVal.provincia).prop("readOnly", p_readonly);
           $("#nazione").val(objVal.nazione).prop("readOnly", p_readonly);
+          $("#note").val(objVal.note).prop("readOnly", p_readonly);
           // Nascondo i bottoni
           $("#btn_cancella").hide();
           $("#btn_modifica").hide();
@@ -130,15 +141,16 @@ function openModalModificaAzienda(p_id_azienda) {
           return false;
         } else {
           // Assegno i valori ai campi
-          $("#nome").val(objVal.nome);
-          $("#telefono").val(objVal.telefono);
-          $("#sito").val(objVal.sito);
-          $("#indirizzo").val(objVal.indirizzo);
-          $("#citta").val(objVal.citta);
-          $("#cap").val(objVal.cap);
-          $("#provincia").val(objVal.provincia);
-          $("#nazione").val(objVal.nazione);
-          $("#id_azienda").val(p_id_azienda);
+          $("#nome").val(objVal.nome).prop("readOnly", false);
+          $("#telefono").val(objVal.telefono).prop("readOnly", false);
+          $("#sito").val(objVal.sito).prop("readOnly", false);
+          $("#indirizzo").val(objVal.indirizzo).prop("readOnly", false);
+          $("#citta").val(objVal.citta).prop("readOnly", false);
+          $("#cap").val(objVal.cap).prop("readOnly", false);
+          $("#provincia").val(objVal.provincia).prop("readOnly", false);
+          $("#nazione").val(objVal.nazione).prop("readOnly", false);
+          $("#id_azienda").val(p_id_azienda).prop("readOnly", false);
+          $("#note").val(objVal.note).prop("readOnly", false);
           // Nascondo i bottoni
           $("#btn_cancella").hide();
           $("#btn_modifica").show();
@@ -171,6 +183,7 @@ function modificaAzienda() {
       cap: $("#cap").val(),
       provincia: $("#provincia").val(),
       nazione: $("#nazione").val(),
+      note: $("#note").val(),
     },
     success: function (text) {
       try {

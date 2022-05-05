@@ -54,6 +54,7 @@ if (isset($_POST['cmd'])) {
                 $retArr['cap'] = $row->cap;
                 $retArr['provincia'] = $row->provincia;
                 $retArr['nazione'] = $row->nazione;
+                $retArr['note'] = $row->note;
                 $retArr['ajax_result'] = "ok";
                 break;
 
@@ -66,10 +67,11 @@ if (isset($_POST['cmd'])) {
                 $cap = $_POST['cap'];
                 $provincia = $_POST['provincia'];
                 $nazione = $_POST['nazione'];
+                $note = $_POST['note'];
 
                 $sqlStmt = "INSERT INTO azienda
-                    (nome, telefono, sito_web, indirizzo, citta, cap, provincia, nazione)
-                    VALUES(:nome, :telefono, :sito, :indirizzo, :citta, :cap, :provincia, :nazione)";
+                    (nome, telefono, sito_web, indirizzo, citta, cap, provincia, nazione, note)
+                    VALUES(:nome, :telefono, :sito, :indirizzo, :citta, :cap, :provincia, :nazione, :note)";
                     
                 $parArr = array(
                     ":nome" => $nome,
@@ -79,7 +81,8 @@ if (isset($_POST['cmd'])) {
                     ":citta" => $citta,
                     ":cap" => $cap,
                     ":provincia" => $provincia,
-                    ":nazione" => $nazione
+                    ":nazione" => $nazione,
+                    ":note" => $note
                 );
 
                 try {
@@ -107,9 +110,10 @@ if (isset($_POST['cmd'])) {
                 $cap = $_POST['cap'];
                 $provincia = $_POST['provincia'];
                 $nazione = $_POST['nazione'];
+                $note = $_POST['note'];
 
                 $sqlStmt = "UPDATE azienda
-                SET nome=:nome, telefono=:telefono, sito_web=:sito, indirizzo=:indirizzo, citta=:citta, cap=:cap, provincia=:provincia, nazione=:nazione
+                SET nome=:nome, telefono=:telefono, sito_web=:sito, indirizzo=:indirizzo, citta=:citta, cap=:cap, provincia=:provincia, nazione=:nazione, note=:note
                 WHERE id=:id";
 
                 $parArr = array(
@@ -121,7 +125,8 @@ if (isset($_POST['cmd'])) {
                     ":citta" => $citta,
                     ":cap" => $cap,
                     ":provincia" => $provincia,
-                    ":nazione" => $nazione
+                    ":nazione" => $nazione,
+                    ":note" => $note
                 );
 
                 try {
