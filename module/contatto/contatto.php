@@ -21,9 +21,14 @@ if (isset($_GET['src'])) {
     $src = $_GET['src'];
 }
 
-$sqlStmt = "select ct.*, az.nome as azienda "
+if (isset($_GET['usr'])) {
+    $flt .= "and id_utente=" . $_GET["usr"] . " ";
+}
+
+$sqlStmt = "select ct.*, az.nome as azienda, CONCAT(ute.nome, ' ',ute.cognome) as utente  "
     . "from contatto as ct "
     . "inner join azienda as az on az.id=ct.id_azienda "
+    . "inner join utente as ute on ute.id=az.id_utente "
     . "where 1=1 " . $flt . " order by az.nome asc";
 
 try {
@@ -33,17 +38,18 @@ try {
     # Eseguo la query;
     $sth->execute();
 } catch (PDOException $e) {
-    return "errore query: " . $e;
+    echo "errore query: " . $e;
 }
 
 ?>
 <div class="container-fluid">
-    <div style="width: 20%;" class="input-group mb-3 ">
-        <button class="btn btn-primary" onclick="clearSearch()">Resetta filtro</button> &nbsp;
+    <div style="width: 30%;" class="input-group mb-3 ">
+        <button class="btn btn-primary" onclick="resetFlt()">Resetta filtro</button> &nbsp;
         <div class="input-group-prepend">
             <span class="input-group-text">Cerca</span>
         </div>
-        <input type="text" class="form-control" value="<?php echo $src ?>" onchange="changeParam('src', this.value )">
+        <input type="text" class="form-control" value="<?php echo $src ?>" onchange="changeParam('src', this.value )"> &nbsp;
+        <?php echo getComboUtenti("setUsr"); ?>
     </div>
 
 
@@ -55,6 +61,7 @@ try {
                 <th class="col-1">Cognome</th>
                 <th class="col-2">Num. telefono</th>
                 <th class="col-1">Azienda</th>
+                <th class="col-1">Utente assegnato all'azienda</th>
             </tr>
         </thead>
         <tbody>
@@ -71,6 +78,7 @@ try {
                     <td class="col-1"><?php echo $row->cognome; ?></td>
                     <td class="col-1"><a href="tel:+<?php echo $row->telefono; ?>"><?php echo $row->telefono; ?></a></td>
                     <td class="col-2"><?php echo $row->azienda; ?></td>
+                    <td class="col-2"><?php echo $row->utente; ?></td>
                 </tr>
             <?php } ?>
         </tbody>

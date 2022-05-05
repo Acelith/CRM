@@ -4,11 +4,18 @@
  * @author Joël Moix
  */
 
+/**
+ * Imposta l'utenet di ricerca per la query
+ * @param p_val - l'ID dell'utente da cercare
+ */
 function setUsr(p_val) {
   var id = $(p_val).attr("id");
   changeParam("usr", id);
 }
 
+/**
+ * Cancella i parametri di ricerca dall'url
+ */
 function resetFlt(){
   var params = ["usr", "src"];
   delParam(params);
@@ -164,6 +171,45 @@ function modificaAzienda() {
       cap: $("#cap").val(),
       provincia: $("#provincia").val(),
       nazione: $("#nazione").val(),
+    },
+    success: function (text) {
+      try {
+        var objVal;
+
+        objVal = JSON.parse(text);
+        if (objVal.ajax_result !== "ok") {
+          alert(objVal.ajax_result + " " + objVal.error);
+          return false;
+        } else {
+          location.reload(true);
+        }
+      } catch (error) {
+        alert("Errore: " + error + " " + text);
+      }
+    },
+  });
+}
+
+/**
+ * Apre la modal per assegnare l'utente all'azienda 
+ */
+function openModalAssegna(p_id_azienda){
+  $("#titolo_modal_utente").html("Assegna utente");
+  $("#id_azienda_assegna").val(p_id_azienda);
+  $("#modal_utente").modal({ keyboard: false });
+}
+
+/**
+ * Funzione per assegnare l'utente ad una azienda
+ */
+function assegnaUtente(){
+  $.ajax({
+    type: "POST",
+    url: "/module/azienda/ajax_services.php",
+    data: {
+      cmd: "assUtente",
+      id_ute: $('#listaUtenti input:radio:checked').prop("id"),
+      id_az: $("#id_azienda_assegna").val(),
     },
     success: function (text) {
       try {

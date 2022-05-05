@@ -137,6 +137,34 @@ if (isset($_POST['cmd'])) {
                     $retArr['error'] = "err";
                 }
                 break;
+
+                case "assUtente":
+                    $idUte = $_POST['id_ute'];
+                    $idAz = $_POST['id_az'];
+    
+                    $sqlStmt = "UPDATE azienda
+                    SET id_utente=:id_utente
+                    WHERE id=:id_azienda";
+    
+                    $parArr = array(
+                        ":id_utente" => $idUte,
+                        ":id_azienda" => $idAz
+                    );
+    
+                    try {
+                        # faccio la connessione al databse
+                        $dbConnect = DB::connect();
+                        $sth = $dbConnect->prepare($sqlStmt);
+    
+                        # Eseguo la query;
+                        $sth->execute($parArr);
+    
+                        $retArr['ajax_result'] = "ok";
+                    } catch (PDOException $e) {
+                        $retArr['error'] = "err";
+                    }
+                    
+                    break;
         }
     } catch (Exception $e) {
         $retArr['ajax_result'] = "error";
