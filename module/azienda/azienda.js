@@ -4,6 +4,9 @@
  * @author Joël Moix
  */
 
+/**
+ * Init function
+ */
  $( document ).ready(function() {
   $("#numero_pagina").val(getParam("pag"));
 })

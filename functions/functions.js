@@ -5,6 +5,14 @@
  */
 
 /**
+ * 
+ * Init function
+ */
+ $( document ).ready(function() {
+  $("#numero_pagina").val(getParam("pag"));
+})
+
+/**
  * Chiamata Ajax per eseguire il logout
  */
 function logout() {
