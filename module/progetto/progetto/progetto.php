@@ -69,6 +69,7 @@ try {
 }
 
 ?>
+<script type='text/javascript' src="/module/progetto/progetto/progetto.js"></script>
 <div class="container-fluid">
     <div style="width: 50%;" class="input-group mb-3 ">
         <button class="btn btn-primary" onclick="openModalcreaProgetto()">Aggiungi Progetto</button> &nbsp;
@@ -100,10 +101,8 @@ try {
                 <tr>
                     <td class="col-1">
                         &nbsp;&nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
-                        &nbsp; &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaAzienda(<?php echo $row->id; ?>);"></span>
-                        &nbsp; &nbsp;<span class="bi bi-diagram-2 selectable" onclick="openModalAssegna(<?php echo $row->id; ?>);">&nbsp;</span>
+                        &nbsp; &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaProgetto(<?php echo $row->id; ?>);"></span>
                     </td>
-
                     <td class="col-1"><?php echo $row->nome; ?></td>
                     <td class="col-1"><?php echo $row->nome_azienda; ?></td>
                     <td class="col-1"><?php echo $row->progresso; ?>%</td>
@@ -116,3 +115,39 @@ try {
     </table>
 </div>
 </div>
+
+<?php 
+require_once "modal_progetto.php";
+require_once "modal_sel_azienda.php";
+
+function getAziendeSelect(){
+    $sqlStmt = "SELECT * FROM azienda";
+
+
+    try {
+        # faccio la connessione al databse
+        $dbConnect = DB::connect();
+        $sth = $dbConnect->prepare($sqlStmt);
+        # Eseguo la query;
+        $sth->execute();
+    } catch (PDOException $e) {
+        echo "errore query: " . $e;
+    }
+
+    $aziende = '';
+    while ( $row = $sth->fetch( PDO::FETCH_OBJ ) ) {
+        $aziende .= "<div class='form-check'>";
+            $aziende .= " <input class='form-check-input' type='radio' data-nome='^$row->nome' name='listaUtenti' id='$row->id'>";
+            $aziende .= "<label class='form-check-label' for='$row->id'>
+                         " . $row->nome . "
+                        </label>";
+        $aziende .= "</div>";
+    }
+
+    $radio = "
+    <div id='selector_aziende'>
+       $aziende
+    </div>";
+    return $radio;
+
+}

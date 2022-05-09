@@ -14,6 +14,7 @@ if(!utente::isLogged()){
 }
 
  # Definisco i submenu da caricare 
+ # A sinistra il nome da far comparire nel menu, a destra la cartella
  $subMenu = array(
      "Progetti" => "progetto",
      "Task" => "task"
@@ -21,21 +22,27 @@ if(!utente::isLogged()){
 
 $navbarMenu = "";
 $to_import = array();
+# Costruisco il menu della navbar
 foreach ($subMenu as $nome => $cartella){
     $to_check = MODULE_PATH . "progetto" . DIRECTORY_SEPARATOR . $cartella . DIRECTORY_SEPARATOR . $cartella . ".php";
     if(file_exists($to_check)){
-        $navbarMenu .= "<a class='nav-item nav-link selectable' onclick='subMenu($cartella)'>$nome</a>";
+        $navbarMenu .= "<a class='nav-item nav-link selectable' onclick='subMenu(\"$cartella\")'>$nome</a>";
         $to_import[$cartella] = $cartella;
     }
 }
 
 $modulo_to_load = "";
+# Sottomodulo da caricare in caso non sia impostato un modulo specifico da caricare
+$default = MODULE_PATH . "progetto" . DIRECTORY_SEPARATOR . "progetto" . DIRECTORY_SEPARATOR . "progetto" . ".php";
+
 if(isset($_GET['submod'])){
     if(key_exists($_GET['submod'], $to_import)){
-        $modulo_to_load = $_GET['submod'];
+        $modulo_to_load = MODULE_PATH . "progetto" . DIRECTORY_SEPARATOR . $_GET['submod'] . DIRECTORY_SEPARATOR . $_GET['submod'] . ".php";
     } else {
-        $modulo_to_load = "progetto";
+        $modulo_to_load = $default;
     }
+} else {
+    $modulo_to_load = $default;
 }
 
 
@@ -50,7 +57,6 @@ if(isset($_GET['submod'])){
 
 <?php 
 
-foreach ($to_import as $file){
-    require_once $file;
-}
+# Importo il modulo richiesto
+require_once $modulo_to_load;
 ?>
