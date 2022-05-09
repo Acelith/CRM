@@ -1,6 +1,6 @@
 <!-- The Modal -->
 <div class="modal fade" id="select_aziende">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-sm">
       <div class="modal-content">
       
         <!-- Modal Header -->

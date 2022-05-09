@@ -1,0 +1,8 @@
+{
+    "require": {
+        "sprain/swiss-qr-bill": "^4.0",
+        "fpdf/fpdf": "^1.84",
+        "tecnickcom/tcpdf": "^6.4",
+        "whatwedo/esr-bundle": "^0.4.4"
+    }
+}

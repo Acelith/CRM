@@ -2,3 +2,5 @@
 .DS_Store
 .vscode/
 lib/
+vendor/
+composer.lock
