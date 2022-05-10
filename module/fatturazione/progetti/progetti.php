@@ -52,9 +52,10 @@ if (isset($_GET['usr'])) {
 }
 
 
-$sqlStmt = "SELECT prj.*, az.nome as nome_azienda
+$sqlStmt = "SELECT prj.*, az.nome as nome_azienda, SUM(tskprj.ore_lavorate) as ore_lavorate
 from progetto as prj
 inner join azienda as az on az.id = prj.id_azienda
+inner join task_progetto as tskprj on tskprj.id_progetto = prj.id
 WHERE 1=1 " . $flt . $limit;
 
 
@@ -88,10 +89,9 @@ try {
                 <th class="col-1">#</th>
                 <th class="col-1">Progetto</th>
                 <th class="col-1">Azienda</th>
-                <th class="col-1">Progresso</th>
-                <th class="col-1">Data di inizio</th>
                 <th class="col-2">Descrizione</th>
-                <th class="col-1">Budget</th>
+                <th class="col-1">Budget usato</th>
+                <th class="col-1">Ore dedicate totali</th>                
             </tr>
         </thead>
         <tbody>
@@ -105,10 +105,9 @@ try {
                     </td>
                     <td class="col-1"><?php echo $row->nome; ?></td>
                     <td class="col-1"><?php echo $row->nome_azienda; ?></td>
-                    <td class="col-1"><?php echo $row->progresso; ?>%</td>
-                    <td class="col-1"><?php echo $row->data_inizio; ?></td>
                     <td class="col-2"><?php echo $row->descrizione; ?></td>
-                    <td class="col-1"><?php echo $row->budget; echo " " . impostazioni::getSetting("valuta")?></td>
+                    <td class="col-1"><?php echo $row->budget_usato; echo " " . impostazioni::getSetting("valuta")?></td>
+                    <td class="col-1"><?php echo $row->ore_lavorate;?></td>
                 </tr>
             <?php } ?>
         </tbody>
