@@ -9,6 +9,10 @@
 # Importo i file necessari
 require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php";
 require_once MODULE_PATH . "fatturazione" . DIRECTORY_SEPARATOR . "fattura.php";
+
+require_once ROOT_PATH . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
+use Spipu\Html2Pdf\Html2Pdf;
+
 # Controllo se l'utente è loggato
 if (!utente::isLogged()) {
     die();
@@ -22,7 +26,7 @@ if (isset($_POST['cmd'])) {
 
     try {
         switch ($cmd) {
-                # Ritorno i dettagli dell'azienda
+                # Stampo la fattura
             case 'stampaFattura':
                 $id_azienda = $_POST['id'];
                 $sqlStmt = "SELECT prj.*, az.indirizzo, az.citta, az.cap
@@ -69,13 +73,9 @@ if (isset($_POST['cmd'])) {
 
                 $retArr["corpo"] =  $fattura->getCorpo();
                 $retArr["testa"] = $fattura->getTesta();
-                require ROOT_PATH . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
 
-                #$mpdf = new \Mpdf\Mpdf();
-                #$mpdf->WriteHTML($retArr["testa"] . " " . $retArr["corpo"]);
-                #$mpdf->Output();
-                $examplePath = __DIR__ . '/html-example.htm';
-                file_put_contents($examplePath, $retArr["testa"] . " " . $retArr["corpo"]);
+                $fattura->getPdf();
+
                 break;
 
             

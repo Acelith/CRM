@@ -14,7 +14,8 @@ require ROOT_PATH . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
 
 use Sprain\SwissQrBill as QrBill;
 
-/* It creates a QR bill. */
+
+/* Crea la fattura. */
 class Fattura {
 
     public $debitore;
@@ -27,6 +28,7 @@ class Fattura {
     public $numero_fattura;
     public $info_supp;
     public $rige;
+    public $fatturaQR;
 
     /**
      * Costruttore
@@ -53,7 +55,8 @@ class Fattura {
         return $this->corpo;
     }
     function calcolaTotale(){
-        $this->totale_iva =  $this->totale + (($this->totale/100)*Impostazioni::getSetting("iva"));
+        $this->totale_iva =  (($this->totale/100)*Impostazioni::getSetting("iva"));
+        $this->fattura_totale = $this->totale_iva + $this->totale;
     }
     /**
      * imposta i valori del debitore
@@ -121,6 +124,25 @@ class Fattura {
         }
     }
 
+    function getPdf(){
+        $tcPdf = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-1');
+        $tcPdf->setPrintHeader(false);
+        $tcPdf->setPrintFooter(false);
+        $tcPdf->AddPage();
+        $tcPdf->writeHtml($this->testa);
+    
+        
+        // 3. Create a full payment part for TcPDF
+        $output = new QrBill\PaymentPart\Output\TcPdfOutput\TcPdfOutput($this->fatturaQR, 'it', $tcPdf);
+        $output
+            ->setPrintable(false)
+            ->getPaymentPart();
+        
+        // 4. For demo purposes, let's save the generated example in a file
+        $examplePath = __DIR__ . "/test.pdf";
+        $tcPdf->Output($examplePath, 'F');
+    }
+
     /**
      * Ritorna la testa della fattuzra
      */
@@ -128,7 +150,7 @@ class Fattura {
        $this->testa .= "
        <style>
             body {
-                font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+                font-family: 'Helvetica', Helvetica, Arial, sans-serif;
                 text-align: center;
                 color: #777;
             }
@@ -160,7 +182,7 @@ class Fattura {
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
                 font-size: 16px;
                 line-height: 24px;
-                font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+                font-family: 'Helvetica', Helvetica, Arial, sans-serif;
                 color: #555;
             }
         
@@ -217,18 +239,8 @@ class Fattura {
                 font-weight: bold;
             }
         
-            @media only screen and (max-width: 600px) {
-                .fattura-box table tr.top table td {
-                    width: 100%;
-                    display: block;
-                    text-align: center;
-                }
-        
-                .fattura-box table tr.information table td {
-                    width: 100%;
-                    display: block;
-                    text-align: center;
-                }
+            #qr-bill{
+                
             }
        </style>
        
@@ -239,13 +251,11 @@ class Fattura {
                         <table>
                             <tr>
                                 <td class='title'>
-                                    <img src='/img/" . impostazioni::getSetting("immagine_azienda") . "' alt='Logo' style='width: 100%; max-width: 300px' />
+                                   
                                 </td>
         
                                 <td>
-                                    fattura #: 123<br />
-                                    Created: January 1, 2015<br />
-                                    Due: February 1, 2015
+                                    
                                 </td>
                             </tr>
                         </table>
@@ -279,9 +289,16 @@ class Fattura {
                 </tr>
                     " . $this->rige . "
                 <tr class='total'>
-                    <td>Totale netto " . $this->totale . "</td>
+                    <td>Totale netto</td>
+                    <td> " . $this->totale . " " . Impostazioni::getSetting("valuta") . "</td>
+                </tr>
+                <tr class='total'>
                     <td>IVA del " . Impostazioni::getSetting("iva") . "</td>
-                    <td>Totale " . $this->totale_iva . "</td>
+                    <td>" . $this->totale_iva . " " . Impostazioni::getSetting("valuta") . "</td>
+                </tr>
+                <tr class='total'>
+                    <td>Totale fattura</td>
+                    <td>" . $this->fattura_totale . " " . Impostazioni::getSetting("valuta") . "</td>
                 </tr>
            </table>
        </div>
@@ -326,7 +343,7 @@ class Fattura {
             $qrBill->setPaymentAmountInformation(
                 QrBill\DataGroup\Element\PaymentAmountInformation::create(
                     'CHF',
-                    $this->totale_iva
+                    $this->fattura_totale
                 )
             );
 
@@ -351,12 +368,13 @@ class Fattura {
             );
 
             // 2. Create a full payment part in HTML
-            $output = new QrBill\PaymentPart\Output\HtmlOutput\HtmlOutput($qrBill, 'it');
+           /* $output = new QrBill\PaymentPart\Output\HtmlOutput\HtmlOutput($qrBill, 'it');
 
             $html = $output
                 ->setPrintable(false)
                 ->getPaymentPart();
 
-                $this->corpo = $html;
+                $this->corpo = $html;*/
+            $this->fatturaQR = $qrBill;
     }
 }   

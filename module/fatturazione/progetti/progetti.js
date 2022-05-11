@@ -24,8 +24,7 @@
             alert(objVal.ajax_result + " " + objVal.error);
             return false;
           } else {
-            alert(objVal.testa);
-            alert(objVal.corpo);
+            alert("Inizio donwload");
           }
         } catch (error) {
           alert("Errore: " + error + " " + text);
