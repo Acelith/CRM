@@ -27,8 +27,9 @@ class Fattura {
     public $besrID;
     public $numero_fattura;
     public $info_supp;
-    public $rige;
+    public $rige = array();
     public $fatturaQR;
+    public $fattura;
 
     /**
      * Costruttore
@@ -113,196 +114,173 @@ class Fattura {
                 echo "errore query: " . $e;
             }
         }
-    
         while($row= $sth->fetch(PDO::FETCH_OBJ)) {
-            $this->rige .= "
-            <tr class='item'>
-            <td>$row->nome</td>
-    
-            <td>$row->budget_usato</td>
-        </tr>";
+        $riga = array(
+            "prestazione" => $row->nome,
+            "ore" => "forfait",
+            "prezzo" => $row->budget_usato
+        );
+        array_push($this->rige, $riga);
+
         }
     }
 
     function getPdf(){
-        $tcPdf = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-1');
-        $tcPdf->setPrintHeader(false);
-        $tcPdf->setPrintFooter(false);
-        $tcPdf->AddPage();
-        $tcPdf->writeHtml($this->testa);
+        $fatt = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-1');
+        //$this->setCorpoFattura();
+        $fatt->AddPage();
+          /*Cell(width , height , text , border , end line , [align] )*/
+          
+          $fatt->Cell(71 ,10,'',0,0);
+          $fatt->Cell(59 ,5,'Fattura',0,0);
+          $fatt->Cell(59 ,10,'',0,1);
+          
+          
+          $fatt->Cell(71 ,5,'',0,0);
+          $fatt->Cell(59 ,5,'',0,0);
+          $fatt->Cell(59 ,5,'Dettagli',0,1);
+          
+          
+          
+          $fatt->Cell(130 ,5,'',0,0);
+          
+          $fatt->Cell(130 ,5,Impostazioni::getSetting("citta") . ", " .Impostazioni::getSetting("cap"),0,0);
+          $fatt->Cell(25 ,5,'Data:',0,0);
+          $fatt->Cell(34 ,5,date("j F Y"),0,1);
+           
+          $fatt->Cell(130 ,5,'',0,0);
+          $fatt->Cell(25 ,5,'Fattura N. ',0,0);
+          $fatt->Cell(34 ,5,'123',0,1);
+          
+          
+          
+          $fatt->Cell(130 ,5,'Indirizzo',0,0);
+          $fatt->Cell(59 ,5,$this->debitore["nome"],0,0);
+          
+          $fatt->Cell(189 ,10,$this->debitore["cap"] . " " . $this->debitore["citta"],0,1);
+          
+          
+          
+          $fatt->Cell(50 ,10,'',0,1);
+          
+          
+          /*Heading Of the table*/
+          $fatt->Cell(80 ,6,'Descrizione',1,0,'C');
+          $fatt->Cell(30 ,6,'Ore di lavoro',1,0,'C');
+          $fatt->Cell(25 ,6,'Totale',1,1,'C');/*end of line*/
+          /*Heading Of the table end*/
+          
+              foreach($this->rige as $arr){
+                  foreach($arr as $colonna){
+                      $fatt->Cell(80 ,6,$arr["prestazione"],1,0);
+                      $fatt->Cell(30 ,6,$arr["ore"],1,0,'R');
+                      $fatt->Cell(25 ,6,$arr["prezzo"],1,1,'R');
+                  }               
+              }               
+  
+          # cella totale netto
+          $fatt->Cell(118 ,6,'',0,0);
+          $fatt->Cell(25 ,6,'Totale netto',0,0);
+          $fatt->Cell(45 ,6,$this->totale,1,1,'R');
+          
+          # cella IVA
+          $fatt->Cell(118 ,6,'',0,0);
+          $fatt->Cell(25 ,6,'IVA ' . Impostazioni::getSetting("iva") . '%',0,0);
+          $fatt->Cell(45 ,6,$this->totale_iva,1,1,'R');
+  
+          #cella totale fattura
+          $fatt->Cell(118 ,6,'',0,0);
+          $fatt->Cell(25 ,6,'Totale fattura',0,0);
+          $fatt->Cell(45 ,6,$this->fattura_totale,1,1,'R');
+        
+      
+
+        $fatt->setPrintHeader(false);
+        $fatt->setPrintFooter(false);
+        //$fatt->AddPage();
     
         
         // 3. Create a full payment part for TcPDF
-        $output = new QrBill\PaymentPart\Output\TcPdfOutput\TcPdfOutput($this->fatturaQR, 'it', $tcPdf);
+        $output = new QrBill\PaymentPart\Output\TcPdfOutput\TcPdfOutput($this->fatturaQR, 'it', $fatt);
         $output
             ->setPrintable(false)
             ->getPaymentPart();
         
         // 4. For demo purposes, let's save the generated example in a file
         $examplePath = __DIR__ . "/test.pdf";
-        $tcPdf->Output($examplePath, 'F');
+        $fatt->Output($examplePath, 'F');
     }
 
     /**
      * Ritorna la testa della fattuzra
      */
     function setTestaFattura() {
-       $this->testa .= "
-       <style>
-            body {
-                font-family: 'Helvetica', Helvetica, Arial, sans-serif;
-                text-align: center;
-                color: #777;
-            }
         
-            body h1 {
-                font-weight: 300;
-                margin-bottom: 0px;
-                padding-bottom: 0px;
-                color: #000;
-            }
+        /*Cell(width , height , text , border , end line , [align] )*/
+        $fatt = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-1');
+        $fatt->Cell(71 ,10,'',0,0);
+        $fatt->Cell(59 ,5,'Fattura',0,0);
+        $fatt->Cell(59 ,10,'',0,1);
         
-            body h3 {
-                font-weight: 300;
-                margin-top: 10px;
-                margin-bottom: 20px;
-                font-style: italic;
-                color: #555;
-            }
         
-            body a {
-                color: #06f;
-            }
+        $fatt->Cell(71 ,5,'',0,0);
+        $fatt->Cell(59 ,5,'',0,0);
+        $fatt->Cell(59 ,5,'Dettagli',0,1);
         
-            .fattura-box {
-                max-width: 800px;
-                margin: auto;
-                padding: 30px;
-                border: 1px solid #eee;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-                font-size: 16px;
-                line-height: 24px;
-                font-family: 'Helvetica', Helvetica, Arial, sans-serif;
-                color: #555;
-            }
         
-            .fattura-box table {
-                width: 100%;
-                line-height: inherit;
-                text-align: left;
-                border-collapse: collapse;
-            }
         
-            .fattura-box table td {
-                padding: 5px;
-                vertical-align: top;
-            }
+        $fatt->Cell(130 ,5,'',0,0);
+        $fatt->Cell(25 ,5,'Codice cliente',0,0);
+        $fatt->Cell(34 ,5,'112321',0,1);
         
-            .fattura-box table tr td:nth-child(2) {
-                text-align: right;
-            }
+        $fatt->Cell(130 ,5,Impostazioni::getSetting("citta") . ", " .Impostazioni::getSetting("cap"),0,0);
+        $fatt->Cell(25 ,5,'Data:',0,0);
+        $fatt->Cell(34 ,5,date("j F Y"),0,1);
+         
+        $fatt->Cell(130 ,5,'',0,0);
+        $fatt->Cell(25 ,5,'Fattura N. ',0,0);
+        $fatt->Cell(34 ,5,'ORD001',0,1);
         
-            .fattura-box table tr.top table td {
-                padding-bottom: 20px;
-            }
         
-            .fattura-box table tr.top table td.title {
-                font-size: 45px;
-                line-height: 45px;
-                color: #333;
-            }
         
-            .fattura-box table tr.information table td {
-                padding-bottom: 40px;
-            }
+        $fatt->Cell(130 ,5,'Indirizzo',0,0);
+        $fatt->Cell(59 ,5,$this->debitore["nome"],0,0);
         
-            .fattura-box table tr.heading td {
-                background: #eee;
-                border-bottom: 1px solid #ddd;
-                font-weight: bold;
-            }
+        $fatt->Cell(189 ,10,$this->debitore["cap"] . " " . $this->debitore["citta"],0,1);
         
-            .fattura-box table tr.details td {
-                padding-bottom: 20px;
-            }
         
-            .fattura-box table tr.item td {
-                border-bottom: 1px solid #eee;
-            }
         
-            .fattura-box table tr.item.last td {
-                border-bottom: none;
-            }
+        $fatt->Cell(50 ,10,'',0,1);
         
-            .fattura-box table tr.total td:nth-child(2) {
-                border-top: 2px solid #eee;
-                font-weight: bold;
-            }
         
-            #qr-bill{
-                
-            }
-       </style>
-       
-           <div class='fattura-box'>
-           <table>
-                <tr class='top'>
-                    <td colspan='2'>
-                        <table>
-                            <tr>
-                                <td class='title'>
-                                   
-                                </td>
+        /*Heading Of the table*/
+        $fatt->Cell(80 ,6,'Descrizione',1,0,'C');
+        $fatt->Cell(30 ,6,'Ore di lavoro',1,0,'C');
+        $fatt->Cell(25 ,6,'Totale',1,1,'C');/*end of line*/
+        /*Heading Of the table end*/
         
-                                <td>
-                                    
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+            foreach($this->rige as $arr){
+                foreach($arr as $colonna){
+                    $fatt->Cell(80 ,6,$arr["prestazione"],1,0);
+                    $fatt->Cell(30 ,6,$arr["ore"],1,0,'R');
+                    $fatt->Cell(25 ,6,$arr["prezzo"],1,1,'R');
+                }               
+            }               
+
+        # cella totale netto
+        $fatt->Cell(118 ,6,'',0,0);
+        $fatt->Cell(25 ,6,'Totale netto',0,0);
+        $fatt->Cell(45 ,6,$this->totale,1,1,'R');
         
-                <tr class='information'>
-                    <td colspan='2'>
-                        <table>
-                            <tr>
-                                <td>
-                                
-                                </td>
-        
-                                <td>
-                                    " . $this->debitore["nome"] . "<br>
-                                    " . $this->debitore["cap"] . "&nbsp;" . $this->debitore["citta"] . " <br>
-                                    <br>
-                                    <br>
-                                    " . Impostazioni::getSetting("citta") . ", " . date("j F Y") . "
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-        
-                <tr class='heading'>
-                    <td>Prestazione</td>
-        
-                    <td>Prezzo</td>
-                </tr>
-                    " . $this->rige . "
-                <tr class='total'>
-                    <td>Totale netto</td>
-                    <td> " . $this->totale . " " . Impostazioni::getSetting("valuta") . "</td>
-                </tr>
-                <tr class='total'>
-                    <td>IVA del " . Impostazioni::getSetting("iva") . "</td>
-                    <td>" . $this->totale_iva . " " . Impostazioni::getSetting("valuta") . "</td>
-                </tr>
-                <tr class='total'>
-                    <td>Totale fattura</td>
-                    <td>" . $this->fattura_totale . " " . Impostazioni::getSetting("valuta") . "</td>
-                </tr>
-           </table>
-       </div>
-       ";  
+        # cella IVA
+        $fatt->Cell(118 ,6,'',0,0);
+        $fatt->Cell(25 ,6,'IVA ' . Impostazioni::getSetting("iva") . '%',0,0);
+        $fatt->Cell(45 ,6,$this->totale_iva,1,1,'R');
+
+        #cella totale fattura
+        $fatt->Cell(118 ,6,'',0,0);
+        $fatt->Cell(25 ,6,'Totale fattura',0,0);
+        $fatt->Cell(45 ,6,$this->fattura_totale,1,1,'R');
     }  
         
     /**
