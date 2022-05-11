@@ -64,7 +64,13 @@ if (isset($_POST['cmd'])) {
                 $cap = $row->cap;
                 
                 $fattura->setDebitore($nome, $via, $citta, $cap);
-                $fattura->setRigeFattura($id_azienda, false);
+                if($_POST["tipo_fatt"] == "ore"){
+                    $fattura->setRigeFattura($id_azienda, false);
+
+                } else if($_POST["tipo_fatt"] = "budget") {
+                    $fattura->setRigeFattura($id_azienda, true);
+                }
+                
                 $fattura->calcolaTotale();
                
                 $retArr["corpo"] =  $fattura->getCorpo();

@@ -73,7 +73,6 @@ try {
 <script type='text/javascript' src="/module/fatturazione/progetti/progetti.js"></script>
 <div class="container-fluid">
     <div style="width: 50%;" class="input-group mb-3 ">
-        <button class="btn btn-primary" onclick="openModalcreaProgetto()">Aggiungi Progetto</button> &nbsp;
         <button class="btn btn-primary" onclick="resetFlt()">Resetta filtro</button>&nbsp;
         <div class="input-group-prepend">
             <span class="input-group-text">Cerca Progetto</span>
@@ -100,8 +99,7 @@ try {
             ?>
                 <tr>
                     <td class="col-1">
-                        &nbsp;&nbsp;<span class="bi bi-eye-fill selectable" onclick="previewFatturaProgetto(<?php echo $row->id; ?>, true)"></span>
-                        &nbsp; &nbsp;<span class="bi bi-printer selectable" onclick="stampaFatturaProgetto(<?php echo $row->id; ?>);"></span>
+                        <span class="bi bi-printer selectable" onclick="modalFattura(<?php echo $row->id; ?>);"></span>
                     </td>
                     <td class="col-1"><?php echo $row->nome; ?></td>
                     <td class="col-1"><?php echo $row->nome_azienda; ?></td>
@@ -114,3 +112,6 @@ try {
     </table>
 </div>
 </div>
+<?php
+    require_once "modal_fattura.php";
+?>

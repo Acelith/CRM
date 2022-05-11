@@ -5,15 +5,25 @@
  */
 
 /**
+ * Funzione per aprire la modal per la creazione della fattura
+ */
+ function modalFattura(p_id_progetto){
+  $("#titolo_modal_fattura").html("Crea fattura");
+  $("#id_progetto").val(p_id_progetto);
+  $("#modal_fattura").modal({ keyboard: false });
+}
+
+/**
  * Funzione per stampare una fattura
  */
- function stampaFatturaProgetto(p_id_fattura){
+ function stampaFatturaProgetto(){
     $.ajax({
       type: "POST",
       url: "/module/fatturazione/progetti/ajax_services.php",
       data: {
         cmd: "stampaFattura",
-        id: p_id_fattura,
+        id: $("#id_progetto").val(),
+        tipo_fatt:$('#scelta_fatt input:radio:checked').prop("id"),
       },
       success: function (text) {
         try {
