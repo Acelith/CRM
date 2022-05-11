@@ -10,7 +10,6 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php";
 require_once MODULE_PATH . "fatturazione" . DIRECTORY_SEPARATOR . "fattura.php";
 
-require_once ROOT_PATH . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
 use Spipu\Html2Pdf\Html2Pdf;
 
 # Controllo se l'utente è loggato
@@ -29,7 +28,7 @@ if (isset($_POST['cmd'])) {
                 # Stampo la fattura
             case 'stampaFattura':
                 $id_azienda = $_POST['id'];
-                $sqlStmt = "SELECT prj.*, az.indirizzo, az.citta, az.cap
+                $sqlStmt = "SELECT prj.*, az.indirizzo, az.citta, az.cap, az.nome as nome_azienda
                 FROM progetto as prj
                 inner join azienda as az on az.id = prj.id_azienda
                  WHERE prj.id=:id";
@@ -57,20 +56,17 @@ if (isset($_POST['cmd'])) {
                 $num_fattura = "313947143000901";
                 $info_supp = "Erogazione di prestazioni";
 
-                $fattura = new Fattura($totale, $besrid, $num_fattura, $info_supp);
+                $fattura = new Fattura($besrid, $num_fattura, $info_supp);
                 
-                $nome = $row->nome;
+                $nome = $row->nome_azienda;
                 $via = $row->indirizzo;
                 $citta = $row->citta;
                 $cap = $row->cap;
                 
                 $fattura->setDebitore($nome, $via, $citta, $cap);
-                $fattura->setRigeFattura($id_azienda);
+                $fattura->setRigeFattura($id_azienda, false);
                 $fattura->calcolaTotale();
                
-               # $fattura->setTestaFattura();
-                $fattura->setCorpoFattura();
-
                 $retArr["corpo"] =  $fattura->getCorpo();
                 $retArr["testa"] = $fattura->getTesta();
 

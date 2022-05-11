@@ -39,3 +39,8 @@
      * impostazioni.class.php: Script PHP per la lettura e la modifica delle impostazioni *
     **************************************************************************************/
     require_once CLASS_PATH . "impostazioni.class.php";
+
+     /*************************************************************************
+     * autoload.php: Script PHP per il caricamente delle librerie PHP esterne *
+     * ************************************************************************/
+    require ROOT_PATH . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";

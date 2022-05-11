@@ -1,7 +1,6 @@
 {
     "require": {
         "sprain/swiss-qr-bill": "^4.0",
-        "spipu/html2pdf": "^5.2",
         "tecnickcom/tcpdf": "^6.4"
     }
 }
