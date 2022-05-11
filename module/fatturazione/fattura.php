@@ -131,9 +131,9 @@ class Fattura {
         $fatt->AddPage();
           /*Cell(width , height , text , border , end line , [align] )*/
           
-          $fatt->Cell(71 ,10,'',0,0);
-          $fatt->Cell(59 ,5,'Fattura',0,0);
-          $fatt->Cell(59 ,10,'',0,1);
+          $fatt->Cell(105 ,10,'',0,0);
+          $fatt->image(IMG_PATH . Impostazioni::getSetting("immagine_azienda"), 10, 3, 50, 50);
+          $fatt->Cell(59 ,10,'',0,1);          
           
           
           $fatt->Cell(71 ,5,'',0,0);
@@ -144,53 +144,62 @@ class Fattura {
           
           $fatt->Cell(130 ,5,'',0,0);
           
-          $fatt->Cell(130 ,5,Impostazioni::getSetting("citta") . ", " .Impostazioni::getSetting("cap"),0,0);
-          $fatt->Cell(25 ,5,'Data:',0,0);
+          $fatt->Cell(130 ,5,Impostazioni::getSetting("citta") . ", " .Impostazioni::getSetting("cap"),0,1);
+          $fatt->Cell(130 ,5,'',0,0);
           $fatt->Cell(34 ,5,date("j F Y"),0,1);
            
           $fatt->Cell(130 ,5,'',0,0);
-          $fatt->Cell(25 ,5,'Fattura N. ',0,0);
+          $fatt->Cell(20 ,5,'Fattura N. ',0,0);
           $fatt->Cell(34 ,5,'123',0,1);
           
           
-          
-          $fatt->Cell(130 ,5,'Indirizzo',0,0);
-          $fatt->Cell(59 ,5,$this->debitore["nome"],0,0);
-          
-          $fatt->Cell(189 ,10,$this->debitore["cap"] . " " . $this->debitore["citta"],0,1);
-          
+          $fatt->SetFont('', 'B', 12);
+          $fatt->Cell(60 ,5,'Indirizzo',0,1);
+          $fatt->SetFont('', 12);
+          $fatt->Cell(60 ,5,$this->debitore["nome"],0,1);
+          $fatt->Cell(60 ,10,$this->debitore["cap"] . " " . $this->debitore["citta"],0,1);
           
           
           $fatt->Cell(50 ,10,'',0,1);
           
           
           /*Heading Of the table*/
+          $fatt->Cell(15 ,6,'',0,0);
+          $fatt->SetFont('', 'B', 12);
           $fatt->Cell(80 ,6,'Descrizione',1,0,'C');
+          $fatt->SetFont('', 'B', 12);
           $fatt->Cell(30 ,6,'Ore di lavoro',1,0,'C');
-          $fatt->Cell(25 ,6,'Totale',1,1,'C');/*end of line*/
+          $fatt->SetFont('', 'B', 12);
+          $fatt->Cell(45 ,6,'Totale',1,1,'C');/*end of line*/
           /*Heading Of the table end*/
-          
+        
               foreach($this->rige as $arr){
-                  foreach($arr as $colonna){
+                      $fatt->SetFont('', 12);
+                      $fatt->Cell(15 ,6,'',0,0);
                       $fatt->Cell(80 ,6,$arr["prestazione"],1,0);
                       $fatt->Cell(30 ,6,$arr["ore"],1,0,'R');
-                      $fatt->Cell(25 ,6,$arr["prezzo"],1,1,'R');
-                  }               
+                      $fatt->Cell(45 ,6,$arr["prezzo"],1,1,'R');
+                               
               }               
   
+          # spaziatore
+          $fatt->Cell(95 ,6,'',0,0);
+          $fatt->Cell(30 ,6,'',0,0);
+          $fatt->Cell(45 ,6,'',0,1,'R');
+        
           # cella totale netto
-          $fatt->Cell(118 ,6,'',0,0);
-          $fatt->Cell(25 ,6,'Totale netto',0,0);
+          $fatt->Cell(95 ,6,'',0,0);
+          $fatt->Cell(30 ,6,'Totale netto',0,0);
           $fatt->Cell(45 ,6,$this->totale,1,1,'R');
           
           # cella IVA
-          $fatt->Cell(118 ,6,'',0,0);
-          $fatt->Cell(25 ,6,'IVA ' . Impostazioni::getSetting("iva") . '%',0,0);
+          $fatt->Cell(95 ,6,'',0,0);
+          $fatt->Cell(30 ,6,'IVA ' . Impostazioni::getSetting("iva") . '%',0,0);
           $fatt->Cell(45 ,6,$this->totale_iva,1,1,'R');
   
           #cella totale fattura
-          $fatt->Cell(118 ,6,'',0,0);
-          $fatt->Cell(25 ,6,'Totale fattura',0,0);
+          $fatt->Cell(95 ,6,'',0,0);
+          $fatt->Cell(30 ,6,'Totale fattura',0,0);
           $fatt->Cell(45 ,6,$this->fattura_totale,1,1,'R');
         
       
@@ -211,80 +220,10 @@ class Fattura {
         $fatt->Output($examplePath, 'F');
     }
 
-    /**
-     * Ritorna la testa della fattuzra
-     */
-    function setTestaFattura() {
-        
-        /*Cell(width , height , text , border , end line , [align] )*/
-        $fatt = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-1');
-        $fatt->Cell(71 ,10,'',0,0);
-        $fatt->Cell(59 ,5,'Fattura',0,0);
-        $fatt->Cell(59 ,10,'',0,1);
-        
-        
-        $fatt->Cell(71 ,5,'',0,0);
-        $fatt->Cell(59 ,5,'',0,0);
-        $fatt->Cell(59 ,5,'Dettagli',0,1);
-        
-        
-        
-        $fatt->Cell(130 ,5,'',0,0);
-        $fatt->Cell(25 ,5,'Codice cliente',0,0);
-        $fatt->Cell(34 ,5,'112321',0,1);
-        
-        $fatt->Cell(130 ,5,Impostazioni::getSetting("citta") . ", " .Impostazioni::getSetting("cap"),0,0);
-        $fatt->Cell(25 ,5,'Data:',0,0);
-        $fatt->Cell(34 ,5,date("j F Y"),0,1);
-         
-        $fatt->Cell(130 ,5,'',0,0);
-        $fatt->Cell(25 ,5,'Fattura N. ',0,0);
-        $fatt->Cell(34 ,5,'ORD001',0,1);
-        
-        
-        
-        $fatt->Cell(130 ,5,'Indirizzo',0,0);
-        $fatt->Cell(59 ,5,$this->debitore["nome"],0,0);
-        
-        $fatt->Cell(189 ,10,$this->debitore["cap"] . " " . $this->debitore["citta"],0,1);
-        
-        
-        
-        $fatt->Cell(50 ,10,'',0,1);
-        
-        
-        /*Heading Of the table*/
-        $fatt->Cell(80 ,6,'Descrizione',1,0,'C');
-        $fatt->Cell(30 ,6,'Ore di lavoro',1,0,'C');
-        $fatt->Cell(25 ,6,'Totale',1,1,'C');/*end of line*/
-        /*Heading Of the table end*/
-        
-            foreach($this->rige as $arr){
-                foreach($arr as $colonna){
-                    $fatt->Cell(80 ,6,$arr["prestazione"],1,0);
-                    $fatt->Cell(30 ,6,$arr["ore"],1,0,'R');
-                    $fatt->Cell(25 ,6,$arr["prezzo"],1,1,'R');
-                }               
-            }               
-
-        # cella totale netto
-        $fatt->Cell(118 ,6,'',0,0);
-        $fatt->Cell(25 ,6,'Totale netto',0,0);
-        $fatt->Cell(45 ,6,$this->totale,1,1,'R');
-        
-        # cella IVA
-        $fatt->Cell(118 ,6,'',0,0);
-        $fatt->Cell(25 ,6,'IVA ' . Impostazioni::getSetting("iva") . '%',0,0);
-        $fatt->Cell(45 ,6,$this->totale_iva,1,1,'R');
-
-        #cella totale fattura
-        $fatt->Cell(118 ,6,'',0,0);
-        $fatt->Cell(25 ,6,'Totale fattura',0,0);
-        $fatt->Cell(45 ,6,$this->fattura_totale,1,1,'R');
-    }  
+    
         
     /**
-     * It creates a QR code for a bill.
+     *  Crea una fattura QR.
      */
     function setCorpoFattura() {
             $qrBill = QrBill\QrBill::create();

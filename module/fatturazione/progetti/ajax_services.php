@@ -68,7 +68,7 @@ if (isset($_POST['cmd'])) {
                 $fattura->setRigeFattura($id_azienda);
                 $fattura->calcolaTotale();
                
-                $fattura->setTestaFattura();
+               # $fattura->setTestaFattura();
                 $fattura->setCorpoFattura();
 
                 $retArr["corpo"] =  $fattura->getCorpo();
