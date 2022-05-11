@@ -52,7 +52,7 @@ if (isset($_GET['usr'])) {
 }
 
 
-$sqlStmt = "select tsk.*, prj.nome as nome_progetto
+$sqlStmt = "SELECT tsk.*, prj.nome as nome_progetto
 from task_progetto as tsk
 inner join progetto as prj on prj.id = tsk.id_progetto
 inner join azienda as az on az.id = prj.id_azienda
