@@ -39,7 +39,7 @@ $nav = "
 
 
 $flt = " ";
-$src = "";
+$src = " ";
 if (isset($_GET['src'])) {
     $flt .= "and az.nome LIKE '%" . $_GET['src'] . "%' ";
     $flt .= "or prj.nome LIKE '%" . $_GET['src'] . "%' ";
@@ -52,12 +52,11 @@ if (isset($_GET['usr'])) {
 }
 
 
-$sqlStmt = "SELECT prj.*, az.nome as nome_azienda, SUM(tskprj.ore_lavorate) as ore_lavorate
-from progetto as prj
-inner join azienda as az on az.id = prj.id_azienda
-inner join task_progetto as tskprj on tskprj.id_progetto = prj.id
-WHERE 1=1 " . $flt . $limit;
-
+$sqlStmt = "SELECT prj.*, az.nome as nome_azienda, SUM(tsk      .ore_lavorate) as ore_lavorate "
+             . "from progetto as prj "
+             .   "inner join azienda as az on az.id = prj.id_azienda "
+             .   "left join task_progetto as tsk on tsk.id_progetto = prj.id "
+             .   "WHERE 1=1 " . $flt . " group by prj.id ". $limit;	
 
 try {
     # faccio la connessione al databse
