@@ -13,7 +13,8 @@ if(!utente::isLogged()){
  # A sinistra il nome da far comparire nel menu, a destra la cartella
  $subMenu = array(
      "Progetti" => "progetti",
-     "Ticket" => "ticket"
+     "Ticket" => "ticket",
+     "Ticket Aziende" => "ticket_aziende"
  );
 
 $navbarMenu = "";
