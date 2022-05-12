@@ -70,3 +70,14 @@
     width: 70%;
 }
 
+.sub-navbar{
+    background-color: rgb(30, 151, 226);
+}
+
+.el-navbar{
+    border-color: black ;
+    background-color: rgba(245, 245, 245, 0.37) ;
+    color: black !important;
+    border: 2px solid black;
+    border-radius: 20px;
+}

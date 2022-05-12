@@ -23,7 +23,7 @@ $to_import = array();
 foreach ($subMenu as $nome => $cartella){
     $to_check = MODULE_PATH . "fatturazione" . DIRECTORY_SEPARATOR . $cartella . DIRECTORY_SEPARATOR . $cartella . ".php";
     if(file_exists($to_check)){
-        $navbarMenu .= "<a class='nav-item nav-link selectable' onclick='subMenu(\"$cartella\")'>$nome</a>";
+        $navbarMenu .= "<a class='nav-item nav-link selectable el-navbar' onclick='subMenu(\"$cartella\")'>$nome</a>";
         $to_import[$cartella] = $cartella;
     }
 }
@@ -44,9 +44,9 @@ if(isset($_GET['submod'])){
 
 
 ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar  navbar-expand-lg navbar-light sub-navbar">
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
+    <div class="navbar-nav ">
       <?php echo $navbarMenu?>
     </div>
   </div>
