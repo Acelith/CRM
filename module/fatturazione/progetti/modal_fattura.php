@@ -9,17 +9,19 @@
                     </div>
                     <div class="modal-body">
                         <!-- body -->
-                        <span class="hidden" id="id_progetto"></span>
+                        <form method="post" action="/module/fatturazione/download_fattura.php">
+                        <input class="hidden" name="id_progetto" id="id_progetto"></input>
+                        <input class="hidden" name="tipo_fatt" id="tipo_fatt"></input>
                         <div id="scelta_fatt">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="ore" checked>
-                                <label class="form-check-label" for="flexRadioDefault2">
+                                <input class="form-check-input" type="radio" name="ore" id="ore" checked>
+                                <label class="form-check-label" for="ore">
                                     Fattura sulle ore totali dedicate (Attenzione: le ore vengono conteggite automaticamente dai task del progetto)
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="budget">
-                                <label class="form-check-label" for="flexRadioDefault1">
+                                <input class="form-check-input" type="radio" name="budget" id="budget">
+                                <label class="form-check-label" for="budget">
                                     Fattura sul budget usato
                                 </label>
                             </div>
@@ -28,9 +30,11 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="stampaFatturaProgetto()">Scarica fattura</button>
+                        
+                        <button type="submit" class="btn btn-success" >Scarica fattura</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

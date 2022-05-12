@@ -98,12 +98,12 @@ class Fattura
     }
 
     /**
-     * Crea le righe della fattura
+     * Crea le righe della fattura per il progetto
      * 
      * @param p_id_progetto id del progetto
      * @param p_fattura_on_budget calcolare sul budget usato o sul totale delle ore dei task?
      */
-    function setRigeFattura($p_id_progetto, $p_fattura_on_budget = true)
+    function setRigeFatturaProgetto($p_id_progetto, $p_fattura_on_budget = true)
     {
         if ($p_fattura_on_budget) {
             $sqlStmt = "SELECT * from progetto where id=:id";
@@ -162,6 +162,56 @@ class Fattura
 
             array_push($this->rige, $riga);
         }
+    }
+
+    /**
+     * Crea le righe della fattura per il progetto
+     * 
+     * @param p_id_ticket id del/dei ticket
+     */
+    function setRigeFatturaTicket($p_id_ticket)
+    {
+
+        if (is_array($p_id_ticket)) {
+            $id = "in (";
+            foreach ($p_id_ticket as $key => $value) {
+                if ($key == 1) {
+                    $id .= "$value";
+                } else {
+                    $id .= ", $value";
+                }
+            }
+            $id .= ")";
+        } else {
+            $id = "=" . $p_id_ticket;
+        }
+        $sqlStmt = "SELECT tk.*, az.nome as nome_azienda      
+                    FROM ticket as tk 
+                    inner join azienda as az on az.id = tk.id_azienda
+                    where id " . $id;
+        try {
+            # faccio la connessione al databse
+            $dbConnect = DB::connect();
+            $sth = $dbConnect->prepare($sqlStmt);
+            # Eseguo la query;
+            $sth->execute();
+        } catch (PDOException $e) {
+            echo "errore query: " . $e;
+        }
+        
+        $tot = 0;
+        while($row = $sth->fetch(PDO::FETCH_OBJ)){
+            $prezzo = $row->ore * Impostazioni::getSetting("tariffa_oraria");
+            $riga = array(
+                "prestazione" => $row->titolo,
+                "ore" => $row->ore,
+                "prezzo" => $prezzo 
+            );
+            $tot = $tot + $row->ore;
+        }
+        
+        $this->totale_netto = $tot * Impostazioni::getSetting("tariffa_oraria");
+        array_push($this->rige, $riga);
     }
 
     function getPdf()
@@ -253,9 +303,7 @@ class Fattura
             ->setPrintable(false)
             ->getPaymentPart();
 
-        // 4. For demo purposes, let's save the generated example in a file
-        $examplePath = __DIR__ . "/test.pdf";
-        $fatt->Output($examplePath, 'F');
+        $fatt->Output("fattura.pdf", 'D');
     }
 
 
