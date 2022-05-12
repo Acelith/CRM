@@ -72,7 +72,7 @@ try {
 ?>
 <script type='text/javascript' src="/module/progetto/task/task.js"></script>
 <div class="container-fluid">
-    <div style="width: 50%;" class="input-group mb-3 ">
+    <div class="input-group mb-3 filter-bar">
         <button class="btn btn-primary" onclick="openModalCreaTask()">Aggiungi Task</button> &nbsp;
         <button class="btn btn-primary" onclick="resetFlt()">Resetta filtro</button>&nbsp;
         <div class="input-group-prepend">
