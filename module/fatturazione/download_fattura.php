@@ -20,9 +20,54 @@ if (!utente::isLogged()) {
 if($_POST['tipo_fatt'] == "1"){
     stampaFattProgetto();
 } else if ($_POST['tipo_fatt'] == "0"){
- 
+    stampaFattTicket();
 } else {
     echo "<h1>Err</h1>";
+}
+
+function stampaFattTicket(){
+    $id_ticket = json_decode($_POST['id_ticket']);
+    $sqlStmt = "SELECT tk.*, az.indirizzo, az.citta, az.cap, az.nome as nome_azienda
+    FROM ticket as tk
+    inner join azienda as az on az.id = tk.id_azienda
+    WHERE tk.id=:id";
+    $parArr = array(
+        ":id" => $id_ticket,
+    );
+
+    try {
+        # faccio la connessione al databse
+        $dbConnect = DB::connect();
+        $sth = $dbConnect->prepare($sqlStmt);
+
+        # Eseguo la query;
+        $sth->execute($parArr);
+
+        
+    } catch (PDOException $e) {
+        echo $e;
+    }
+
+    $row = $sth->fetch(PDO::FETCH_OBJ);
+
+    $besrid = "210000";
+    $num_fattura = "313947143000901";
+    $info_supp = "Erogazione di prestazioni";
+
+    $fattura = new Fattura($besrid, $num_fattura, $info_supp);
+
+    $nome = $row->nome_azienda;
+    $via = $row->indirizzo;
+    $citta = $row->citta;
+    $cap = $row->cap;
+
+    $fattura->setDebitore($nome, $via, $citta, $cap);
+
+    $fattura->setRigeFatturaTicket($id_ticket);
+    
+
+    $fattura->calcolaTotale();
+    $fattura->getPdf();
 }
 
 /* Crea la fattura del progetto in PDF e la scarica. */
@@ -45,9 +90,8 @@ function stampaFattProgetto()
         # Eseguo la query;
         $sth->execute($parArr);
 
-        $retArr['ajax_result'] = "ok";
     } catch (PDOException $e) {
-        $retArr['error'] = "err";
+        echo $e;
     }
 
     $row = $sth->fetch(PDO::FETCH_OBJ);

@@ -188,7 +188,7 @@ class Fattura
         $sqlStmt = "SELECT tk.*, az.nome as nome_azienda      
                     FROM ticket as tk 
                     inner join azienda as az on az.id = tk.id_azienda
-                    where id " . $id;
+                    where tk.id " . $id;
         try {
             # faccio la connessione al databse
             $dbConnect = DB::connect();
@@ -246,7 +246,8 @@ class Fattura
         $fatt->Cell(60, 5, 'Indirizzo', 0, 1);
         $fatt->SetFont('', 12);
         $fatt->Cell(60, 5, $this->debitore["nome"], 0, 1);
-        $fatt->Cell(60, 10, $this->debitore["cap"] . " " . $this->debitore["citta"], 0, 1);
+        $fatt->Cell(60, 5, $this->debitore["via"], 0, 1);
+        $fatt->Cell(60, 5, $this->debitore["cap"] . " " . $this->debitore["citta"], 0, 1);
 
 
         $fatt->Cell(50, 10, '', 0, 1);

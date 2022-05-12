@@ -25,11 +25,10 @@
 /**
  * Funzione per aprire la modal per la creazione della fattura
  */
- function modalFattura(){
-     
+ function modalFattura(p_id_ticket){
     $("#titolo_modal_fattura").html("Crea fattura");
-    $("#id_ticket").val();
-    $("#tipo_fatt").val(1);
+    $("#id_ticket").val(JSON.stringify(p_id_ticket));
+    $("#tipo_fatt").val(0);
     $("#id_ticket").hide();
     $("#tipo_fatt").hide();
     $("#modal_fattura").modal({ keyboard: false });
