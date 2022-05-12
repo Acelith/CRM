@@ -11,6 +11,7 @@
                     <div class="modal-body">
                         <!-- body -->
                         <span class="hidden" id="id_progetto"></span>
+                        <span class="hidden" id="id_task"></span>
                         <h3>Dettagli Task</h3>
                         <div class="row">
                             <div class="col">
@@ -36,9 +37,9 @@
                                 <input type="text" id="progresso" class="form-control" placeholder="Progresso">
                             </div>
                             <div class="col-4"><br>
-                                <label for="progetto">Progetto</label>
-                                <input type="text" id="progetto" class="form-control" placeholder="Azienda" readonly>
-                                <button class="btn btn-primary" onclick="openModalSelezionaProgetto()">Seleziona</button>
+                                <label for="sel_progetto_input">Progetto</label>
+                                <input type="text" id="sel_progetto_input" class="form-control" placeholder="Progetto" readonly>
+                                <button class="btn btn-primary" id="btn_sel_task"onclick="openModalSelezionaProgetto()">Seleziona</button>
                             </div>
                         </div>
                         <br>

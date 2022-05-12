@@ -73,7 +73,7 @@ try {
 <script type='text/javascript' src="/module/progetto/task/task.js"></script>
 <div class="container-fluid">
     <div style="width: 50%;" class="input-group mb-3 ">
-        <button class="btn btn-primary" onclick="openModalcreaTask()">Aggiungi Task</button> &nbsp;
+        <button class="btn btn-primary" onclick="openModalCreaTask()">Aggiungi Task</button> &nbsp;
         <button class="btn btn-primary" onclick="resetFlt()">Resetta filtro</button>&nbsp;
         <div class="input-group-prepend">
             <span class="input-group-text">Cerca Task</span>
@@ -101,8 +101,7 @@ try {
             ?>
                 <tr>
                     <td class="col-1">
-                        &nbsp;&nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
-                        &nbsp; &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaProgetto(<?php echo $row->id; ?>);"></span>
+                        &nbsp; &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaTask(<?php echo $row->id; ?>);"></span>
                     </td>
 
                     <td class="col-1"><?php echo $row->nome_attivita; ?></td>
@@ -117,3 +116,38 @@ try {
     </table>
 </div>
 </div>
+
+<?php
+require_once "modal_task.php";
+require_once "modal_sel_progetto.php";
+
+function getProgettoSelect(){
+    
+    $sqlStmt = 'SELECT * FROM progetto';
+
+    try {
+        # faccio la connessione al databse
+        $dbConnect = DB::connect();
+        $sth = $dbConnect->prepare( $sqlStmt );
+        # Eseguo la query;
+        $sth->execute();
+    } catch ( PDOException $e ) {
+        return 'errore query: ' . $e;
+    }
+
+    $progetti = '';
+    while ( $row = $sth->fetch( PDO::FETCH_OBJ ) ) {
+        $progetti .= "<div class='form-check'>";
+            $progetti .= " <input class='form-check-input' type='radio' data-nome='$row->nome' name='listaProgetto' id='$row->id'>";
+            $progetti .= "<label class='form-check-label' for='$row->id'>
+                         " . $row->nome . "
+                        </label>";
+        $progetti .= "</div>";
+    }
+
+    $radio = "
+    <div id='lista_progetto'>
+       $progetti
+    </div>";
+    return $radio;
+}
