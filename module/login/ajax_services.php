@@ -87,6 +87,10 @@ function checkLogin($password, $email)
     }
 
     $usr = $sth->fetch(PDO::FETCH_OBJ);
+    if($usr == false){
+        return false;
+    }
+    
     if (password_verify($password, $usr->password)) {
         $_POST['usr_id'] = $usr->id;
         $_SESSION['id_utente'] = $usr->id;
