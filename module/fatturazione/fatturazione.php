@@ -51,7 +51,7 @@ if(isset($_GET['submod'])){
     </div>
   </div>
 </nav>
-
+<br>
 <?php 
 
 # Importo il modulo richiesto

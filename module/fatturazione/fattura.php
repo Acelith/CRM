@@ -175,7 +175,7 @@ class Fattura
         if (is_array($p_id_ticket)) {
             $id = "in (";
             foreach ($p_id_ticket as $key => $value) {
-                if ($key == 1) {
+                if ($key == 0) {
                     $id .= "$value";
                 } else {
                     $id .= ", $value";
@@ -207,11 +207,11 @@ class Fattura
                 "ore" => $row->ore,
                 "prezzo" => $prezzo 
             );
+            array_push($this->rige, $riga);
             $tot = $tot + $row->ore;
         }
         
         $this->totale_netto = $tot * Impostazioni::getSetting("tariffa_oraria");
-        array_push($this->rige, $riga);
     }
 
     function getPdf()

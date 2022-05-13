@@ -21,8 +21,59 @@ if($_POST['tipo_fatt'] == "1"){
     stampaFattProgetto();
 } else if ($_POST['tipo_fatt'] == "0"){
     stampaFattTicket();
+} else if($_POST['tipo_fatt'] == "2"){
+    stampaFattTickets();
 } else {
     echo "<h1>Err</h1>";
+}
+
+function stampaFattTickets(){
+    $id_azienda =$_POST['id_azienda'];
+    $sqlStmt = "SELECT tk.id, az.nome as nome_azienda, az.indirizzo, az.citta, az.cap
+                from ticket as tk
+                inner join azienda as az on az.id = tk.id_azienda
+                where tk.id_azienda=:id and tk.da_fatturare=1 and tk.stato=2";
+    $parArr = array(
+        ":id" => $id_azienda,
+    );
+
+    try {
+        # faccio la connessione al databse
+        $dbConnect = DB::connect();
+        $sth = $dbConnect->prepare($sqlStmt);
+
+        # Eseguo la query;
+        $sth->execute($parArr);
+
+        
+    } catch (PDOException $e) {
+        echo $e;
+    }
+
+    $ids = array();
+    while($row = $sth->fetch(PDO::FETCH_OBJ)){
+        array_push($ids, $row->id);
+        
+        $nome = $row->nome_azienda;
+        $via = $row->indirizzo;
+        $citta = $row->citta;
+        $cap = $row->cap;
+
+    }
+
+    $besrid = "210000";
+    $num_fattura = "313947143000901";
+    $info_supp = "Erogazione di prestazioni";
+
+    $fattura = new Fattura($besrid, $num_fattura, $info_supp);
+
+    
+    $fattura->setDebitore($nome, $via, $citta, $cap);
+
+    $fattura->setRigeFatturaTicket($ids);
+    
+    $fattura->calcolaTotale();
+    $fattura->getPdf();
 }
 
 function stampaFattTicket(){

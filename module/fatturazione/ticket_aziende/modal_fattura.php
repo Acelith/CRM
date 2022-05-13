@@ -10,7 +10,7 @@
                     <div class="modal-body">
                         <!-- body -->
                         <form method="post" action="/module/fatturazione/download_fattura.php">
-                            <input class="hidden" name="id_ticket" id="id_ticket"></input>
+                            <input class="hidden" name="id_azienda" id="id_azienda"></input>
                             <input class="hidden" name="tipo_fatt" id="tipo_fatt"></input>
                             <div id="scelta_fatt">
                                 <div class="form-check">
