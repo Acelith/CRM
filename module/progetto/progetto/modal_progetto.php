@@ -47,7 +47,7 @@
                             <div class="col-4"><br>
                                 <label for="azienda">Azienda</label>
                                 <input type="text" id="azienda" class="form-control" placeholder="Azienda" readonly>
-                                <button class="btn btn-primary" onclick="openModalSelezionaAzienda()">Seleziona</button>
+                                <button class="btn btn-primary" id="selAzienda" onclick="openModalSelezionaAzienda()">Seleziona</button>
                             </div>
                         </div>
                         <br>

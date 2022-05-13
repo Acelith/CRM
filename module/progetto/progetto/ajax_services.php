@@ -26,7 +26,10 @@ if (isset($_POST['cmd'])) {
             case 'getDettagli':
                 $id = $_POST['id'];
 
-                $sqlStmt = "SELECT * FROM azienda WHERE id=:id";
+                $sqlStmt = "SELECT prj.*, az.nome as azienda
+                            FROM progetto as prj
+                            inner join azienda as az on az.id = prj.id_azienda
+                            WHERE prj.id=:id";
                 $parArr = array(
                     ":id" => $id,
                 );
@@ -47,14 +50,14 @@ if (isset($_POST['cmd'])) {
                 $row = $sth->fetch(PDO::FETCH_OBJ);
 
                 $retArr['nome'] = $row->nome;
-                $retArr['telefono'] = $row->telefono;
-                $retArr['sito'] = $row->sito_web;
-                $retArr['indirizzo'] = $row->indirizzo;
-                $retArr['citta'] = $row->citta;
-                $retArr['cap'] = $row->cap;
-                $retArr['provincia'] = $row->provincia;
-                $retArr['nazione'] = $row->nazione;
-                $retArr['note'] = $row->note;
+                $retArr['data_inizio'] = $row->data_inizio;
+                $retArr['data_fine_target'] = $row->data_fine_target;
+                $retArr['data_fine_effettiva'] = $row->data_fine;
+                $retArr['budget'] = $row->budget;
+                $retArr['budget_usato'] = $row->budget_usato;
+                $retArr['progresso'] = $row->progresso;
+                $retArr['azienda'] = $row->azienda;
+                $retArr['descrizione'] = $row->descrizione;
                 $retArr['ajax_result'] = "ok";
                 break;
 
