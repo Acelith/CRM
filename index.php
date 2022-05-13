@@ -1,4 +1,4 @@
-<?php
+<?php ob_start("ob_gzhandler");
 /**
  * index.php    file principale per il caricamento del programma 
  *
