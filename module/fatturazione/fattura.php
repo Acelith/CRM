@@ -257,7 +257,7 @@ class Fattura
 
 
         # Colonne tabella
-        $fatt->Cell(15, 6, '', 0, 0);
+        $fatt->Cell(15, 6, '', 0,   );
         $fatt->SetFont('', 'B', 12);
         $fatt->Cell(80, 6, 'Descrizione', 1, 0, 'C');
         $fatt->SetFont('', 'B', 12);
@@ -271,7 +271,7 @@ class Fattura
             $fatt->Cell(15, 6, '', 0, 0);
             $fatt->Cell(80, 6, $arr["prestazione"], 1, 0);
             $fatt->Cell(30, 6, $arr["ore"], 1, 0, 'R');
-            $fatt->Cell(45, 6, $arr["prezzo"], 1, 1, 'R');
+            $fatt->Cell(45, 6, $arr["prezzo"] . " " . Impostazioni::getSetting("valuta"), 1, 1, 'R');
         }
 
         # spaziatore
@@ -282,17 +282,17 @@ class Fattura
         # cella totale netto
         $fatt->Cell(95, 6, '', 0, 0);
         $fatt->Cell(30, 6, 'Totale netto', 0, 0);
-        $fatt->Cell(45, 6, $this->totale_netto, 1, 1, 'R');
+        $fatt->Cell(45, 6, $this->totale_netto . " " . Impostazioni::getSetting("valuta"), 1, 1, 'R');
 
         # cella IVA
         $fatt->Cell(95, 6, '', 0, 0);
         $fatt->Cell(30, 6, 'IVA ' . Impostazioni::getSetting("iva") . '%', 0, 0);
-        $fatt->Cell(45, 6, $this->totale_iva, 1, 1, 'R');
+        $fatt->Cell(45, 6, $this->totale_iva . " " . Impostazioni::getSetting("valuta"), 1, 1, 'R');
 
         #cella totale fattura
         $fatt->Cell(95, 6, '', 0, 0);
         $fatt->Cell(30, 6, 'Totale fattura', 0, 0);
-        $fatt->Cell(45, 6, $this->fattura_totale, 1, 1, 'R');
+        $fatt->Cell(45, 6, $this->fattura_totale . " " . Impostazioni::getSetting("valuta") , 1, 1, 'R');
 
 
 

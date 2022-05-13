@@ -18,43 +18,15 @@ $subMenu = array(
     "Task" => "task"
 );
 
-$navbarMenu = "";
-$to_import = array();
-# Costruisco il menu della navbar
-foreach ($subMenu as $nome => $cartella) {
-    $to_check = MODULE_PATH . "progetto" . DIRECTORY_SEPARATOR . $cartella . DIRECTORY_SEPARATOR . $cartella . ".php";
-    if (file_exists($to_check)) {
-        $navbarMenu .= "<a class='nav-item nav-link selectable' onclick='subMenu(\"$cartella\")'>$nome</a>";
-        $to_import[$cartella] = $cartella;
-    }
-}
 
-$modulo_to_load = "";
-# Sottomodulo da caricare in caso non sia impostato un modulo specifico da caricare
-$default = MODULE_PATH . "progetto" . DIRECTORY_SEPARATOR . "progetto" . DIRECTORY_SEPARATOR . "progetto" . ".php";
-
-if (isset($_GET['submod'])) {
-    if (key_exists($_GET['submod'], $to_import)) {
-        $modulo_to_load = MODULE_PATH . "progetto" . DIRECTORY_SEPARATOR . $_GET['submod'] . DIRECTORY_SEPARATOR . $_GET['submod'] . ".php";
-    } else {
-        $modulo_to_load = $default;
-    }
-} else {
-    $modulo_to_load = $default;
-}
-
-
+$Nav = New subModule("progetto");
+$subNav = $Nav->loadSubmenu($subMenu);
 ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <?php echo $navbarMenu ?>
-        </div>
-    </div>
-</nav>
+
 
 <?php
-
+# importo la barra di navigazione
+echo $subNav["subNav"];
 # Importo il modulo richiesto
-require_once $modulo_to_load;
+require_once $subNav['file'];
 ?>

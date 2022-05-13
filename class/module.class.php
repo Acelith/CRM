@@ -193,3 +193,83 @@ class Module
         return $ret;
     }
 }
+
+
+/**
+ * classe per il caricamento di sottomoduli
+ */
+class subModule
+{
+
+    private $module;
+
+    function __construct($p_modulo)
+    {
+        $this->module = $p_modulo;
+    }
+    /**
+     * loadSubMenu():   ritorna un submenu per la navigazione dei sottomoduli
+     * 
+     * @param   array   $p_elements     array di menu da inserire nella navigazione
+     * @param   string  $p_module       nome del modulo "padre"
+     * 
+     * @return array   ritorna il submenu con il file da caricare
+     */
+    function loadSubmenu($p_elements)
+    {
+        $module = $this->module;
+        $navbarMenu = "";
+        $to_import = array();
+        # Costruisco il menu della navbar
+        foreach ($p_elements as $nome => $cartella) {
+            $to_check = MODULE_PATH . $module . DIRECTORY_SEPARATOR . $cartella . DIRECTORY_SEPARATOR . $cartella . ".php";
+            if (file_exists($to_check)) {
+                $navbarMenu .= "<a class='nav-item nav-link selectable' onclick='subMenu(\"$cartella\")'>$nome</a>";
+                $to_import[$cartella] = $cartella;
+            }
+        }
+
+        # Richiedo la navbar
+        $navBar = subModule::getSubNavBar($navbarMenu);
+
+        $modulo_to_load = "";
+        # file da caricare nel caso il sottomodulo non venga trovato
+        $default = MODULE_PATH . "default" . ".php";
+
+        if (isset($_GET['submod'])) {
+            if (key_exists($_GET['submod'], $to_import)) {
+                $modulo_to_load = MODULE_PATH . $module . DIRECTORY_SEPARATOR . $_GET['submod'] . DIRECTORY_SEPARATOR . $_GET['submod'] . ".php";
+            } else {
+                $modulo_to_load = $default;
+            }
+        } else {
+            $modulo_to_load = $default;
+        }
+
+        $ret = array(
+            "subNav" => $navBar,
+            "file" => $modulo_to_load
+        );
+
+        return $ret;
+    }
+    /**
+     * getSubNavBar():   ritorna la navbar con il menu compilato
+     *
+     * @param   string  $nav_items     elementi da inserire nel menu
+     * 
+     * @return string   ritorna la navbar
+     */
+    static function getSubNavBar($p_nav_items)
+    {
+        $subNav = "<nav class='navbar navbar-expand-lg navbar-light bg-light'>
+                        <div class='collapse navbar-collapse' id='navbarNavAltMarkup'>
+                            <div class='navbar-nav'>
+                               $p_nav_items 
+                            </div>
+                        </div>
+                    </nav>";
+
+        return $subNav;
+    }
+}
