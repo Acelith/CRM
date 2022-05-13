@@ -1,15 +1,15 @@
-//Rewrite to www
+
 Options +FollowSymLinks
 RewriteEngine on
 RewriteCond %{HTTP_HOST} ^crm.moix.me[nc]
 RewriteRule ^(.*)$ http://www.crm.moix.me/$1 [r=301,nc]
 
-//Caching schema
+
 <FilesMatch "\.(jpg|png|css|js|pdf|svg)$">
 Header set Cache-Control "max-age=3600"
 </FilesMatch>
 
-//Block bad bots
+
 RewriteEngine On 
 RewriteCond %{HTTP_USER_AGENT} ^BlackWidow [OR]
 RewriteCond %{HTTP_USER_AGENT} ^Bot\ mailto:craftbot@yahoo.com [OR]
@@ -112,13 +112,14 @@ AddOutputFilterByType DEFLATE text/javascript
 AddOutputFilterByType DEFLATE text/plain
 AddOutputFilterByType DEFLATE text/xml
 </IfModule>
-//Prevent viewing of db_access.ini file
+
+
 <Files db_access.ini>
 order allow,deny
 deny from all
 </Files>
 
-//Prevent viewing of .htaccess file
+
 <Files .htaccess>
 order allow,deny
 deny from all
