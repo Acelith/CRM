@@ -14,11 +14,11 @@ if(!utente::isLogged()){
  $subMenu = array(
      "Progetti" => "progetti",
      "Ticket" => "ticket",
-     "Ticket Aziende" => "ticket_aziende"
+     "Ticket Aziende" => "ticket_aziende",
  );
 
  $Nav = New subModule("fatturazione");
- $subNav = $Nav->loadSubmenu($subMenu);
+ $subNav = $Nav->loadSubmenu($subMenu, "ticket_aziende");
  ?>
  
  

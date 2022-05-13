@@ -212,10 +212,11 @@ class subModule
      * 
      * @param   array   $p_elements     array di menu da inserire nella navigazione
      * @param   string  $p_module       nome del modulo "padre"
+     * @param   string  $p_default      sotto modulo di default
      * 
      * @return array   ritorna il submenu con il file da caricare
      */
-    function loadSubmenu($p_elements)
+    function loadSubmenu($p_elements, $p_default)
     {
         $module = $this->module;
         $navbarMenu = "";
@@ -234,7 +235,7 @@ class subModule
 
         $modulo_to_load = "";
         # file da caricare nel caso il sottomodulo non venga trovato
-        $default = MODULE_PATH . "default" . ".php";
+        $default = $modulo_to_load = MODULE_PATH . $module . DIRECTORY_SEPARATOR . $p_default . DIRECTORY_SEPARATOR . $p_default . ".php";;
 
         if (isset($_GET['submod'])) {
             if (key_exists($_GET['submod'], $to_import)) {

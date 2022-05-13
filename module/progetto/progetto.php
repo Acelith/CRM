@@ -15,12 +15,12 @@ if (!utente::isLogged()) {
 # A sinistra il nome da far comparire nel menu, a destra la cartella
 $subMenu = array(
     "Progetti" => "progetto",
-    "Task" => "task"
+    "Task" => "task",
 );
 
 
 $Nav = New subModule("progetto");
-$subNav = $Nav->loadSubmenu($subMenu);
+$subNav = $Nav->loadSubmenu($subMenu, "progetto");
 ?>
 
 
