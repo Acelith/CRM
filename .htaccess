@@ -118,4 +118,10 @@ AddOutputFilterByType DEFLATE text/xml
 order allow,deny
 deny from all
 </Files>
+
+//Prevent viewing of db_connf.ini file
+<Files db_conf.ini>
+order allow,deny
+deny from all
+</Files>
   
