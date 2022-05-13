@@ -114,7 +114,7 @@ AddOutputFilterByType DEFLATE text/xml
 </IfModule>
 
 
-<Files db_access.ini>
+<Files db_conf.ini>
 order allow,deny
 deny from all
 </Files>
