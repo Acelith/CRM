@@ -17,18 +17,21 @@ if (!utente::isLogged()) {
     die();
 }
 
-if($_POST['tipo_fatt'] == "1"){
+if ($_POST['tipo_fatt'] == "1") {
     stampaFattProgetto();
-} else if ($_POST['tipo_fatt'] == "0"){
+} else if ($_POST['tipo_fatt'] == "0") {
     stampaFattTicket();
-} else if($_POST['tipo_fatt'] == "2"){
+} else if ($_POST['tipo_fatt'] == "2") {
     stampaFattTickets();
 } else {
     echo "<h1>Err</h1>";
 }
-
-function stampaFattTickets(){
-    $id_azienda =$_POST['id_azienda'];
+/**
+ * Stampa la fattura dei ticket in massa
+ */
+function stampaFattTickets()
+{
+    $id_azienda = $_POST['id_azienda'];
     $sqlStmt = "SELECT tk.id, az.nome as nome_azienda, az.indirizzo, az.citta, az.cap
                 from ticket as tk
                 inner join azienda as az on az.id = tk.id_azienda
@@ -44,21 +47,18 @@ function stampaFattTickets(){
 
         # Eseguo la query;
         $sth->execute($parArr);
-
-        
     } catch (PDOException $e) {
         echo $e;
     }
 
     $ids = array();
-    while($row = $sth->fetch(PDO::FETCH_OBJ)){
+    while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
         array_push($ids, $row->id);
-        
+
         $nome = $row->nome_azienda;
         $via = $row->indirizzo;
         $citta = $row->citta;
         $cap = $row->cap;
-
     }
 
     $besrid = "210000";
@@ -67,16 +67,20 @@ function stampaFattTickets(){
 
     $fattura = new Fattura($besrid, $num_fattura, $info_supp);
 
-    
+
     $fattura->setDebitore($nome, $via, $citta, $cap);
 
     $fattura->setRigeFatturaTicket($ids);
-    
+
     $fattura->calcolaTotale();
     $fattura->getPdf();
 }
 
-function stampaFattTicket(){
+/**
+ * stampa la fattura del singolo ticket
+ */
+function stampaFattTicket()
+{
     $id_ticket = json_decode($_POST['id_ticket']);
     $sqlStmt = "SELECT tk.*, az.indirizzo, az.citta, az.cap, az.nome as nome_azienda
     FROM ticket as tk
@@ -93,8 +97,6 @@ function stampaFattTicket(){
 
         # Eseguo la query;
         $sth->execute($parArr);
-
-        
     } catch (PDOException $e) {
         echo $e;
     }
@@ -115,7 +117,7 @@ function stampaFattTicket(){
     $fattura->setDebitore($nome, $via, $citta, $cap);
 
     $fattura->setRigeFatturaTicket($id_ticket);
-    
+
 
     $fattura->calcolaTotale();
     $fattura->getPdf();
@@ -140,7 +142,6 @@ function stampaFattProgetto()
 
         # Eseguo la query;
         $sth->execute($parArr);
-
     } catch (PDOException $e) {
         echo $e;
     }
@@ -159,11 +160,10 @@ function stampaFattProgetto()
     $cap = $row->cap;
 
     $fattura->setDebitore($nome, $via, $citta, $cap);
-    
+
     if (isset($_POST["ore"])) {
         $fattura->setRigeFatturaProgetto($id_progetto, false);
-    } 
-    else if (isset($_POST["budget"])) {
+    } else if (isset($_POST["budget"])) {
         $fattura->setRigeFatturaProgetto($id_progetto, true);
     }
 

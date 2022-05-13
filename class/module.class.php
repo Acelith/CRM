@@ -1,4 +1,5 @@
 <?php
+
 /**
  * module.class.php: gestione dei moduli
  *
@@ -11,17 +12,19 @@ require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php
 /**
  * classe per la gestione dei moduli
  */
-class Module {
+class Module
+{
 
     /**
      * Si occupa di chiamare il modulo di default
      * 
      * @return array        array contenente gli script da caricare 
      */
-    static function loadDefault() {
+    static function loadDefault()
+    {
         $settings = Impostazioni::GetSetting('default_modulo');
         $ret = self::loadMOdule($settings);
-        return $ret; 
+        return $ret;
     }
 
     /**
@@ -31,14 +34,15 @@ class Module {
      * 
      * @return array        array contenente gli script da caricare 
      */
-    static function loadModule($p_moduleId) {
+    static function loadModule($p_moduleId)
+    {
 
         $sqlStmt = "SELECT * FROM modulo where id=:id";
 
         $parArr = array(
             ":id" => $p_moduleId
         );
-        
+
         try {
             # faccio la connessione al databse
             $dbConnect = DB::connect();
@@ -51,10 +55,10 @@ class Module {
 
         $module = $sth->fetch(PDO::FETCH_OBJ);
         $cartellaModulo = $module->cartella;
-        if(! $module->abilitato){
+        if (!$module->abilitato) {
             die();
         }
-        
+
         # Definisco l'array con i file da importare, all'interno gli metto quelli di default
         $ret = array(
             "css" => "<link href='layout/layout.css' rel='stylesheet' type='text/css'>",
@@ -63,12 +67,12 @@ class Module {
             "navbar" => ""
         );
         # Ritorno la navbar se l'utente è loggato
-        if(isset($_SESSION['loggato'])){
+        if (isset($_SESSION['loggato'])) {
             $ret['navbar'] = self::getNavBar($p_moduleId);
         }
 
         # Controllo se esiste il file php
-        
+
         if (file_exists(MODULE_PATH . $cartellaModulo . DIRECTORY_SEPARATOR . $cartellaModulo . ".php")) {
             $ret['php'] = MODULE_PATH . $cartellaModulo . DIRECTORY_SEPARATOR . $cartellaModulo . '.php';
         } else {
@@ -79,7 +83,6 @@ class Module {
         # Controllo se esiste il file javascript
         if (file_exists(MODULE_PATH . $cartellaModulo .  DIRECTORY_SEPARATOR . $cartellaModulo . ".js")) {
             $ret['js'] .= " <script type='text/javascript' src='" . DIRECTORY_SEPARATOR . "module" . DIRECTORY_SEPARATOR . $cartellaModulo .  DIRECTORY_SEPARATOR . $cartellaModulo . ".js'></script>";
-
         }
 
         # Controllo se esiste il file css
@@ -87,7 +90,7 @@ class Module {
             $ret['css'] .= "<link href='" . DIRECTORY_SEPARATOR . "module" . DIRECTORY_SEPARATOR . $cartellaModulo .  DIRECTORY_SEPARATOR . $cartellaModulo . ".css' rel='stylesheet' type='text/css'>";
         }
 
-       
+
         return $ret;
     }
 
@@ -98,7 +101,8 @@ class Module {
      * 
      * @return string      Contiene la navbar per la navigazione
      */
-    static function getNavBar($p_moduleId = null) {
+    static function getNavBar($p_moduleId = null)
+    {
         $sqlStmt = "SELECT * FROM modulo where id<>0 order by id asc";
 
         try {
@@ -110,7 +114,7 @@ class Module {
         } catch (PDOException $e) {
             return "errore query: " . $e;
         }
-        
+
         # mi faccio ritornare il modulo di default
         $menuItems = "";
         $adminItems = "";
@@ -119,16 +123,16 @@ class Module {
         while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
 
             # Controllo su quale modulo l'utente si trova così lo "evidenzio" nella navbar
-            if($p_moduleId == $row->id){
+            if ($p_moduleId == $row->id) {
                 $status = "loaded";
-            } else{
+            } else {
                 $status = "notloaded";
             }
 
             # Controllo se il modulo è abilitato
-            if($row->abilitato == 1 ){
-                if($row->admin == 1){
-                    if(utente::isAdmin() == 0){
+            if ($row->abilitato == 1) {
+                if ($row->admin == 1) {
+                    if (utente::isAdmin() == 0) {
                         continue;
                     } else {
                         $adminItems .= "
@@ -150,7 +154,7 @@ class Module {
                             <a class='nav-link selectable $status' onclick='changeModule($row->id);'><span class='$row->icona'></span>&nbsp;&nbsp;&nbsp;$row->nome</a>
                         </li> ";
                 }
-           }
+            }
         }
 
         $buff = "
@@ -183,8 +187,9 @@ class Module {
      * 
      * @return array        array contenente gli script da caricare 
      */
-    static function loadLogin(){
+    static function loadLogin()
+    {
         $ret = self::loadModule(0);
-        return $ret; 
+        return $ret;
     }
 }

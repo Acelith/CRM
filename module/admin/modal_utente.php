@@ -10,7 +10,7 @@
                     <div class="modal-body">
                         <!-- body -->
                         <span class="hidden" id="id_utente"></span>
-                        
+
                         <div class="row">
                             <div class="col">
                                 <label for="nome">Nome</label>
@@ -33,7 +33,7 @@
                         <hr>
                         <h6>Cambia password</h6>
                         <div class="row">
-                            
+
                             <div class="col">
                                 <label for="password">Password</label>
                                 <input type="password" id="password" class="form-control" placeholder="password">
@@ -57,12 +57,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella"
-                            onclick="deleteUtente()">Cancella</button>
-                        <button type="button" class="btn btn-success" id="btn_modifica"
-                            onclick="modificaUtente()">Aggiorna</button>
-                        <button type="button" class="btn btn-primary" id="btn_aggiungi"
-                            onclick="creaUtente()">Aggiungi</button>
+                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella" onclick="deleteUtente()">Cancella</button>
+                        <button type="button" class="btn btn-success" id="btn_modifica" onclick="modificaUtente()">Aggiorna</button>
+                        <button type="button" class="btn btn-primary" id="btn_aggiungi" onclick="creaUtente()">Aggiungi</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                     </div>
                 </div>

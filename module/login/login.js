@@ -1,7 +1,7 @@
 /**
  * login.js: Funzioni per il modulo login
  *
- * @author Joël Moix  
+ * @author Joël Moix
  */
 
 /**

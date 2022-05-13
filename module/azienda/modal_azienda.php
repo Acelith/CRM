@@ -60,12 +60,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella"
-                            onclick="deleteAzienda()">Cancella</button>
-                        <button type="button" class="btn btn-success" id="btn_modifica"
-                            onclick="modificaAzienda()">Aggiorna</button>
-                        <button type="button" class="btn btn-primary" id="btn_aggiungi"
-                            onclick="creaAzienda()">Aggiungi</button>
+                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella" onclick="deleteAzienda()">Cancella</button>
+                        <button type="button" class="btn btn-success" id="btn_modifica" onclick="modificaAzienda()">Aggiorna</button>
+                        <button type="button" class="btn btn-primary" id="btn_aggiungi" onclick="creaAzienda()">Aggiungi</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                     </div>
                 </div>

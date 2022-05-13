@@ -62,11 +62,11 @@ if (isset($_POST['cmd'])) {
                 $cognome = $_POST['cognome'];
                 $telefono = $_POST['telefono'];
                 $id_azienda = $_POST['id_azienda'];
-                
+
                 $sqlStmt = "INSERT INTO contatto
                     (nome, cognome, telefono, id_azienda)
                     VALUES(:nome, :cognome, :telefono, :id_azienda)";
-                    
+
                 $parArr = array(
                     ":nome" => $nome,
                     ":cognome" => $cognome,
@@ -120,27 +120,27 @@ if (isset($_POST['cmd'])) {
                 }
                 break;
 
-                case "delContatto":
-                    $id = $_POST['id'];
-    
-                    $sqlStmt = "DELETE FROM contatto
+            case "delContatto":
+                $id = $_POST['id'];
+
+                $sqlStmt = "DELETE FROM contatto
                                     WHERE id=:id";
-    
-                    $parArr = array(
-                        ":id" => $id
-                    );
-    
-                    try {
-                        # faccio la connessione al databse
-                        $dbConnect = DB::connect();
-                        $sth = $dbConnect->prepare($sqlStmt);
-                        # Eseguo la query;
-                        $sth->execute($parArr);
-                        $retArr["ajax_result"] = "ok";
-                    } catch (PDOException $e) {
-                        return "errore query: " . $e;
-                    }
-                    break;
+
+                $parArr = array(
+                    ":id" => $id
+                );
+
+                try {
+                    # faccio la connessione al databse
+                    $dbConnect = DB::connect();
+                    $sth = $dbConnect->prepare($sqlStmt);
+                    # Eseguo la query;
+                    $sth->execute($parArr);
+                    $retArr["ajax_result"] = "ok";
+                } catch (PDOException $e) {
+                    return "errore query: " . $e;
+                }
+                break;
         }
     } catch (Exception $e) {
         $retArr['ajax_result'] = "error";

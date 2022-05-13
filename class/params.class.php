@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * params.class.php: lettura del file con i parametri
  *
@@ -11,16 +12,17 @@ require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php
 /**
  * Classe per la gestione dei parametri 
  */
-class Parametri{
+class Parametri
+{
 
     /**
      * Legge i parametri dal file db_conf.ini
      * 
      * @return array    array associativo con i parametri di connessione al DB 
      */
-    static function getParamsDB(){
+    static function getParamsDB()
+    {
         $params = parse_ini_file(ROOT_PATH . "db_conf.ini");
         return $params;
     }
-
- }
+}

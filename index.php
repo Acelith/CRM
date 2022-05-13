@@ -48,11 +48,11 @@ if (!utente::isLogged()) {
     <!-- importo custom css -->
     <?php echo $ret['css']; ?>
 
-    <title>Gestionale 
+    <title>Gestionale
         <?php
         if (utente::isLogged()) {
-             $info = utente::getUserInformation(utente::getCurrentUserId(), array("nome", "cognome"));
-             echo " - " . $info['nome'] . "&nbsp;" . $info['cognome'];
+            $info = utente::getUserInformation(utente::getCurrentUserId(), array("nome", "cognome"));
+            echo " - " . $info['nome'] . "&nbsp;" . $info['cognome'];
         }
         ?>
     </title>

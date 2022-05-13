@@ -11,13 +11,12 @@
                         <!-- body -->
                         <span class="hidden" id="id_azienda_assegna"></span>
 
-                       <?php echo getListUtenti("listaUtenti"); ?>
+                        <?php echo getListUtenti("listaUtenti"); ?>
 
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="btn_assegna"
-                            onclick="assegnaUtente()">Assegna</button>
+                        <button type="button" class="btn btn-primary" id="btn_assegna" onclick="assegnaUtente()">Assegna</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                     </div>
                 </div>

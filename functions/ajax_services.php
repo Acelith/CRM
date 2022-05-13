@@ -38,4 +38,3 @@ if(isset($_POST['cmd'])){
 }
 
 echo json_encode($retArr);
-?>

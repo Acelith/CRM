@@ -1,25 +1,26 @@
 <?php
+
 /**
  * task.PHP  script per la gestione dei task dei progetti  
  *
  * @author Joël Moix  
  */
 
- # Importo i file necessari
+# Importo i file necessari
 require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php";
 
 # Controllo se l'utente è loggato
-if(!utente::isLogged()){
+if (!utente::isLogged()) {
     die();
 }
 
 $limit = " ";
 if (isset($_GET['pag'])) {
-    if($_GET['pag'] == ""){
+    if ($_GET['pag'] == "") {
         $pag = 1;
     } else {
         $pag = $_GET['pag'];
-    }    
+    }
     $end = 50 * $pag;
     $start = $end - 50;
     $limit = "LIMIT $start, 50";
@@ -121,25 +122,26 @@ try {
 require_once "modal_task.php";
 require_once "modal_sel_progetto.php";
 
-function getProgettoSelect(){
-    
+function getProgettoSelect()
+{
+
     $sqlStmt = 'SELECT * FROM progetto';
 
     try {
         # faccio la connessione al databse
         $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare( $sqlStmt );
+        $sth = $dbConnect->prepare($sqlStmt);
         # Eseguo la query;
         $sth->execute();
-    } catch ( PDOException $e ) {
+    } catch (PDOException $e) {
         return 'errore query: ' . $e;
     }
 
     $progetti = '';
-    while ( $row = $sth->fetch( PDO::FETCH_OBJ ) ) {
+    while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
         $progetti .= "<div class='form-check'>";
-            $progetti .= " <input class='form-check-input' type='radio' data-nome='$row->nome' name='listaProgetto' id='$row->id'>";
-            $progetti .= "<label class='form-check-label' for='$row->id'>
+        $progetti .= " <input class='form-check-input' type='radio' data-nome='$row->nome' name='listaProgetto' id='$row->id'>";
+        $progetti .= "<label class='form-check-label' for='$row->id'>
                          " . $row->nome . "
                         </label>";
         $progetti .= "</div>";

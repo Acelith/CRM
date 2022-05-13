@@ -72,7 +72,7 @@ if (isset($_POST['cmd'])) {
                 $sqlStmt = "INSERT INTO azienda
                     (nome, telefono, sito_web, indirizzo, citta, cap, provincia, nazione, note)
                     VALUES(:nome, :telefono, :sito, :indirizzo, :citta, :cap, :provincia, :nazione, :note)";
-                    
+
                 $parArr = array(
                     ":nome" => $nome,
                     ":telefono" => $telefono,
@@ -143,33 +143,33 @@ if (isset($_POST['cmd'])) {
                 }
                 break;
 
-                case "assUtente":
-                    $idUte = $_POST['id_ute'];
-                    $idAz = $_POST['id_az'];
-    
-                    $sqlStmt = "UPDATE azienda
+            case "assUtente":
+                $idUte = $_POST['id_ute'];
+                $idAz = $_POST['id_az'];
+
+                $sqlStmt = "UPDATE azienda
                     SET id_utente=:id_utente
                     WHERE id=:id_azienda";
-    
-                    $parArr = array(
-                        ":id_utente" => $idUte,
-                        ":id_azienda" => $idAz
-                    );
-    
-                    try {
-                        # faccio la connessione al databse
-                        $dbConnect = DB::connect();
-                        $sth = $dbConnect->prepare($sqlStmt);
-    
-                        # Eseguo la query;
-                        $sth->execute($parArr);
-    
-                        $retArr['ajax_result'] = "ok";
-                    } catch (PDOException $e) {
-                        $retArr['error'] = "err";
-                    }
-                    
-                    break;
+
+                $parArr = array(
+                    ":id_utente" => $idUte,
+                    ":id_azienda" => $idAz
+                );
+
+                try {
+                    # faccio la connessione al databse
+                    $dbConnect = DB::connect();
+                    $sth = $dbConnect->prepare($sqlStmt);
+
+                    # Eseguo la query;
+                    $sth->execute($parArr);
+
+                    $retArr['ajax_result'] = "ok";
+                } catch (PDOException $e) {
+                    $retArr['error'] = "err";
+                }
+
+                break;
         }
     } catch (Exception $e) {
         $retArr['ajax_result'] = "error";

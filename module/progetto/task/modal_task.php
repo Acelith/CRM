@@ -1,5 +1,5 @@
         <!-- Modal -->
-        
+
         <div class="modal fade" id="modal_task" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -39,7 +39,7 @@
                             <div class="col-4"><br>
                                 <label for="sel_progetto_input">Progetto</label>
                                 <input type="text" id="sel_progetto_input" class="form-control" placeholder="Progetto" readonly>
-                                <button class="btn btn-primary" id="btn_sel_task"onclick="openModalSelezionaProgetto()">Seleziona</button>
+                                <button class="btn btn-primary" id="btn_sel_task" onclick="openModalSelezionaProgetto()">Seleziona</button>
                             </div>
                         </div>
                         <br>
@@ -52,12 +52,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella"
-                            onclick="deleteTask()">Cancella</button>
-                        <button type="button" class="btn btn-success" id="btn_modifica"
-                            onclick="modificaTask()">Aggiorna</button>
-                        <button type="button" class="btn btn-primary" id="btn_aggiungi"
-                            onclick="creaTask()">Aggiungi</button>
+                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella" onclick="deleteTask()">Cancella</button>
+                        <button type="button" class="btn btn-success" id="btn_modifica" onclick="modificaTask()">Aggiorna</button>
+                        <button type="button" class="btn btn-primary" id="btn_aggiungi" onclick="creaTask()">Aggiungi</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                     </div>
                 </div>

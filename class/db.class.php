@@ -12,12 +12,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'dependencies.php
 /**
  * Classe per gestire le operazioni sul database
  */
-class DB{
+class DB
+{
 
   /**
    * Esegue la connessine al database
    */
-  static function connect(){
+  static function connect()
+  {
     # Prendo i parametri dal file .ini
     $params = Parametri::getParamsDB();
     $db_host = $params['db_host'];

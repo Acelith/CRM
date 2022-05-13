@@ -12,11 +12,11 @@ if (!utente::isLogged()) {
 }
 $limit = "";
 if (isset($_GET['pag'])) {
-    if($_GET['pag'] == ""){
+    if ($_GET['pag'] == "") {
         $pag = 1;
     } else {
         $pag = $_GET['pag'];
-    }    
+    }
     $end = 50 * $pag;
     $start = $end - 50;
     $limit = "LIMIT $start, 50";
@@ -40,7 +40,7 @@ if (isset($_GET['src'])) {
     $flt .= "or az.nome LIKE '%" . $_GET['src'] . "%' ";
 
     $src = $_GET['src'];
-} 
+}
 
 if (isset($_GET['usr'])) {
     $flt .= "and id_utente=" . $_GET["usr"] . " ";
@@ -92,20 +92,18 @@ try {
             <?php
             while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
             ?>
-            <tr>
-                <td class="col-1">
-                    &nbsp;&nbsp;<span class="bi bi-eye-fill selectable"
-                        onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
-                    &nbsp; &nbsp;<span class="bi bi-pencil-square selectable"
-                        onclick="openModalModificaContatto(<?php echo $row->id; ?>);">&nbsp;</span>
-                </td>
+                <tr>
+                    <td class="col-1">
+                        &nbsp;&nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>)"></span>
+                        &nbsp; &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaContatto(<?php echo $row->id; ?>);">&nbsp;</span>
+                    </td>
 
-                <td class="col-1"><?php echo $row->nome; ?></td>
-                <td class="col-1"><?php echo $row->cognome; ?></td>
-                <td class="col-1"><a href="tel:+<?php echo $row->telefono; ?>"><?php echo $row->telefono; ?></a></td>
-                <td class="col-2"><?php echo $row->azienda; ?></td>
-                <td class="col-2"><?php echo $row->utente; ?></td>
-            </tr>
+                    <td class="col-1"><?php echo $row->nome; ?></td>
+                    <td class="col-1"><?php echo $row->cognome; ?></td>
+                    <td class="col-1"><a href="tel:+<?php echo $row->telefono; ?>"><?php echo $row->telefono; ?></a></td>
+                    <td class="col-2"><?php echo $row->azienda; ?></td>
+                    <td class="col-2"><?php echo $row->utente; ?></td>
+                </tr>
             <?php } ?>
         </tbody>
     </table>

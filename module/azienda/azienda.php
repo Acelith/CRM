@@ -14,11 +14,11 @@ if (!utente::isLogged()) {
 
 $limit = "";
 if (isset($_GET['pag'])) {
-    if($_GET['pag'] == ""){
+    if ($_GET['pag'] == "") {
         $pag = 1;
     } else {
         $pag = $_GET['pag'];
-    }    
+    }
     $end = 50 * $pag;
     $start = $end - 50;
     $limit = "LIMIT $start, 50";
@@ -50,9 +50,9 @@ if (isset($_GET['usr'])) {
 
 
 $sqlStmt = "SELECT az.*, CONCAT(ute.nome, ' ',ute.cognome) as utente "
-. "FROM azienda as az "
-. "left join utente as ute on ute.id=az.id_utente "
-. "where 1=1" . $flt . " order by nome asc " . $limit;
+    . "FROM azienda as az "
+    . "left join utente as ute on ute.id=az.id_utente "
+    . "where 1=1" . $flt . " order by nome asc " . $limit;
 
 
 try {

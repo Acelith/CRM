@@ -33,18 +33,14 @@
                             <div class="col-4"><br>
                                 <label for="azienda">Azienda</label>
                                 <input type="text" id="azienda" class="form-control" placeholder="Azienda" readonly>
-                                <button class="btn btn-primary" id="selAzienda"
-                                    onclick="openModalSelezionaAzienda()">Seleziona</button>
+                                <button class="btn btn-primary" id="selAzienda" onclick="openModalSelezionaAzienda()">Seleziona</button>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella"
-                            onclick="deleteContatto()">Cancella</button>
-                        <button type="button" class="btn btn-success" id="btn_modifica"
-                            onclick="modificaContatto()">Aggiorna</button>
-                        <button type="button" class="btn btn-primary" id="btn_aggiungi"
-                            onclick="creaContatto()">Aggiungi</button>
+                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella" onclick="deleteContatto()">Cancella</button>
+                        <button type="button" class="btn btn-success" id="btn_modifica" onclick="modificaContatto()">Aggiorna</button>
+                        <button type="button" class="btn btn-primary" id="btn_aggiungi" onclick="creaContatto()">Aggiungi</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
                     </div>
                 </div>

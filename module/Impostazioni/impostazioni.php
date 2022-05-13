@@ -20,13 +20,13 @@ $settings = impostazioni::getSettings();
         <span id="fields"></span>
         <?php
         foreach ($settings as $key => $value) {
-            if($key == "id"){
+            if ($key == "id") {
                 continue;
             }
 
             echo "<div class='form-group col-lg-3 mb-3'>";
-                echo "<span class='badge bg-primary p-1'>$key</span>";
-                echo "<input class='form-control' type='text' id='$key' value='$value' onchange='changeSetting(this)'>";
+            echo "<span class='badge bg-primary p-1'>$key</span>";
+            echo "<input class='form-control' type='text' id='$key' value='$value' onchange='changeSetting(this)'>";
             echo "</div>";
         }
         ?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * impostazioni.class.php: gestione delle impostazioni
  *
@@ -12,18 +13,20 @@ require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php
  * Gestione delle impostazioni dell'applicazione
  * 
  */
-class Impostazioni{
-    
-     /**
+class Impostazioni
+{
+
+    /**
      * getSettings():   Ritorna un array con tutte le impostazioni 
      * 
      * @return array    ritorna un Array associativo con le impostazioni 
      */
-    static function getSettings(){
+    static function getSettings()
+    {
         $db = new DB();
 
         $sqlStmt = "SELECT * FROM impostazioni";
-        
+
         try {
             # faccio la connessione al databse
             $dbConnect = DB::connect();
@@ -34,7 +37,7 @@ class Impostazioni{
             return "errore query: " . $e;
         }
 
-        $retArr = $sth->fetch(PDO::FETCH_ASSOC);         
+        $retArr = $sth->fetch(PDO::FETCH_ASSOC);
         return $retArr;
     }
 
@@ -45,17 +48,17 @@ class Impostazioni{
      * 
      * @return string   $setting       Stringa contenente l'impostazioni
      */
-   static function getSetting($p_setting){
+    static function getSetting($p_setting)
+    {
 
-        $resArr = self::getSettings();         
-    
-        if(array_key_exists($p_setting, $resArr)){
+        $resArr = self::getSettings();
+
+        if (array_key_exists($p_setting, $resArr)) {
             $setting = $resArr[$p_setting];
         } else {
-            die();            
+            die();
         }
         return $setting;
-
     }
 
     /**
@@ -63,7 +66,8 @@ class Impostazioni{
      * 
      * @return int  ID del modulo di default
      */
-    static function getDefaultModule(){
+    static function getDefaultModule()
+    {
         $defaultModule = self::getSetting('default_modulo');
         return $defaultModule;
     }
@@ -74,7 +78,8 @@ class Impostazioni{
      * @param string p_nome     nome dell'impostazione da cambiare
      * @param string p_val      valore da aggiornare
      */
-    static function setSetting($p_nome, $p_val){
+    static function setSetting($p_nome, $p_val)
+    {
         $db = new DB();
 
         $parArr = array(
@@ -82,9 +87,9 @@ class Impostazioni{
         );
 
         $sqlStmt = "UPDATE impostazioni "
-                 . "SET $p_nome=:valore";
+            . "SET $p_nome=:valore";
 
-                 
+
         try {
             # faccio la connessione al databse
             $dbConnect = DB::connect();
@@ -94,6 +99,5 @@ class Impostazioni{
         } catch (PDOException $e) {
             return "errore query: " . $e;
         }
-
     }
 }

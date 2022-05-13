@@ -1,5 +1,5 @@
 /**
- * azienda.js file javascript per il modulo azienda
+ * admin.js file javascript per il modulo admin
  *
  * @author Joël Moix
  */
@@ -23,7 +23,7 @@ function openModalCreaUtente() {
   $("#modal_utente").modal({ keyboard: false });
 }
 /**
- * Funzione per la creazione di u'utente
+ * Funzione per la creazione di un'utente
  */
 function creaUtente() {
   var pwd = $("#password").val();

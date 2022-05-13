@@ -1,26 +1,27 @@
 <?php
+
 /**
- * progett.PHP  script per la gestione dei progetti 
+ * progetto.PHP  script per la gestione dei progetti 
  *
  * @author Joël Moix  
  */
 
- # Importo i file necessari
+# Importo i file necessari
 require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php";
 
 # Controllo se l'utente è loggato
-if(!utente::isLogged()){
+if (!utente::isLogged()) {
     die();
 }
 
 
 $limit = " ";
 if (isset($_GET['pag'])) {
-    if($_GET['pag'] == ""){
+    if ($_GET['pag'] == "") {
         $pag = 1;
     } else {
         $pag = $_GET['pag'];
-    }    
+    }
     $end = 50 * $pag;
     $start = $end - 50;
     $limit = "LIMIT $start, 50";
@@ -100,7 +101,7 @@ try {
             ?>
                 <tr>
                     <td class="col-1">
-                        &nbsp;&nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>, true)"></span>
+                        &nbsp;&nbsp;<span class="bi bi-eye-fill selectable" onclick="showDettagli(<?php echo $row->id; ?>)"></span>
                         &nbsp; &nbsp;<span class="bi bi-pencil-square selectable" onclick="openModalModificaProgetto(<?php echo $row->id; ?>);"></span>
                     </td>
                     <td class="col-1"><?php echo $row->nome; ?></td>
@@ -108,7 +109,8 @@ try {
                     <td class="col-1"><?php echo $row->progresso; ?>%</td>
                     <td class="col-1"><?php echo $row->data_inizio; ?></td>
                     <td class="col-2"><?php echo $row->descrizione; ?></td>
-                    <td class="col-1"><?php echo $row->budget; echo " " . impostazioni::getSetting("valuta")?></td>
+                    <td class="col-1"><?php echo $row->budget;
+                                        echo " " . impostazioni::getSetting("valuta") ?></td>
                 </tr>
             <?php } ?>
         </tbody>
@@ -116,7 +118,6 @@ try {
 </div>
 </div>
 
-<?php 
+<?php
 require_once "modal_progetto.php";
 require_once "modal_sel_azienda.php";
-

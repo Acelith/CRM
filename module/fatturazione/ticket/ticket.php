@@ -116,4 +116,4 @@ try {
 </div>
 </div>
 <?php
-require_once "modal_fattura.php";       
+require_once "modal_fattura.php";

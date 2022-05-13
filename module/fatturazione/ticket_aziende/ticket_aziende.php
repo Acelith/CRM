@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ticket_aziende.PHP  script per la stampa della fatture per ticket ad azienda singola  
  *
@@ -110,4 +111,4 @@ try {
 </div>
 </div>
 <?php
-require_once "modal_fattura.php";       
+require_once "modal_fattura.php";

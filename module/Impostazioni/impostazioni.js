@@ -1,7 +1,7 @@
 /**
  * impostazioni.js file javascript per il modulo impostazioni
  *
- * @author Joël Moix  
+ * @author Joël Moix
  */
 
 /**

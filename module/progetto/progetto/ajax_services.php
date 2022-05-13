@@ -79,11 +79,11 @@ if (isset($_POST['cmd'])) {
                 $sqlStmt = "INSERT INTO progetto
                     (id_azienda, nome, data_inizio, data_fine, data_fine_target, budget, budget_usato, descrizione, progresso)
                     VALUES(:id_azienda, :nome, :data_inizio, :data_fine_effettiva, :data_fine_target,:budget, :budget_usato, :descrizione, :progresso)";
-                    
+
                 $parArr = array(
                     ":nome" => $nome,
-                    ":data_inizio" => $data_inizio->format('Y-m-d i:s.u'), 
-                    ":data_fine_target" => $data_fine_target->format('Y-m-d i:s.u') ,
+                    ":data_inizio" => $data_inizio->format('Y-m-d i:s.u'),
+                    ":data_fine_target" => $data_fine_target->format('Y-m-d i:s.u'),
                     ":data_fine_effettiva" => $data_fine_effettiva->format('Y-m-d i:s.u'),
                     ":budget_usato" => $budget_usato,
                     ":budget" => $budget,
@@ -132,7 +132,7 @@ if (isset($_POST['cmd'])) {
                     ":budget" => $budget,
                     ":descrizione" => $descrizione,
                     ":progresso" => $progresso,
-                    ":id_progetto" => $id_progetto 
+                    ":id_progetto" => $id_progetto
                 );
 
                 try {
@@ -149,33 +149,33 @@ if (isset($_POST['cmd'])) {
                 }
                 break;
 
-                case "assUtente":
-                    $idUte = $_POST['id_ute'];
-                    $idAz = $_POST['id_az'];
-    
-                    $sqlStmt = "UPDATE azienda
+            case "assUtente":
+                $idUte = $_POST['id_ute'];
+                $idAz = $_POST['id_az'];
+
+                $sqlStmt = "UPDATE azienda
                     SET id_utente=:id_utente
                     WHERE id=:id_azienda";
-    
-                    $parArr = array(
-                        ":id_utente" => $idUte,
-                        ":id_azienda" => $idAz
-                    );
-    
-                    try {
-                        # faccio la connessione al databse
-                        $dbConnect = DB::connect();
-                        $sth = $dbConnect->prepare($sqlStmt);
-    
-                        # Eseguo la query;
-                        $sth->execute($parArr);
-    
-                        $retArr['ajax_result'] = "ok";
-                    } catch (PDOException $e) {
-                        $retArr['error'] = "err";
-                    }
-                    
-                    break;
+
+                $parArr = array(
+                    ":id_utente" => $idUte,
+                    ":id_azienda" => $idAz
+                );
+
+                try {
+                    # faccio la connessione al databse
+                    $dbConnect = DB::connect();
+                    $sth = $dbConnect->prepare($sqlStmt);
+
+                    # Eseguo la query;
+                    $sth->execute($parArr);
+
+                    $retArr['ajax_result'] = "ok";
+                } catch (PDOException $e) {
+                    $retArr['error'] = "err";
+                }
+
+                break;
         }
     } catch (Exception $e) {
         $retArr['ajax_result'] = "error";

@@ -16,7 +16,7 @@ $(document).ready(function () {
 /**
  * Funzione per la cancellazione di un task
  */
- function deleteTask() {
+function deleteTask() {
   bootbox.confirm({
     title: "Cancello il task?",
     message: "L'azione è irreversibile",
@@ -40,7 +40,7 @@ $(document).ready(function () {
           success: function (text) {
             try {
               var objVal;
-      
+
               objVal = JSON.parse(text);
               if (objVal.ajax_result !== "ok") {
                 alert(objVal.ajax_result + " " + objVal.error);
@@ -56,7 +56,6 @@ $(document).ready(function () {
       }
     },
   });
-  
 }
 
 /**
@@ -176,8 +175,7 @@ function openModalModificaTask(p_id_task) {
           $("#progresso").val(objVal.progresso);
           $("#descrizione").val(objVal.descrizione);
           $("#sel_progetto_input").val(objVal.progetto);
-          $("#id_task").val(objVal.id_task),
-          $("#btn_modifica").show();
+          $("#id_task").val(objVal.id_task), $("#btn_modifica").show();
           $("#btn_cancella").show();
           $("#btn_aggiungi").hide();
           $("#btn_sel_task").hide();

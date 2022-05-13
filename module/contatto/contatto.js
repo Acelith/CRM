@@ -1,27 +1,27 @@
 /**
- * contatto.js: Funzioni javascript per i contatti 
+ * contatto.js: Funzioni javascript per i contatti
  *
- * @author Joël Moix  
+ * @author Joël Moix
  */
 
 /**
  * Imposta l'utenet di ricerca per la query
  * @param p_val - l'ID dell'utente da cercare
  */
- function setUsr(p_val) {
-    var id = $(p_val).attr("id");
-    changeParam("usr", id);
-  }
-  
-/**
- * Resetta il filtro di ricerca 
- */
- function resetFlt(){
-    var params = ["usr", "src"];
-    delParam(params);
-  }
+function setUsr(p_val) {
+  var id = $(p_val).attr("id");
+  changeParam("usr", id);
+}
 
-  /**
+/**
+ * Resetta il filtro di ricerca
+ */
+function resetFlt() {
+  var params = ["usr", "src"];
+  delParam(params);
+}
+
+/**
  * Apre la modal per la creazione del contatto
  */
 function openModalcreaContatto() {
@@ -40,7 +40,7 @@ function openModalcreaContatto() {
 /**
  * Funzione per la creazione di un contatto
  */
- function creaContatto() {
+function creaContatto() {
   $.ajax({
     type: "POST",
     url: "/module/contatto/ajax_services.php",
@@ -73,7 +73,7 @@ function openModalcreaContatto() {
  * Apre la modal per la visualizazzione dei dettagli di un contatto
  * @param p_id_contatto - id del contatto
  */
- function showDettagli(p_id_contatto, p_readonly) {
+function showDettagli(p_id_contatto) {
   $.ajax({
     type: "POST",
     url: "/module/contatto/ajax_services.php",
@@ -110,11 +110,10 @@ function openModalcreaContatto() {
   });
 }
 
-
 /**
  * Apre la modal per la modifica del contatto
  */
- function openModalModificaContatto(p_id_contatto) {
+function openModalModificaContatto(p_id_contatto) {
   $.ajax({
     type: "POST",
     url: "/module/contatto/ajax_services.php",
@@ -155,7 +154,7 @@ function openModalcreaContatto() {
 /**
  * Modifica un contatto
  */
- function modificaContatto() {
+function modificaContatto() {
   $.ajax({
     type: "POST",
     url: "/module/contatto/ajax_services.php",
@@ -164,7 +163,7 @@ function openModalcreaContatto() {
       id: $("#id_contatto").val(),
       cognome: $("#cognome").val(),
       nome: $("#nome").val(),
-      telefono: $("#telefono").val()
+      telefono: $("#telefono").val(),
     },
     success: function (text) {
       try {
@@ -183,8 +182,10 @@ function openModalcreaContatto() {
     },
   });
 }
-
-function deleteContatto (){
+/**
+ * cancella un contatto
+ */
+function deleteContatto() {
   bootbox.confirm({
     title: "Cancello il contatto?",
     message: "L'azione è irreversibile",
@@ -228,16 +229,21 @@ function deleteContatto (){
   });
 }
 
-  function openModalSelezionaAzienda(){
-    $("#select_aziende").modal({ keyboard: false });
-  }
+/**
+ * apre la modal per la selezione di un'azienda
+ */
+function openModalSelezionaAzienda() {
+  $("#select_aziende").modal({ keyboard: false });
+}
 
-  function selezioneAzienda(){
-    var id = $('#selector_aziende input:radio:checked').prop("id");
-    var nome = $('#selector_aziende input:radio:checked').data("nome");
-  
-    $("#azienda").val(nome);
-    $("#id_azienda").val(id);
-    $("#select_aziende").modal('toggle');
-  }
-    
+/**
+ * seleziona un'azienda e cambia i valori di alcuni campi nella modal
+ */
+function selezioneAzienda() {
+  var id = $("#selector_aziende input:radio:checked").prop("id");
+  var nome = $("#selector_aziende input:radio:checked").data("nome");
+
+  $("#azienda").val(nome);
+  $("#id_azienda").val(id);
+  $("#select_aziende").modal("toggle");
+}

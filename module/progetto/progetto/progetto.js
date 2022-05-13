@@ -1,24 +1,23 @@
 /**
  * progetto.js file javascript per il modulo progetto
  *
- * @author Joël Moix  
+ * @author Joël Moix
  */
- 
+
 /**
  * Init function
  */
-$(document).ready(function(){
+$(document).ready(function () {
   //$('#data_inizio').datetimepicker();
-  $('#data_inizio').datepicker();
-  $('#data_fine_target').datepicker();
-  $('#data_fine_effettiva').datepicker();
+  $("#data_inizio").datepicker();
+  $("#data_fine_target").datepicker();
+  $("#data_fine_effettiva").datepicker();
 });
-
 
 /**
  * Apre la modal per la creazione del progetto
  */
- function openModalcreaProgetto() {
+function openModalcreaProgetto() {
   $("#nome").val("");
   $("#data_inizio").val("");
   $("#data_fine_target").val("");
@@ -74,7 +73,7 @@ function creaProgetto() {
 /**
  * Apre la modal per la modifica di un progetto
  */
- function openModalModificaProgetto(p_id_progetto) {
+function openModalModificaProgetto(p_id_progetto) {
   $.ajax({
     type: "POST",
     url: "/module/progetto/progetto/ajax_services.php",
@@ -94,8 +93,12 @@ function creaProgetto() {
           // Assegno i valori ai campi
           $("#nome").val(objVal.nome).prop("readOnly", false);
           $("#data_inizio").val(objVal.data_inizio).prop("readOnly", false);
-          $("#data_fine_target").val(objVal.data_fine_target).prop("readOnly", false);
-          $("#data_fine_effettiva").val(objVal.data_fine_effettiva).prop("readOnly", true);
+          $("#data_fine_target")
+            .val(objVal.data_fine_target)
+            .prop("readOnly", false);
+          $("#data_fine_effettiva")
+            .val(objVal.data_fine_effettiva)
+            .prop("readOnly", true);
           $("#budget").val(objVal.budget).prop("readOnly", false);
           $("#budget_usato").val(objVal.budget_usato).prop("readOnly", false);
           $("#progresso").val(objVal.progresso).prop("readOnly", false);
@@ -120,7 +123,7 @@ function creaProgetto() {
  * Apre la modal per la visualizazzione dei dettagli di un contatto
  * @param p_id_contatto - id del contatto
  */
- function showDettagli(p_id_contatto, p_readonly) {
+function showDettagli(p_id_contatto) {
   $.ajax({
     type: "POST",
     url: "/module/progetto/progetto/ajax_services.php",
@@ -140,8 +143,12 @@ function creaProgetto() {
           // Assegno i valori ai campi
           $("#nome").val(objVal.nome).prop("readOnly", true);
           $("#data_inizio").val(objVal.data_inizio).prop("readOnly", true);
-          $("#data_fine_target").val(objVal.data_fine_target).prop("readOnly", true);
-          $("#data_fine_effettiva").val(objVal.data_fine_effettiva).prop("readOnly", true);
+          $("#data_fine_target")
+            .val(objVal.data_fine_target)
+            .prop("readOnly", true);
+          $("#data_fine_effettiva")
+            .val(objVal.data_fine_effettiva)
+            .prop("readOnly", true);
           $("#budget").val(objVal.budget).prop("readOnly", true);
           $("#budget_usato").val(objVal.budget_usato).prop("readOnly", true);
           $("#progresso").val(objVal.progresso).prop("readOnly", true);
@@ -162,35 +169,38 @@ function creaProgetto() {
   });
 }
 
-
-
-function openModalSelezionaAzienda(){
+/**
+ * apre la modal per la selezione dell'azienda
+ */
+function openModalSelezionaAzienda() {
   $("#select_aziende").modal({ keyboard: false });
 }
 
 /**
  * Cancella i parametri di ricerca dall'url
  */
- function resetFlt(){
-    var params = ["usr", "src"];
-    delParam(params);
-  }
+function resetFlt() {
+  var params = ["usr", "src"];
+  delParam(params);
+}
 
-  /**
+/**
  * Imposta l'utenet di ricerca per la query
  * @param p_val - l'ID dell'utente da cercare
  */
 function setUsr(p_val) {
-    var id = $(p_val).attr("id");
-    changeParam("usr", id);
-  }
+  var id = $(p_val).attr("id");
+  changeParam("usr", id);
+}
 
-function selezioneAzienda(){
-  var id = $('#selector_aziende input:radio:checked').prop("id");
-  var nome = $('#selector_aziende input:radio:checked').data("nome");
+/**
+ * seleziona un'azienda  e la sinerisce in alcuni campi della modal
+ */
+function selezioneAzienda() {
+  var id = $("#selector_aziende input:radio:checked").prop("id");
+  var nome = $("#selector_aziende input:radio:checked").data("nome");
 
   $("#azienda").val(nome);
   $("#id_azienda").val(id);
-  $("#select_aziende").modal('toggle');
+  $("#select_aziende").modal("toggle");
 }
-  

@@ -1,9 +1,10 @@
 <?php
+
 /**
-* functions.php File php con delle funzioni globali
-*
-* @author Joël Moix
-*/
+ * functions.php File php con delle funzioni globali
+ *
+ * @author Joël Moix
+ */
 
 /**
  * Funzione per ritornare una combobox con gli utenti compilati
@@ -12,22 +13,23 @@
  * 
  * @return string stringa contenente la combobox * 
  */
-function getComboUtenti($p_funzione) {
+function getComboUtenti($p_funzione)
+{
 
     $sqlStmt = 'SELECT nome, cognome, id FROM utente';
 
     try {
         # faccio la connessione al databse
         $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare( $sqlStmt );
+        $sth = $dbConnect->prepare($sqlStmt);
         # Eseguo la query;
         $sth->execute();
-    } catch ( PDOException $e ) {
+    } catch (PDOException $e) {
         return 'errore query: ' . $e;
     }
 
     $utenti = '';
-    while ( $row = $sth->fetch( PDO::FETCH_OBJ ) ) {
+    while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
         $utenti .= "<a class='dropdown-item' onclick='" . $p_funzione . "(this)' id='$row->id'>$row->nome $row->cognome</a>";
     }
 
@@ -49,25 +51,26 @@ function getComboUtenti($p_funzione) {
  * 
  * @return string Stringa contenente la lista 
  */
-function getListUtenti($p_id_radio){
+function getListUtenti($p_id_radio)
+{
 
     $sqlStmt = 'SELECT nome, cognome, id FROM utente';
 
     try {
         # faccio la connessione al databse
         $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare( $sqlStmt );
+        $sth = $dbConnect->prepare($sqlStmt);
         # Eseguo la query;
         $sth->execute();
-    } catch ( PDOException $e ) {
+    } catch (PDOException $e) {
         return 'errore query: ' . $e;
     }
 
     $utenti = '';
-    while ( $row = $sth->fetch( PDO::FETCH_OBJ ) ) {
+    while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
         $utenti .= "<div class='form-check'>";
-            $utenti .= " <input class='form-check-input' type='radio' name='listaUtenti' id='$row->id'>";
-            $utenti .= "<label class='form-check-label' for='$row->id'>
+        $utenti .= " <input class='form-check-input' type='radio' name='listaUtenti' id='$row->id'>";
+        $utenti .= "<label class='form-check-label' for='$row->id'>
                          " . $row->nome . " " . $row->cognome . "
                         </label>";
         $utenti .= "</div>";
@@ -83,7 +86,8 @@ function getListUtenti($p_id_radio){
 /**
  * Ritorna una lista con le aziende che si possono selezionare
  */
-function getAziendeSelect(){
+function getAziendeSelect()
+{
     $sqlStmt = "SELECT * FROM azienda";
 
 
@@ -98,10 +102,10 @@ function getAziendeSelect(){
     }
 
     $aziende = '';
-    while ( $row = $sth->fetch( PDO::FETCH_OBJ ) ) {
+    while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
         $aziende .= "<div class='form-check'>";
-            $aziende .= " <input class='form-check-input' type='radio' data-nome='^$row->nome' name='listaAziende' id='$row->id'>";
-            $aziende .= "<label class='form-check-label' for='$row->id'>
+        $aziende .= " <input class='form-check-input' type='radio' data-nome='^$row->nome' name='listaAziende' id='$row->id'>";
+        $aziende .= "<label class='form-check-label' for='$row->id'>
                          " . $row->nome . "
                         </label>";
         $aziende .= "</div>";
@@ -112,5 +116,4 @@ function getAziendeSelect(){
        $aziende
     </div>";
     return $radio;
-
 }

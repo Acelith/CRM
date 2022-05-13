@@ -198,22 +198,25 @@ class Fattura
         } catch (PDOException $e) {
             echo "errore query: " . $e;
         }
-        
+
         $tot = 0;
-        while($row = $sth->fetch(PDO::FETCH_OBJ)){
+        while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
             $prezzo = $row->ore * Impostazioni::getSetting("tariffa_oraria");
             $riga = array(
                 "prestazione" => $row->titolo,
                 "ore" => $row->ore,
-                "prezzo" => $prezzo 
+                "prezzo" => $prezzo
             );
             array_push($this->rige, $riga);
             $tot = $tot + $row->ore;
         }
-        
+
         $this->totale_netto = $tot * Impostazioni::getSetting("tariffa_oraria");
     }
 
+    /**
+     * Crea il PDF e poi lo fa scaricare al client
+     */
     function getPdf()
     {
         $fatt = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-1');
@@ -306,8 +309,6 @@ class Fattura
 
         $fatt->Output("fattura.pdf", 'D');
     }
-
-
 
     /**
      *  Crea una fattura QR.

@@ -71,23 +71,23 @@ if (isset($_POST['cmd'])) {
                 $progresso = $_POST['progresso'];
                 $id_progetto = $_POST['id_progetto'];
                 $descrizione = $_POST['descrizione'];
-                
-                if($data_inizio != ""){
-                    $data_inizio = new DateTime($data_inizio);    
+
+                if ($data_inizio != "") {
+                    $data_inizio = new DateTime($data_inizio);
                     $data_inizio = $data_inizio->format('Y-m-d i:s.u');
                 } else {
                     $data_fine = null;
                 }
-                
-                if($data_fine != ""){
+
+                if ($data_fine != "") {
                     $data_fine = new DateTime($data_fine);
-                    $data_fine = $data_fine->format('Y-m-d i:s.u');                    
+                    $data_fine = $data_fine->format('Y-m-d i:s.u');
                 } else {
                     $data_fine = null;
                 }
-                
-                
-                
+
+
+
 
                 $sqlStmt = "INSERT INTO task_progetto
                     (nome_attivita, progresso, ore_lavorate, data_inizio, data_fine, descrizione, id_progetto)
