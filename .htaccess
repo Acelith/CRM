@@ -112,15 +112,14 @@ AddOutputFilterByType DEFLATE text/javascript
 AddOutputFilterByType DEFLATE text/plain
 AddOutputFilterByType DEFLATE text/xml
 </IfModule>
-
-//Prevent viewing of .htaccess file
-<Files .htaccess>
+//Prevent viewing of db_access.ini file
+<Files db_access.ini>
 order allow,deny
 deny from all
 </Files>
 
-//Prevent viewing of db_connf.ini file
-<Files db_conf.ini>
+//Prevent viewing of .htaccess file
+<Files .htaccess>
 order allow,deny
 deny from all
 </Files>
