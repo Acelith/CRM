@@ -29,7 +29,7 @@ class Fattura
     public $besrID;
     public $numero_fattura;
     public $info_supp;
-    public $rige = array();
+    public $righe = array();
     public $fatturaQR;
     public $fattura;
 
@@ -103,7 +103,7 @@ class Fattura
      * @param p_id_progetto id del progetto
      * @param p_fattura_on_budget calcolare sul budget usato o sul totale delle ore dei task?
      */
-    function setRigeFatturaProgetto($p_id_progetto, $p_fattura_on_budget = true)
+    function setrigheFatturaProgetto($p_id_progetto, $p_fattura_on_budget = true)
     {
         if ($p_fattura_on_budget) {
             $sqlStmt = "SELECT * from progetto where id=:id";
@@ -128,7 +128,7 @@ class Fattura
                 "prezzo" => $row->budget_usato
             );
             $this->totale_netto = $row->budget_usato;
-            array_push($this->rige, $riga);
+            array_push($this->righe, $riga);
         } else {
             $sqlStmt = "SELECT prj.nome, SUM(tsk.ore_lavorate) as ore_lavorate
             from progetto as prj
@@ -160,7 +160,7 @@ class Fattura
             );
 
 
-            array_push($this->rige, $riga);
+            array_push($this->righe, $riga);
         }
     }
 
@@ -169,7 +169,7 @@ class Fattura
      * 
      * @param p_id_ticket id del/dei ticket
      */
-    function setRigeFatturaTicket($p_id_ticket)
+    function setrigheFatturaTicket($p_id_ticket)
     {
 
         if (is_array($p_id_ticket)) {
@@ -207,7 +207,7 @@ class Fattura
                 "ore" => $row->ore,
                 "prezzo" => $prezzo
             );
-            array_push($this->rige, $riga);
+            array_push($this->righe, $riga);
             $tot = $tot + $row->ore;
         }
 
@@ -257,7 +257,7 @@ class Fattura
 
 
         # Colonne tabella
-        $fatt->Cell(15, 6, '', 0,   );
+        $fatt->Cell(15, 6, '', 0,);
         $fatt->SetFont('', 'B', 12);
         $fatt->Cell(80, 6, 'Descrizione', 1, 0, 'C');
         $fatt->SetFont('', 'B', 12);
@@ -266,7 +266,7 @@ class Fattura
         $fatt->Cell(45, 6, 'Totale', 1, 1, 'C');
 
 
-        foreach ($this->rige as $arr) {
+        foreach ($this->righe as $arr) {
             $fatt->SetFont('', 12);
             $fatt->Cell(15, 6, '', 0, 0);
             $fatt->Cell(80, 6, $arr["prestazione"], 1, 0);
@@ -292,7 +292,7 @@ class Fattura
         #cella totale fattura
         $fatt->Cell(95, 6, '', 0, 0);
         $fatt->Cell(30, 6, 'Totale fattura', 0, 0);
-        $fatt->Cell(45, 6, $this->fattura_totale . " " . Impostazioni::getSetting("valuta") , 1, 1, 'R');
+        $fatt->Cell(45, 6, $this->fattura_totale . " " . Impostazioni::getSetting("valuta"), 1, 1, 'R');
 
 
 
@@ -382,5 +382,37 @@ class Fattura
 
                 $this->corpo = $html;*/
         $this->fatturaQR = $qrBill;
+    }
+
+    /**
+     * Salva la fattura nel database
+     */
+    function salvaFatt()
+    {
+        $sqlStmt = "INSERT INTO fatture
+        (id_azienda, righe, importo_fattura, debitore, numero_riferimento, id_utente)
+        VALUES(:id_azienda, :righe, :importo_fattura, :debitore, :numero_riferimento, :id_utente)";
+
+        $parArr = array(
+            ":id_azienda"=>$this->debitore["id"],
+            ":debitore"=>serialize($this->debitore),
+            ":importo_fattura" => $this->importo_fattura,
+            ":righe" => $this->righe,
+            ":numero_riferimento" => $this->numero_riferimento,
+            ":id_utente" => Utente::getCurrentUserId()
+        );
+
+        try {
+            # faccio la connessione al databse
+            $dbConnect = DB::connect();
+            $sth = $dbConnect->prepare($sqlStmt);
+
+            # Eseguo la query;
+            $sth->execute($parArr);
+
+            $retArr['ajax_result'] = "ok";
+        } catch (PDOException $e) {
+            $retArr['error'] = "err";
+        }
     }
 }

@@ -22,7 +22,7 @@ if (isset($_POST['cmd'])) {
 
     try {
         switch ($cmd) {
-                # Ritorno i dettagli dell'azienda
+            # Ritorno i dettagli dell'azienda
             case 'getDettagli':
                 $id = $_POST['id'];
 
