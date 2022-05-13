@@ -55,6 +55,7 @@ if (isset($_POST['cmd'])) {
                 $retArr['telefono'] = $row->telefono;
                 $retArr['cognome'] = $row->cognome;
                 $retArr['azienda'] = $row->nome_azienda;
+                $retArr["email"] = $row->email;
                 break;
 
             case 'creaContatto':
@@ -62,16 +63,18 @@ if (isset($_POST['cmd'])) {
                 $cognome = $_POST['cognome'];
                 $telefono = $_POST['telefono'];
                 $id_azienda = $_POST['id_azienda'];
+                $email = $_POST['email'];
 
                 $sqlStmt = "INSERT INTO contatto
-                    (nome, cognome, telefono, id_azienda)
-                    VALUES(:nome, :cognome, :telefono, :id_azienda)";
+                    (nome, cognome, telefono, id_azienda, email)
+                    VALUES(:nome, :cognome, :telefono, :id_azienda, :email)";
 
                 $parArr = array(
                     ":nome" => $nome,
                     ":cognome" => $cognome,
                     ":telefono" => $telefono,
                     ":id_azienda" => $id_azienda,
+                    ":email" => $email
                 );
 
                 try {
@@ -94,9 +97,10 @@ if (isset($_POST['cmd'])) {
                 $nome = $_POST['nome'];
                 $telefono = $_POST['telefono'];
                 $cognome = $_POST['cognome'];
+                $email = $_POST['email'];
 
                 $sqlStmt = "UPDATE contatto
-                SET nome=:nome, telefono=:telefono, cognome=:cognome
+                SET nome=:nome, telefono=:telefono, cognome=:cognome, email=:email
                 WHERE id=:id";
 
                 $parArr = array(
@@ -104,6 +108,7 @@ if (isset($_POST['cmd'])) {
                     ":nome" => $nome,
                     ":telefono" => $telefono,
                     ":cognome" => $cognome,
+                    ":email" => $email
                 );
 
                 try {

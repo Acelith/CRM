@@ -71,7 +71,7 @@
 }
 
 .sub-navbar{
-    background-color: rgb(30, 151, 226);
+    background-color: rgb(30, 151, 226) !important;
 }
 
 .el-navbar{

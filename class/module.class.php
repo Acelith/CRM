@@ -225,7 +225,7 @@ class subModule
         foreach ($p_elements as $nome => $cartella) {
             $to_check = MODULE_PATH . $module . DIRECTORY_SEPARATOR . $cartella . DIRECTORY_SEPARATOR . $cartella . ".php";
             if (file_exists($to_check)) {
-                $navbarMenu .= "<a class='nav-item nav-link selectable' onclick='subMenu(\"$cartella\")'>$nome</a>";
+                $navbarMenu .= "<a class='nav-item nav-link selectable notloaded' onclick='subMenu(\"$cartella\")'>$nome</a>";
                 $to_import[$cartella] = $cartella;
             }
         }
@@ -263,13 +263,13 @@ class subModule
      */
     static function getSubNavBar($p_nav_items)
     {
-        $subNav = "<nav class='navbar navbar-expand-lg navbar-light bg-light'>
+        $subNav = "<nav class='navbar navbar-expand-lg navbar-light bg-light sub-navbar'>
                         <div class='collapse navbar-collapse' id='navbarNavAltMarkup'>
                             <div class='navbar-nav'>
                                $p_nav_items 
                             </div>
                         </div>
-                    </nav>";
+                    </nav><br>";
 
         return $subNav;
     }

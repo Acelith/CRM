@@ -29,6 +29,7 @@ function openModalcreaContatto() {
   $("#telefono").val("");
   $("#cognome").val("");
   $("#azienda").val("");
+  $("#email").val("");
   $("#btn_cancella").hide();
   $("#btn_modifica").hide();
   $("#selAzienda").show();
@@ -50,6 +51,7 @@ function creaContatto() {
       telefono: $("#telefono").val(),
       cognome: $("#cognome").val(),
       id_azienda: $("#id_azienda").val(),
+      email: $("#email").val(),
     },
     success: function (text) {
       try {
@@ -72,8 +74,9 @@ function creaContatto() {
 /**
  * Apre la modal per la visualizazzione dei dettagli di un contatto
  * @param p_id_contatto - id del contatto
+ * @param p_readonly - readonly della casella
  */
-function showDettagli(p_id_contatto) {
+function showDettagli(p_id_contatto, p_readonly) {
   $.ajax({
     type: "POST",
     url: "/module/contatto/ajax_services.php",
@@ -95,6 +98,7 @@ function showDettagli(p_id_contatto) {
           $("#telefono").val(objVal.telefono).prop("readOnly", p_readonly);
           $("#cognome").val(objVal.cognome).prop("readOnly", p_readonly);
           $("#azienda").val(objVal.azienda).prop("readOnly", p_readonly);
+          $("#email").val(objVal.email).prop("readOnly", p_readonly);
           // Nascondo i bottoni
           $("#btn_cancella").hide();
           $("#btn_modifica").hide();
@@ -136,6 +140,7 @@ function openModalModificaContatto(p_id_contatto) {
           $("#telefono").val(objVal.telefono).prop("readOnly", false);
           $("#cognome").val(objVal.cognome).prop("readOnly", false);
           $("#azienda").val(objVal.azienda).prop("readOnly", true);
+          $("#email").val(objVal.email).prop("readonly", false);
           // Nascondo i bottoni
           $("#selAzienda").hide();
           $("#btn_cancella").show();
@@ -164,6 +169,7 @@ function modificaContatto() {
       cognome: $("#cognome").val(),
       nome: $("#nome").val(),
       telefono: $("#telefono").val(),
+      email: $("#email").val(),
     },
     success: function (text) {
       try {

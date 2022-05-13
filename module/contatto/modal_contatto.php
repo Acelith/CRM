@@ -29,12 +29,19 @@
 
                         </div>
                         <div class="row">
-
-                            <div class="col-4"><br>
+                        <div class="col">
+                                <label for="email">Email</label>
+                                <input type="text" id="email" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="col">
                                 <label for="azienda">Azienda</label>
                                 <input type="text" id="azienda" class="form-control" placeholder="Azienda" readonly>
+                            </div>
+                            <div class="col">
+                                <br>
                                 <button class="btn btn-primary" id="selAzienda" onclick="openModalSelezionaAzienda()">Seleziona</button>
                             </div>
+                            
                         </div>
                     </div>
                     <div class="modal-footer">
