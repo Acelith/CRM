@@ -120,34 +120,3 @@ try {
 require_once "modal_progetto.php";
 require_once "modal_sel_azienda.php";
 
-function getAziendeSelect(){
-    $sqlStmt = "SELECT * FROM azienda";
-
-
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-        # Eseguo la query;
-        $sth->execute();
-    } catch (PDOException $e) {
-        echo "errore query: " . $e;
-    }
-
-    $aziende = '';
-    while ( $row = $sth->fetch( PDO::FETCH_OBJ ) ) {
-        $aziende .= "<div class='form-check'>";
-            $aziende .= " <input class='form-check-input' type='radio' data-nome='^$row->nome' name='listaUtenti' id='$row->id'>";
-            $aziende .= "<label class='form-check-label' for='$row->id'>
-                         " . $row->nome . "
-                        </label>";
-        $aziende .= "</div>";
-    }
-
-    $radio = "
-    <div id='selector_aziende'>
-       $aziende
-    </div>";
-    return $radio;
-
-}

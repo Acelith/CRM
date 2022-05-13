@@ -83,6 +83,7 @@ function creaAzienda() {
     },
   });
 }
+
 /**
  * Apre la modal per la visualizazzione dei dettagli di un'azienda
  * @param p_id_azienda - id dell'azienda
