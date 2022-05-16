@@ -32,7 +32,7 @@ if ($_POST['tipo_fatt'] == "1") {
 function stampaFattTickets()
 {
     $id_azienda = $_POST['id_azienda'];
-    $sqlStmt = "SELECT tk.id, az.nome as nome_azienda, az.indirizzo, az.citta, az.cap
+    $sqlStmt = "SELECT tk.id, az.nome as nome_azienda, az.indirizzo, az.citta, az.cap, az.id as az_id
                 from ticket as tk
                 inner join azienda as az on az.id = tk.id_azienda
                 where tk.id_azienda=:id and tk.da_fatturare=1 and tk.stato=2";
@@ -59,6 +59,7 @@ function stampaFattTickets()
         $via = $row->indirizzo;
         $citta = $row->citta;
         $cap = $row->cap;
+        $id_az = $row->az_id;
     }
 
     $besrid = "210000";
@@ -68,7 +69,7 @@ function stampaFattTickets()
     $fattura = new Fattura($besrid, $num_fattura, $info_supp);
 
 
-    $fattura->setDebitore($nome, $via, $citta, $cap);
+    $fattura->setDebitore($nome, $via, $citta, $cap, $id_az);
 
     $fattura->setRigeFatturaTicket($ids);
 
@@ -82,7 +83,7 @@ function stampaFattTickets()
 function stampaFattTicket()
 {
     $id_ticket = json_decode($_POST['id_ticket']);
-    $sqlStmt = "SELECT tk.*, az.indirizzo, az.citta, az.cap, az.nome as nome_azienda
+    $sqlStmt = "SELECT tk.*, az.indirizzo, az.citta, az.cap, az.nome as nome_azienda, az.id
     FROM ticket as tk
     inner join azienda as az on az.id = tk.id_azienda
     WHERE tk.id=:id";
@@ -113,8 +114,9 @@ function stampaFattTicket()
     $via = $row->indirizzo;
     $citta = $row->citta;
     $cap = $row->cap;
+    $id = $row->id;
 
-    $fattura->setDebitore($nome, $via, $citta, $cap);
+    $fattura->setDebitore($nome, $via, $citta, $cap, $id);
 
     $fattura->setRigeFatturaTicket($id_ticket);
 
@@ -127,7 +129,7 @@ function stampaFattTicket()
 function stampaFattProgetto()
 {
     $id_progetto = $_POST['id_progetto'];
-    $sqlStmt = "SELECT prj.*, az.indirizzo, az.citta, az.cap, az.nome as nome_azienda
+    $sqlStmt = "SELECT prj.*, az.indirizzo, az.citta, az.cap, az.nome as nome_azienda, az.id
     FROM progetto as prj
     inner join azienda as az on az.id = prj.id_azienda
     WHERE prj.id=:id";
@@ -158,8 +160,9 @@ function stampaFattProgetto()
     $via = $row->indirizzo;
     $citta = $row->citta;
     $cap = $row->cap;
+    $id = $row->id;
 
-    $fattura->setDebitore($nome, $via, $citta, $cap);
+    $fattura->setDebitore($nome, $via, $citta, $cap, $id);
 
     if (isset($_POST["ore"])) {
         $fattura->setRigeFatturaProgetto($id_progetto, false);

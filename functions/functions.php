@@ -69,7 +69,7 @@ function getListUtenti($p_id_radio)
     $utenti = '';
     while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
         $utenti .= "<div class='form-check'>";
-        $utenti .= " <input class='form-check-input' type='radio' name='listaUtenti' id='$row->id'>";
+        $utenti .= " <input class='form-check-input' type='radio' name='listaUtenti' data-nome='" . $row->nome . " " . $row->cognome . "' id='$row->id'>";
         $utenti .= "<label class='form-check-label' for='$row->id'>
                          " . $row->nome . " " . $row->cognome . "
                         </label>";
@@ -104,7 +104,7 @@ function getAziendeSelect()
     $aziende = '';
     while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
         $aziende .= "<div class='form-check'>";
-        $aziende .= " <input class='form-check-input' type='radio' data-nome='^$row->nome' name='listaAziende' id='$row->id'>";
+        $aziende .= " <input class='form-check-input' type='radio' data-nome='$row->nome' name='listaAziende' id='$row->id'>";
         $aziende .= "<label class='form-check-label' for='$row->id'>
                          " . $row->nome . "
                         </label>";

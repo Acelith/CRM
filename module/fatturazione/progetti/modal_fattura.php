@@ -14,7 +14,7 @@
                             <input class="hidden" name="tipo_fatt" id="tipo_fatt"></input>
                             <div id="scelta_fatt">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="ore" id="ore" checked>
+                                    <input class="form-check-input" type="radio" name="ore" id="ore">
                                     <label class="form-check-label" for="ore">
                                         Fattura sulle ore totali dedicate (Attenzione: le ore vengono conteggite automaticamente dai task del progetto)
                                     </label>
@@ -27,7 +27,6 @@
                                 </div>
 
                             </div>
-
                     </div>
                     <div class="modal-footer">
 
