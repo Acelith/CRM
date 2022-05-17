@@ -124,7 +124,7 @@ require_once "modal_utente.php";
 require_once "modal_sel_azienda.php";
 
 /**
- *ritorna la combo con gli stati del ticket
+ *  ritorna la combo con gli stati del ticket
  * 
  * @return string combo
  */

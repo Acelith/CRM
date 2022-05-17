@@ -69,6 +69,95 @@ function creaTicket() {
 }
 
 /**
+ * Apre la modal per la modifica di un ticket
+ */
+ function openModalModificaTicket(p_id_ticket) {
+  $.ajax({
+    type: "POST",
+    url: "/module/ticket/ajax_services.php",
+    data: {
+      cmd: "getDettagli",
+      id: p_id_ticket,
+    },
+    success: function (text) {
+      try {
+        var objVal;
+
+        objVal = JSON.parse(text);
+        if (objVal.ajax_result !== "ok") {
+          alert(objVal.ajax_result + " " + objVal.error);
+          return false;
+        } else {
+          // Assegno i valori ai campi
+          $("#titolo").val(objVal.titolo).prop("readOnly", false);
+          $("#data_inizio").val(objVal.orario_inizio).prop("readOnly", false);
+          $("#ore").val(objVal.ore).prop("readOnly", false);
+          if(objVal.fatturare == "1") {
+            $("#fatturare").prop('checked', true).prop("readOnly", false);
+          } else {
+            $("#fatturare").prop('checked', false).prop("readOnly", false);
+          }
+          $("#selStato").val(objVal.stato).change();
+          $("#azienda").val(objVal.azienda).prop("readOnly", false);
+          $("#operatore").val(objVal.operatore).prop("readOnly", false);
+          $("#descrizione").val(objVal.descrizione).prop("readOnly", false);
+          $("#soluzione").val(objVal.soluzione).prop("readOnly", false);
+          $("#id_azienda").val(objVal.id_azienda);
+          $("#id_ticket").val(p_id_ticket);
+          $("#id_operatore").val(objVal.id_operatore);
+           
+          // Nascondo i bottoni
+          $("#selAzienda").show();
+          $("#btn_cancella").show();
+          $("#btn_modifica").show();
+          $("#btn_aggiungi").hide();
+          $("#titolo_modal_progetto").html("Modifica " + objVal.nome);
+          $("#modal_ticket").modal({ keyboard: false });
+        }
+      } catch (error) {
+        alert("Errore: " + error + " " + text);
+      }
+    },
+  });
+}
+
+function modificaTicket(){
+  $.ajax({
+    type: "POST",
+    url: "/module/ticket/ajax_services.php",
+    data: {
+      cmd: "modificaTicket",
+      id: $("#id_ticket").val(),
+      titolo: $("#titolo").val(),
+      data_inizio: $("#data_inizio").val(),
+      ore: $("#ore").val(),
+      fatturare: $("#fatturare").is(":checked"),
+      azienda: $("#id_azienda").val(),
+      operatore: $("#id_operatore").val(),
+      descrizione: $("#descrizione").val(),
+      soluzione: $("#soluzione").val(),
+      stato: $("#selStato option:selected").val(),
+    },
+    success: function (text) {
+      try {
+        var objVal;
+
+        objVal = JSON.parse(text);
+        if (objVal.ajax_result !== "ok") {
+          alert(objVal.ajax_result + " " + objVal.error);
+          return false;
+        } else {
+          location.reload(true);
+        }
+      } catch (error) {
+        alert("Errore: " + error + " " + text);
+      }
+    },
+  });
+}
+
+
+/**
  * apre la modal per la selezione dell'azienda
  */
 function openModalSelezionaAzienda() {

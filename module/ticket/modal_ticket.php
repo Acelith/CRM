@@ -27,30 +27,26 @@
                                 <label for="ore">Ore</label>
                                 <input type="text" id="ore" class="form-control" placeholder="Ore">
                             </div>
-                            <div class="col">
-                                <label for="fatturare">Da fatturare</label>
-                                <input type="checkbox" id="fatturare" class="form-control">
-                            </div>
-                            <div class="col">
-                               <?php echo getStatoTicket()?>
-                            </div>
+
+
                         </div>
                         <div class="row">
-                        <div class="col">
+                            <div class="col">
                                 <label for="azienda">Azienda</label>
                                 <input type="text" id="azienda" class="form-control" placeholder="Azienda" readonly>
-                            </div>
-                            <div class="col">
-                                <br>
                                 <button class="btn btn-primary" id="selAzienda" onclick="openModalSelezionaAzienda()">Seleziona</button>
                             </div>
                             <div class="col">
                                 <label for="operatore">Operatore</label>
                                 <input type="text" id="operatore" class="form-control" placeholder="Operatore" readonly>
+                                <button class="btn btn-primary" id="selOperatore" onclick="openModalSelOperatore()">Seleziona</button>
                             </div>
                             <div class="col">
-                                <br>
-                                <button class="btn btn-primary" id="selOperatore" onclick="openModalSelOperatore()">Seleziona</button>
+                                <?php echo getStatoTicket() ?>
+                            </div>
+                            <div class="col">
+                                <label for="fatturare">Da fatturare</label>
+                                <input type="checkbox" id="fatturare" class="form-control">
                             </div>
                         </div>
                         <br>
