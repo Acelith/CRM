@@ -8,7 +8,6 @@
 
 # Importo i file necessari
 require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "dependencies.php";
-require_once MODULE_PATH . "fatturazione" . DIRECTORY_SEPARATOR . "fattura.php";
 
 use Spipu\Html2Pdf\Html2Pdf;
 

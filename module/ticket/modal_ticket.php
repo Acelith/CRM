@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella" onclick="deleteTicket()">Cancella</button>
+                        <button type="button" class="btn btn-danger mr-auto" id="btn_cancella" onclick="delTicket()">Cancella</button>
                         <button type="button" class="btn btn-success" id="btn_modifica" onclick="modificaTicket()">Aggiorna</button>
                         <button type="button" class="btn btn-primary" id="btn_aggiungi" onclick="creaTicket()">Aggiungi</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>

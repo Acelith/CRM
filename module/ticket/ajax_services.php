@@ -173,6 +173,31 @@ if (isset($_POST['cmd'])) {
                 }
 
                 break;
+
+            case 'delTicket':
+                $id = $_POST['id'];
+
+                $sqlStmt = "DELETE FROM ticket
+                            WHERE id=:id";
+
+                $parArr = array(
+                    ":id" => $id
+                );
+
+                try {
+                    # faccio la connessione al databse
+                    $dbConnect = DB::connect();
+                    $sth = $dbConnect->prepare($sqlStmt);
+
+                    # Eseguo la query;
+                    $sth->execute($parArr);
+
+                    $retArr['ajax_result'] = "ok";
+                } catch (PDOException $e) {
+                    $retArr['error'] = "err";
+                }
+
+                break;
         }
     } catch (Exception $e) {
         $retArr['ajax_result'] = "error";

@@ -70,6 +70,8 @@ function creaTicket() {
 
 /**
  * Apre la modal per la modifica di un ticket
+ * 
+ * @param p_id_ticket id del ticket da far vedere
  */
  function openModalModificaTicket(p_id_ticket) {
   $.ajax({
@@ -121,6 +123,9 @@ function creaTicket() {
   });
 }
 
+/**
+ * Modifica un ticket
+ */
 function modificaTicket(){
   $.ajax({
     type: "POST",
@@ -156,12 +161,109 @@ function modificaTicket(){
   });
 }
 
+/**
+ * Apre la modal con i dettagli del ticket
+ * 
+ * @param p_id_ticket id del ticket da visualizzare
+ */
+function showDettagli(p_id_ticket){
+  $.ajax({
+    type: "POST",
+    url: "/module/ticket/ajax_services.php",
+    data: {
+      cmd: "getDettagli",
+      id: p_id_ticket,
+    },
+    success: function (text) {
+      try {
+        var objVal;
+
+        objVal = JSON.parse(text);
+        if (objVal.ajax_result !== "ok") {
+          alert(objVal.ajax_result + " " + objVal.error);
+          return false;
+        } else {
+          // Assegno i valori ai campi
+          $("#titolo").val(objVal.titolo).prop("readOnly", true);
+          $("#data_inizio").val(objVal.orario_inizio).prop("readOnly", true);
+          $("#ore").val(objVal.ore).prop("readOnly", true);
+          if(objVal.fatturare == "1") {
+            $("#fatturare").prop('checked', true).prop("readOnly", true);
+          } else {
+            $("#fatturare").prop('checked', false).prop("readOnly", true);
+          }
+          $("#selStato").val(objVal.stato).change().prop("readOnly", true);
+          $("#azienda").val(objVal.azienda).prop("readOnly", true);
+          $("#operatore").val(objVal.operatore).prop("readOnly", true);
+          $("#descrizione").val(objVal.descrizione).prop("readOnly", true);
+          $("#soluzione").val(objVal.soluzione).prop("readOnly", true);
+          $("#id_azienda").val(objVal.id_azienda);
+          $("#id_ticket").val(p_id_ticket);
+          $("#id_operatore").val(objVal.id_operatore);
+           
+          // Nascondo i bottoni
+          $("#selOperatore").hide();
+          $("#selAzienda").hide();
+          $("#btn_cancella").hide();
+          $("#btn_modifica").hide();
+          $("#btn_aggiungi").hide();
+          $("#titolo_modal_progetto").html("Modifica " + objVal.nome);
+          $("#modal_ticket").modal({ keyboard: false });
+        }
+      } catch (error) {
+        alert("Errore: " + error + " " + text);
+      }
+    },
+  });
+}
 
 /**
  * apre la modal per la selezione dell'azienda
  */
 function openModalSelezionaAzienda() {
   $("#select_aziende").modal({ keyboard: false });
+}
+
+function delTicket(){
+  bootbox.confirm({
+    title: "Cancello il ticket?",
+    message: "L'azione è irreversibile",
+    buttons: {
+      cancel: {
+        label: '<i class="fa fa-times"></i> No',
+      },
+      confirm: {
+        label: '<i class="fa fa-check"></i> Si',
+      },
+    },
+    callback: function (result) {
+      if (result === true) {
+        $.ajax({
+          type: "POST",
+          url: "/module/ticket/ajax_services.php",
+          data: {
+            cmd: "delTicket",
+            id: $("#id_ticket").val(),
+          },
+          success: function (text) {
+            try {
+              var objVal;
+      
+              objVal = JSON.parse(text);
+              if (objVal.ajax_result !== "ok") {
+                alert(objVal.ajax_result + " " + objVal.error);
+                return false;
+              } else {
+                location.reload(true);
+              }
+            } catch (error) {
+              alert("Errore: " + error + " " + text);
+            }
+          },
+        });
+      }
+    },
+  });
 }
 
 /**
