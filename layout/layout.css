@@ -64,6 +64,7 @@
 
 .nav-bar{
     width: 100%;
+    background-color: #FF7B08 !important;
 }
 
 .filter-bar{
@@ -71,7 +72,7 @@
 }
 
 .sub-navbar{
-    background-color: rgb(30, 151, 226) !important;
+    background-color: #ff7b0886 !important;
 }
 
 .el-navbar{
@@ -80,4 +81,9 @@
     color: black !important;
     border: 2px solid black;
     border-radius: 20px;
+}
+
+.btn-primary{
+    background-color: #FF7B08 !important;
+    border-color: #be5900 !important;
 }

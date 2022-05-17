@@ -43,6 +43,7 @@ function openModalcreaAzienda() {
   $("#note").val("")
   $("#btn_cancella").hide();
   $("#btn_modifica").hide();
+  $("#btn_aggiungi").show();
   $("#titolo_modal_azienda").html("Aggiungi azienda");
   $("#modal_azienda").modal({ keyboard: false });
 }
