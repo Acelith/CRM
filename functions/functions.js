@@ -9,7 +9,11 @@
  * Init function
  */
  $( document ).ready(function() {
+   // Se è impostato un numero di pagina, lo metto nella casella apposita
   $("#numero_pagina").val(getParam("pag"));
+
+  $("#" + getParam("submod")).removeClass("notloaded");
+  $("#" + getParam("submod")).addClass("loaded");
 })
 
 /**
@@ -120,7 +124,6 @@ function getParam(p_param) {
 
   var params = url.searchParams;
 
-  // Imposto il nuovo parametro nell'url, nel caso non esistesse lo aggiunge
   var param = params.get(p_param);
 
   return param;
@@ -156,4 +159,11 @@ function prossimaPagina(){
 function changePage(p_page){
   var page = $(p_page).val();
   changeParam("pag", page);
+}
+
+/**
+ *  Funzione per cambiare il submenu
+ */
+ function subMenu(p_submenu){
+  changeParam("submod", p_submenu);
 }

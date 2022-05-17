@@ -46,6 +46,45 @@ function getComboUtenti($p_funzione)
 }
 
 /**
+ * Funzione per ritornare una combobox con gli stati del ticket
+ * 
+ * @param int $p_funzione   Funzione da chiamare quando si seleziona un'elemento
+ * 
+ * @return string stringa contenente la combobox * 
+ */
+function getComboStatoTicket($p_funzione){
+    
+    $sqlStmt = 'SELECT * FROM stato_ticket';
+
+    try {
+        # faccio la connessione al databse
+        $dbConnect = DB::connect();
+        $sth = $dbConnect->prepare($sqlStmt);
+        # Eseguo la query;
+        $sth->execute();
+    } catch (PDOException $e) {
+        return 'errore query: ' . $e;
+    }
+
+    $stati = '';
+    while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
+        $stati .= "<a class='dropdown-item' onclick='" . $p_funzione . "(this)' id='$row->id'>$row->stato</a>";
+    }
+
+    $combo = "<div class='btn-group'>
+    <button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+      Seleziona uno stato
+    </button>
+    <div class='dropdown-menu'>
+        " . $stati . "
+    </div>
+  </div>";
+
+  return $combo;
+
+}
+
+/**
  * Restituisce una lista di Radio button per selezionare l'utente 
  * @param int $p_id_radio   id con il quale identificare la lista 
  * 

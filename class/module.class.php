@@ -225,7 +225,7 @@ class subModule
         foreach ($p_elements as $nome => $cartella) {
             $to_check = MODULE_PATH . $module . DIRECTORY_SEPARATOR . $cartella . DIRECTORY_SEPARATOR . $cartella . ".php";
             if (file_exists($to_check)) {
-                $navbarMenu .= "<a class='nav-item nav-link selectable notloaded' onclick='subMenu(\"$cartella\")'>$nome</a>";
+                $navbarMenu .= "<a class='nav-item nav-link selectable notloaded' id='$cartella' onclick='subMenu(\"$cartella\")'>$nome</a>";
                 $to_import[$cartella] = $cartella;
             }
         }
@@ -235,7 +235,7 @@ class subModule
 
         $modulo_to_load = "";
         # file da caricare nel caso il sottomodulo non venga trovato
-        $default = $modulo_to_load = MODULE_PATH . $module . DIRECTORY_SEPARATOR . $p_default . DIRECTORY_SEPARATOR . $p_default . ".php";;
+        $default = $modulo_to_load = MODULE_PATH . $module . DIRECTORY_SEPARATOR . $p_default . DIRECTORY_SEPARATOR . $p_default . ".php";
 
         if (isset($_GET['submod'])) {
             if (key_exists($_GET['submod'], $to_import)) {

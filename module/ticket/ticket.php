@@ -52,6 +52,9 @@ if (isset($_GET['usr'])) {
     $flt .= "and ute.id=" . $_GET["usr"] . " ";
 }
 
+if (isset($_GET['stat'])) {
+    $flt .= "and sttk.id=" . $_GET["stat"] . " ";
+}
 
 $sqlStmt = "SELECT tk.*, az.nome as nome_azienda, CONCAT(ute.nome, ' ', ute.cognome) as nome_operatore, sttk.stato
             FROM ticket as tk
@@ -59,7 +62,6 @@ $sqlStmt = "SELECT tk.*, az.nome as nome_azienda, CONCAT(ute.nome, ' ', ute.cogn
             inner join utente as ute on ute.id = tk.id_operatore
             inner join stato_ticket as sttk on sttk.id = tk.stato
             WHERE 1=1 " . $flt . $limit;
-
 
 try {
     # faccio la connessione al databse
@@ -81,6 +83,7 @@ try {
         </div>
         <input type="text" class="form-control" value="<?php echo $src ?>" onchange="changeParam('src', this.value )"> &nbsp;
         <?php echo getComboUtenti("setUsr"); ?> &nbsp;
+        <?php echo getComboStatoTicket("setStato"); ?> &nbsp;
         <?php echo $nav; ?>
     </div>
 

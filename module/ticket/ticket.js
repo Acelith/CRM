@@ -270,7 +270,7 @@ function delTicket(){
  * Cancella i parametri di ricerca dall'url
  */
 function resetFlt() {
-  var params = ["usr", "src"];
+  var params = ["usr", "src", "stat", "pag"];
   delParam(params);
 }
 
@@ -281,6 +281,15 @@ function resetFlt() {
 function setUsr(p_val) {
   var id = $(p_val).attr("id");
   changeParam("usr", id);
+}
+
+/**
+ * Imposta lo stato di ricerca
+ * @param p_val - l'ID dello stato
+ */
+ function setStato(p_val) {
+  var id = $(p_val).attr("id");
+  changeParam("stat", id);
 }
 
 /**
