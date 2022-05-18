@@ -20,30 +20,28 @@ use Sprain\SwissQrBill as QrBill;
 class Fattura
 {
 
-    public $debitore;
-    public $creditore;
-    public $testa;
-    public $corpo;
-    public $totale_netto;   # Totale conteggiando solo le prestazioni
-    public $fattura_totale; # Totale delle prestazioni + IVA
-    public $besrID;
-    public $numero_fattura;
-    public $info_supp;
-    public $riga = array();
-    public $fatturaQR;
-    public $fattura;
+    private $debitore;                  # Array con i dati del debitore
+    private $creditore;                 # Array con i dati del creditore
+    private $testa;                     # Testa della fattura 
+    private $corpo;                     # Corpo della fattura 
+    private $totale_netto;              # Totale conteggiando solo le prestazioni
+    private $fattura_totale;            # Totale delle prestazioni + IVA
+    private $besrID;                    # Besr ID
+    private $numero_fattura;            # Numero della fattura (ID)
+    private $identificativo_fattura;    # Identificativo interno della fattura
+    private $info_supp;                 # Informazioni supplementari
+    private $riga = array();            # array di rige
+    private $fatturaQR;                 # Codice QR        
 
     /**
      * Costruttore
      * 
      * @param p_besrID besr ID
-     * @param p_numero_fattura Numero fattura (identificatore interno)
      * @param p_info_supp informazioni supplementari
      */
-    function __construct($p_besrID, $p_numero_fattura, $p_info_supp)
+    function __construct($p_besrID, $p_info_supp)
     {
         $this->besrID = $p_besrID;
-        $this->numero_fattura = $p_numero_fattura;
         $this->info_supp = $p_info_supp;
 
         $this->setCreditore();
@@ -128,6 +126,7 @@ class Fattura
                 "ore" => "forfait",
                 "prezzo" => $row->budget_usato
             );
+
             $this->totale_netto = $row->budget_usato;
             array_push($this->riga, $riga);
         } else {
@@ -135,6 +134,7 @@ class Fattura
             from progetto as prj
             inner join task_progetto as tsk on tsk.id_progetto = prj.id
             where prj.id=:id";
+
             $parArr = array(
                 ":id" => $p_id_progetto
             );
@@ -166,7 +166,7 @@ class Fattura
     }
 
     /**
-     * Crea le riga della fattura per il progetto
+     * Crea le riga della fattura per il ticket
      * 
      * @param p_id_ticket id del/dei ticket
      */
@@ -243,7 +243,7 @@ class Fattura
 
         $fatt->Cell(130, 5, '', 0, 0);
         $fatt->Cell(20, 5, 'Fattura N. ', 0, 0);
-        $fatt->Cell(34, 5, '123', 0, 1);
+        $fatt->Cell(34, 5, $this->numero_fattura, 0, 1);
 
 
         $fatt->SetFont('', 'B', 12);
@@ -357,7 +357,7 @@ class Fattura
         # Identificatore pagamento
         $referenceNumber = QrBill\Reference\QrPaymentReferenceGenerator::generate(
             $this->besrID,  // You receive this number from your bank (BESR-ID). Unless your bank is PostFinance, in that case use NULL.
-            $this->numero_fattura # Numero della fattura interno
+            $this->identificativo_fattura # Numero della fattura interno
         );
 
         $qrBill->setPaymentReference(
@@ -376,5 +376,165 @@ class Fattura
 
 
         $this->fatturaQR = $qrBill;
+    }
+
+    /**
+     * Aggiorna la tabella dei ticket con il numero della fattura
+     * 
+     * @param p_id_ticket id del/dei ticket
+     */
+    function salvaFatturaTicket($p_id_ticket)
+    {
+        $parArr = array(
+            ":id_fattura" => $this->numero_fattura
+        );
+
+        $sqlStmt = "UPDATE ticket
+                    SET id_fattura=:id_fattura 
+                    WHERE id=:id";
+
+        # Controllo se è un array o no
+        if (is_array($p_id_ticket)) {
+
+            # Aggiorno ogni ticket con il numero fattura rispettivo
+            foreach ($p_id_ticket as $value) {
+                $parArr[":id"] = $value;
+
+                try {
+                    # faccio la connessione al databse
+                    $dbConnect = DB::connect();
+                    $sth = $dbConnect->prepare($sqlStmt);
+
+                    # Eseguo la query;
+                    $sth->execute($parArr);
+                } catch (PDOException $e) {
+                    echo $e;
+                    break;
+                }
+            }
+        } else {
+
+            $parArr[":id"] = $p_id_ticket;
+
+            try {
+                # faccio la connessione al databse
+                $dbConnect = DB::connect();
+                $sth = $dbConnect->prepare($sqlStmt);
+
+                # Eseguo la query;
+                $sth->execute($parArr);
+            } catch (PDOException $e) {
+                echo $e;
+            }
+        }
+    }
+
+    /**
+     * Aggiorna il progetto con l'id della fattura
+     * 
+     * @param p_id_progetto id del progetto
+     */
+    function salvaFatturaProgetto($p_id_progetto)
+    {
+        $sqlStmt = "UPDATE progetto
+                    SET id_fattura=:id_fattura 
+                    WHERE id=:id";
+
+        $parArr = array(
+            ":id" => $p_id_progetto,
+            ":id_fattura" => $this->numero_fattura
+        );
+
+        try {
+            # faccio la connessione al databse
+            $dbConnect = DB::connect();
+            $sth = $dbConnect->prepare($sqlStmt);
+
+            # Eseguo la query;
+            $sth->execute($parArr);
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+    /**
+     * Crea la nuova fattura nel database
+     * 
+     * @return int  ID della fattura
+     */
+    function creaFattura()
+    {
+        $sqlStmt = "INSERT INTO fattura 
+                    (importo_totale, id_azienda, id_utente_emissione, rige)
+                    VALUES(:importo_totale, :id_azienda, :id_utente, :rige)";
+
+        $parArr = array(
+            ":importo_totale" => $this->fattura_totale,
+            ":id_azienda" => $this->debitore["id"],
+            ":id_utente" => Utente::getCurrentUserId(),
+            ":rige" => serialize($this->riga)
+        );
+
+        try {
+            # faccio la connessione al databse
+            $dbConnect = DB::connect();
+            $sth = $dbConnect->prepare($sqlStmt);
+
+            # Eseguo la query;
+            $sth->execute($parArr);
+            $this->numero_fattura = $dbConnect->lastInsertId();
+        } catch (PDOException $e) {
+            echo $e;
+        }
+
+        # Ora inserisco nel database il numero di riferimento
+        $this->creaNumeroRiferimento();
+
+        $sqlStmt = "UPDATE fattura
+                    SET identificativo_interno=:identificativo
+                    WHERE id=:id";
+
+        $parArr = array(
+            ":identificativo" => $this->identificativo_fattura,
+            ":id" => $this->numero_fattura
+        );
+
+        try {
+            # faccio la connessione al databse
+            $dbConnect = DB::connect();
+            $sth = $dbConnect->prepare($sqlStmt);
+
+            # Eseguo la query;
+            $sth->execute($parArr);
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
+
+    /**
+     * Genera il numero di riferiemnto della fattura
+     *
+     */
+    function creaNumeroRiferimento()
+    {
+        # Genero le prime 26 cifre del numero di riferimento 
+        $riferimento = "0" . "0" . $this->debitore["id"] . "0" . "0" . $this->numero_fattura;
+        for ($i = 0; $i < 25 - strlen($riferimento); $i++) {
+            $riferimento .= "0";
+        }
+
+        # Genero il check digit 
+        $tabella = [0, 9, 4, 6, 8, 2, 7, 1, 3, 5];
+
+        $carry = 0;
+        for ($i = 0; $i < strlen($riferimento); $i++) {
+            $carry = $tabella[($carry + substr($riferimento, $i, 1)) % 10];
+        }
+        $digit = (10 - $carry) % 10;
+
+        $riferimento .= $digit;
+
+        $this->identificativo_fattura = $riferimento;
     }
 }

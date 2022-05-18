@@ -53,6 +53,7 @@ if (isset($_GET['usr'])) {
 }
 
 if (isset($_GET['stat'])) {
+    
     $flt .= "and sttk.id=" . $_GET["stat"] . " ";
 }
 

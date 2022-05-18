@@ -52,6 +52,7 @@ function stampaFattTickets()
     }
 
     $ids = array();
+    
     while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
         array_push($ids, $row->id);
 
@@ -74,6 +75,8 @@ function stampaFattTickets()
     $fattura->setRigeFatturaTicket($ids);
 
     $fattura->calcolaTotale();
+    $fattura->creaFattura();
+    $fattura->salvaFatturaTicket($ids);
     $fattura->getPdf();
 }
 
@@ -114,7 +117,7 @@ function stampaFattTicket()
     $via = $row->indirizzo;
     $citta = $row->citta;
     $cap = $row->cap;
-    $id = $row->id;
+    $id = $row->id_azienda;
 
     $fattura->setDebitore($nome, $via, $citta, $cap, $id);
 
@@ -122,6 +125,8 @@ function stampaFattTicket()
 
 
     $fattura->calcolaTotale();
+    $fattura->creaFattura();
+    $fattura->salvaFatturaTicket($id_ticket);
     $fattura->getPdf();
 }
 
@@ -171,5 +176,7 @@ function stampaFattProgetto()
     }
 
     $fattura->calcolaTotale();
+    $fattura->creaFattura();
+    $fattura->salvaFatturaProgetto($id_progetto);
     $fattura->getPdf();
 }
