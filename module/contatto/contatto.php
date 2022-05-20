@@ -22,7 +22,7 @@ if (isset($_GET['pag'])) {
     $limit = "LIMIT $start, 50";
 } else {
     $limit = "LIMIT 0, 50";
-}
+} 
 
 $nav = "
 <button class='btn btn-primary' onclick='precedentePagina()'><</button>

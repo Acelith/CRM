@@ -22,8 +22,6 @@ class Fattura
 
     private $debitore;                  # Array con i dati del debitore
     private $creditore;                 # Array con i dati del creditore
-    private $testa;                     # Testa della fattura 
-    private $corpo;                     # Corpo della fattura 
     private $totale_netto;              # Totale conteggiando solo le prestazioni
     private $fattura_totale;            # Totale delle prestazioni + IVA
     private $besrID;                    # Besr ID
@@ -47,15 +45,9 @@ class Fattura
         $this->setCreditore();
     }
 
-    function getTesta()
-    {
-        return $this->testa;
-    }
-
-    function getCorpo()
-    {
-        return $this->corpo;
-    }
+    /**
+     * Calcolo il totale della fattura
+     */
     function calcolaTotale()
     {
         $this->totale_iva =  (($this->totale_netto / 100) * Impostazioni::getSetting("iva"));
@@ -455,6 +447,44 @@ class Fattura
         } catch (PDOException $e) {
             echo $e;
         }
+    }
+
+    /**
+     * Ristampa la fattura selezionata
+     * 
+     * @param p_if_fattura  ID Della fattura da ristampare
+     */
+    function ristampaFattura($p_id_fattura)
+    {
+        $sqlStmt = "SELECT ft.id as n_fattura, ft.importo_totale, ft.identificativo_interno, ft.rige, az.* 
+        from fattura as ft
+        inner join azienda as az on az.id = ft.id_azienda
+        where ft.id=:id";
+
+        $parArr = array(
+            ":id" => $p_id_fattura,
+        );
+
+        try {
+            # faccio la connessione al databse
+            $dbConnect = DB::connect();
+            $sth = $dbConnect->prepare($sqlStmt);
+
+            # Eseguo la query;
+            $sth->execute($parArr);
+        } catch (PDOException $e) {
+            echo $e;
+        }
+
+        $row = $sth->fetch(PDO::FETCH_OBJ);
+        $this->identificativo_fattura = $row->identificativo_interno;
+        $this->numero_fattura = $row->n_fattura;
+        $this->setDebitore($row->nome, $row->indirizzo, $row->citta, $row->cap, $row->id);
+        $this->setCreditore();
+        $this->totale_netto = (100 * $row->importo_totale) / (100 + Impostazioni::getSetting('iva'));
+        $this->totale_iva =  $row->importo_totale - $this->totale_netto;
+        $this->riga = unserialize($row->rige);
+        $this->fattura_totale = floatval($row->importo_totale);
     }
 
     /**

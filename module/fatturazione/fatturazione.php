@@ -15,6 +15,7 @@ if(!utente::isLogged()){
      "Progetti" => "progetti",
      "Ticket" => "ticket",
      "Ticket Aziende" => "ticket_aziende",
+     "Storico" => "registro"
  );
 
  $Nav = New subModule("fatturazione");
@@ -22,7 +23,7 @@ if(!utente::isLogged()){
  ?>
  
  
- <?php
+ <?php  
  # importo la barra di navigazione
  echo $subNav["subNav"];
  # Importo il modulo richiesto

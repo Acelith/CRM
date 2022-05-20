@@ -23,6 +23,8 @@ if ($_POST['tipo_fatt'] == "1") {
     stampaFattTicket();
 } else if ($_POST['tipo_fatt'] == "2") {
     stampaFattTickets();
+} else if ($_POST["tipo_fatt"] == "3") {
+    ristampaFattura();
 } else {
     echo "<h1>Err</h1>";
 }
@@ -52,7 +54,7 @@ function stampaFattTickets()
     }
 
     $ids = array();
-    
+
     while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
         array_push($ids, $row->id);
 
@@ -178,5 +180,19 @@ function stampaFattProgetto()
     $fattura->calcolaTotale();
     $fattura->creaFattura();
     $fattura->salvaFatturaProgetto($id_progetto);
+    $fattura->getPdf();
+}
+
+/**
+ * Ristampa la fattura
+ */
+function ristampaFattura(){
+    $id_fattura = $_POST['id_fattura'];
+
+    $besrid = "210000";
+    $info_supp = "Erogazione di prestazioni";
+
+    $fattura = new Fattura($besrid, $info_supp);
+    $fattura->ristampaFattura($id_fattura);
     $fattura->getPdf();
 }
