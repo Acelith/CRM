@@ -56,7 +56,7 @@ if (isset($_GET['usr'])) {
 $sqlStmt = "SELECT count(tk.id) as ticket_chiusi_da_fatturare, sum(tk.ore) as ore_accumulate_da_fatt, az.*
             from azienda as az 
                 inner join ticket as tk on tk.id_azienda = az.id
-            where tk.da_fatturare=1 and tk.stato=2
+            where tk.da_fatturare=1 and tk.stato=2 and tk.id_fattura IS NULL
             group by az.id order by ore_accumulate_da_fatt desc";
 
 try {
