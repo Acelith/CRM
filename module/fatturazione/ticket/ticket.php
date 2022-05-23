@@ -60,15 +60,7 @@ $sqlStmt = "SELECT tk.id, tk.titolo, tk.descrizione, tk.ore, az.nome as nome_azi
                 inner join stato_ticket as sttk on sttk.id = tk.stato
                 where sttk.id=2 and tk.da_fatturare=1 " . $flt . $limit;
 
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-} catch (PDOException $e) {
-    echo "errore query: " . $e;
-}
+$sth = DB::doQuery($sqlStmt); 
 
 ?>
 <script type='text/javascript' src="/module/fatturazione/ticket/ticket.js"></script>

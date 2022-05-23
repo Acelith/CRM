@@ -43,15 +43,7 @@ class Module
             ":id" => $p_moduleId
         );
 
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-            # Eseguo la query;
-            $sth->execute($parArr);
-        } catch (PDOException $e) {
-            return "errore query: " . $e;
-        }
+        $sth = DB::doQueryParam($sqlStmt, $parArr); 
 
         $module = $sth->fetch(PDO::FETCH_OBJ);
         $cartellaModulo = $module->cartella;
@@ -105,15 +97,7 @@ class Module
     {
         $sqlStmt = "SELECT * FROM modulo where id<>0 order by id asc";
 
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-            # Eseguo la query;
-            $sth->execute();
-        } catch (PDOException $e) {
-            return "errore query: " . $e;
-        }
+        $sth = DB::doQuery($sqlStmt); 
 
         # mi faccio ritornare il modulo di default
         $menuItems = "";

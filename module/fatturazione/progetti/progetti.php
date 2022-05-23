@@ -59,15 +59,7 @@ $sqlStmt = "SELECT prj.*, az.nome as nome_azienda, SUM(tsk      .ore_lavorate) a
     .   "left join task_progetto as tsk on tsk.id_progetto = prj.id "
     .   "WHERE 1=1 " . $flt . " group by prj.id " . $limit;
 
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-} catch (PDOException $e) {
-    echo "errore query: " . $e;
-}
+    $sth = DB::doQuery($sqlStmt); 
 
 ?>
 <script type='text/javascript' src="/module/fatturazione/progetti/progetti.js"></script>

@@ -55,15 +55,7 @@ $sqlStmt = "SELECT az.*, CONCAT(ute.nome, ' ',ute.cognome) as utente "
     . "where 1=1" . $flt . " order by nome asc " . $limit;
 
 
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-} catch (PDOException $e) {
-    echo "errore query: " . $e;
-}
+    $sth = DB::doQuery($sqlStmt); 
 
 ?>
 <div class="container-fluid">

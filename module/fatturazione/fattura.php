@@ -102,15 +102,7 @@ class Fattura
                 ":id" => $p_id_progetto
             );
 
-            try {
-                # faccio la connessione al databse
-                $dbConnect = DB::connect();
-                $sth = $dbConnect->prepare($sqlStmt);
-                # Eseguo la query;
-                $sth->execute($parArr);
-            } catch (PDOException $e) {
-                echo "errore query: " . $e;
-            }
+            $sth = DB::doQueryParam($sqlStmt, $parArr); 
 
             $row = $sth->fetch(PDO::FETCH_OBJ);
             $riga = array(
@@ -131,15 +123,7 @@ class Fattura
                 ":id" => $p_id_progetto
             );
 
-            try {
-                # faccio la connessione al databse
-                $dbConnect = DB::connect();
-                $sth = $dbConnect->prepare($sqlStmt);
-                # Eseguo la query;
-                $sth->execute($parArr);
-            } catch (PDOException $e) {
-                echo "errore query: " . $e;
-            }
+            $sth = DB::doQueryParam($sqlStmt, $parArr); 
 
             $row = $sth->fetch(PDO::FETCH_OBJ);
             $ore = $row->ore_lavorate;
@@ -182,15 +166,8 @@ class Fattura
                     FROM ticket as tk 
                     inner join azienda as az on az.id = tk.id_azienda
                     where tk.id " . $id;
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-            # Eseguo la query;
-            $sth->execute();
-        } catch (PDOException $e) {
-            echo "errore query: " . $e;
-        }
+
+        $sth = DB::doQuery($sqlStmt); 
 
         $tot = 0;
         while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
@@ -392,32 +369,13 @@ class Fattura
             foreach ($p_id_ticket as $value) {
                 $parArr[":id"] = $value;
 
-                try {
-                    # faccio la connessione al databse
-                    $dbConnect = DB::connect();
-                    $sth = $dbConnect->prepare($sqlStmt);
-
-                    # Eseguo la query;
-                    $sth->execute($parArr);
-                } catch (PDOException $e) {
-                    echo $e;
-                    break;
-                }
+                $sth = DB::doQueryParam($sqlStmt, $parArr); 
             }
         } else {
 
             $parArr[":id"] = $p_id_ticket;
 
-            try {
-                # faccio la connessione al databse
-                $dbConnect = DB::connect();
-                $sth = $dbConnect->prepare($sqlStmt);
-
-                # Eseguo la query;
-                $sth->execute($parArr);
-            } catch (PDOException $e) {
-                echo $e;
-            }
+            $sth = DB::doQueryParam($sqlStmt, $parArr); 
         }
     }
 
@@ -437,16 +395,7 @@ class Fattura
             ":id_fattura" => $this->numero_fattura
         );
 
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-
-            # Eseguo la query;
-            $sth->execute($parArr);
-        } catch (PDOException $e) {
-            echo $e;
-        }
+        $sth = DB::doQueryParam($sqlStmt, $parArr); 
     }
 
     /**
@@ -465,16 +414,7 @@ class Fattura
             ":id" => $p_id_fattura,
         );
 
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-
-            # Eseguo la query;
-            $sth->execute($parArr);
-        } catch (PDOException $e) {
-            echo $e;
-        }
+        $sth = DB::doQueryParam($sqlStmt, $parArr); 
 
         $row = $sth->fetch(PDO::FETCH_OBJ);
         $this->identificativo_fattura = $row->identificativo_interno;
@@ -529,16 +469,7 @@ class Fattura
             ":id" => $this->numero_fattura
         );
 
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-
-            # Eseguo la query;
-            $sth->execute($parArr);
-        } catch (PDOException $e) {
-            echo $e;
-        }
+        $sth = DB::doQueryParam($sqlStmt, $parArr); 
     }
 
 

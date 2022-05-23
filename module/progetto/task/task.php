@@ -60,15 +60,7 @@ inner join azienda as az on az.id = prj.id_azienda
 where 1=1  " . $flt . $limit;
 
 
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-} catch (PDOException $e) {
-    echo "errore query: " . $e;
-}
+$sth = DB::doQuery($sqlStmt); 
 
 ?>
 <script type='text/javascript' src="/module/progetto/task/task.js"></script>
@@ -127,15 +119,7 @@ function getProgettoSelect()
 
     $sqlStmt = 'SELECT * FROM progetto';
 
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-        # Eseguo la query;
-        $sth->execute();
-    } catch (PDOException $e) {
-        return 'errore query: ' . $e;
-    }
+    $sth = DB::doQuery($sqlStmt); 
 
     $progetti = '';
     while ($row = $sth->fetch(PDO::FETCH_OBJ)) {

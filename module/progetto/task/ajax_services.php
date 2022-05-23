@@ -35,18 +35,7 @@ if (isset($_POST['cmd'])) {
                 );
 
 
-                try {
-                    # faccio la connessione al databse
-                    $dbConnect = DB::connect();
-                    $sth = $dbConnect->prepare($sqlStmt);
-
-                    # Eseguo la query;
-                    $sth->execute($parArr);
-
-                    $retArr['ajax_result'] = "ok";
-                } catch (PDOException $e) {
-                    $retArr['error'] = "err";
-                }
+                $sth = DB::doQueryParam($sqlStmt, $parArr, $retArr); 
 
                 $row = $sth->fetch(PDO::FETCH_OBJ);
 
@@ -103,18 +92,7 @@ if (isset($_POST['cmd'])) {
                     ":id_progetto" => $id_progetto,
                 );
 
-                try {
-                    # faccio la connessione al databse
-                    $dbConnect = DB::connect();
-                    $sth = $dbConnect->prepare($sqlStmt);
-
-                    # Eseguo la query;
-                    $sth->execute($parArr);
-
-                    $retArr['ajax_result'] = "ok";
-                } catch (PDOException $e) {
-                    $retArr['error'] = "err";
-                }
+                $sth = DB::doQueryParam($sqlStmt, $parArr, $retArr); 
 
                 break;
 
@@ -145,18 +123,8 @@ if (isset($_POST['cmd'])) {
                     ":id" => $id_task,
                 );
 
-                try {
-                    # faccio la connessione al databse
-                    $dbConnect = DB::connect();
-                    $sth = $dbConnect->prepare($sqlStmt);
+                $sth = DB::doQueryParam($sqlStmt, $parArr, $retArr); 
 
-                    # Eseguo la query;
-                    $sth->execute($parArr);
-
-                    $retArr['ajax_result'] = "ok";
-                } catch (PDOException $e) {
-                    $retArr['error'] = "err";
-                }
                 break;
             case "delTask":
                 $id_task = $_POST['id_task'];
@@ -168,18 +136,8 @@ if (isset($_POST['cmd'])) {
                     ":id" => $id_task,
                 );
 
-                try {
-                    # faccio la connessione al databse
-                    $dbConnect = DB::connect();
-                    $sth = $dbConnect->prepare($sqlStmt);
-
-                    # Eseguo la query;
-                    $sth->execute($parArr);
-
-                    $retArr['ajax_result'] = "ok";
-                } catch (PDOException $e) {
-                    $retArr['error'] = "err";
-                }
+                $sth = DB::doQueryParam($sqlStmt, $parArr, $retArr); 
+                
                 break;
         }
     } catch (Exception $e) {

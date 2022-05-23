@@ -51,15 +51,7 @@ $sqlStmt = " SELECT ft.*, az.nome as nome_azienda
              inner join azienda as az on az.id = ft.id_azienda
              where 1=1 " . $flt . $limit;
 
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-} catch (PDOException $e) {
-    echo "errore query: " . $e;
-}
+$sth = DB::doQuery($sqlStmt); 
 
 ?>
 <script type='text/javascript' src="/module/fatturazione/registro/registro.js"></script>

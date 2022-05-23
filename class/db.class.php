@@ -37,4 +37,54 @@ class DB
       die();
     }
   }
+
+  /**
+   * esegue una query parametrica sul database
+   * 
+   * @param string $p_query  query da eseguire
+   * @param array  $p_param  array con i parametri 
+   * @param array  &$p_retArr array di ritorno default: null
+   */
+  static function doQueryParam($p_query, $p_param, &$p_retArr = null)
+  {
+
+    try {
+      # faccio la connessione al databse
+      $dbConnect = DB::connect();
+      $sth = $dbConnect->prepare($p_query);
+
+      # Eseguo la query;
+      $sth->execute($p_param);
+
+      $p_retArr['ajax_result'] = "ok";
+    } catch (PDOException $e) {
+      $p_retArr['error'] = "err";
+    }
+    return $sth;
+  }
+
+  /**
+   * esegue una query sul database 
+   * 
+   * @param string $p_query  query da eseguire
+   * @param array  &$p_retArr array di ritorno default: null
+   */
+  static function doQuery($p_query, &$p_retArr = null)
+  {
+    try {
+      # faccio la connessione al databse
+      $dbConnect = DB::connect();
+      $sth = $dbConnect->prepare($p_query);
+
+      # Eseguo la query;
+      $sth->execute();
+
+      $p_retArr['ajax_result'] = "ok";
+      return $sth;
+    } catch (PDOException $e) {
+      $p_retArr['error'] = "err";
+      return "Errore " . $e;
+    }
+     
+  }
 }

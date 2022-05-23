@@ -18,15 +18,7 @@ function getComboUtenti($p_funzione)
 
     $sqlStmt = 'SELECT nome, cognome, id FROM utente';
 
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-        # Eseguo la query;
-        $sth->execute();
-    } catch (PDOException $e) {
-        return 'errore query: ' . $e;
-    }
+    $sth = DB::doQuery($sqlStmt); 
 
     $utenti = '';
     while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
@@ -56,15 +48,7 @@ function getComboStatoTicket($p_funzione){
     
     $sqlStmt = 'SELECT * FROM stato_ticket';
 
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-        # Eseguo la query;
-        $sth->execute();
-    } catch (PDOException $e) {
-        return 'errore query: ' . $e;
-    }
+    $sth = DB::doQuery($sqlStmt); 
 
     $stati = '';
     while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
@@ -95,15 +79,7 @@ function getListUtenti($p_id_radio)
 
     $sqlStmt = 'SELECT nome, cognome, id FROM utente';
 
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-        # Eseguo la query;
-        $sth->execute();
-    } catch (PDOException $e) {
-        return 'errore query: ' . $e;
-    }
+    $sth = DB::doQuery($sqlStmt); 
 
     $utenti = '';
     while ($row = $sth->fetch(PDO::FETCH_OBJ)) {
@@ -130,15 +106,7 @@ function getAziendeSelect()
     $sqlStmt = "SELECT * FROM azienda";
 
 
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-        # Eseguo la query;
-        $sth->execute();
-    } catch (PDOException $e) {
-        echo "errore query: " . $e;
-    }
+    $sth = DB::doQuery($sqlStmt); 
 
     $aziende = '';
     while ($row = $sth->fetch(PDO::FETCH_OBJ)) {

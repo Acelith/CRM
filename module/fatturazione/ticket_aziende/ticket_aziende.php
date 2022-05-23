@@ -59,15 +59,7 @@ $sqlStmt = "SELECT count(tk.id) as ticket_chiusi_da_fatturare, sum(tk.ore) as or
             where tk.da_fatturare=1 and tk.stato=2 and tk.id_fattura IS NULL
             group by az.id order by ore_accumulate_da_fatt desc";
 
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-} catch (PDOException $e) {
-    echo "errore query: " . $e;
-}
+$sth = DB::doQuery($sqlStmt); 
 
 ?>
 <script type='text/javascript' src="/module/fatturazione/ticket_aziende/ticket_aziende.js"></script>

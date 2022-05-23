@@ -13,15 +13,7 @@ if (!utente::isLogged()) {
 
 $sqlStmt = "SELECT nome, cognome, email, admin, dt_last_login, id FROM utente";
 
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-} catch (PDOException $e) {
-    return "errore query: " . $e;
-}
+$sth = DB::doQuery($sqlStmt);
 
 ?>
 <div class="container-fluid">

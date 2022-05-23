@@ -46,15 +46,7 @@ class utente
             ":id" => $id
         );
 
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-            # Eseguo la query;
-            $sth->execute($parArr);
-        } catch (PDOException $e) {
-            return "errore query: " . $e;
-        }
+        $sth = DB::doQueryParam($sqlStmt, $parArr); 
 
         $row = $sth->fetch(PDO::FETCH_OBJ);
 
@@ -82,16 +74,7 @@ class utente
             ":password" => password_hash($password, PASSWORD_BCRYPT),
         );
 
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-            # Eseguo la query;
-            $sth->execute($parArr);
-            return "ok";
-        } catch (PDOException $e) {
-            return "errore query: " . $e;
-        }
+        $sth = DB::doQueryParam($sqlStmt, $parArr); 
     }
 
     /**
@@ -120,15 +103,8 @@ class utente
                 ":id" => $p_id_utente,
             );
 
-            try {
-                # faccio la connessione al databse
-                $dbConnect = DB::connect();
-                $sth = $dbConnect->prepare($sqlStmt);
-                # Eseguo la query;
-                $sth->execute($parArr);
-            } catch (PDOException $e) {
-                return "errore query: " . $e;
-            }
+            $sth = DB::doQueryParam($sqlStmt, $parArr); 
+            
             return $sth->fetch(PDO::FETCH_ASSOC);
         } else {
             $sqlStmt = "SELECT $p_info
@@ -139,15 +115,7 @@ class utente
                 ":id" => $p_id_utente
             );
 
-            try {
-                # faccio la connessione al databse
-                $dbConnect = DB::connect();
-                $sth = $dbConnect->prepare($sqlStmt);
-                # Eseguo la query;
-                $sth->execute($parArr);
-            } catch (PDOException $e) {
-                return "errore query: " . $e;
-            }
+            $sth = DB::doQueryParam($sqlStmt, $parArr); 
 
             return $sth->fetch(PDO::FETCH_ASSOC);
         }

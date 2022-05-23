@@ -22,7 +22,7 @@ if (isset($_POST['cmd'])) {
 
     try {
         switch ($cmd) {
-            # Ritorno i dettagli dell'azienda
+                # Ritorno i dettagli dell'azienda
             case 'getDettagli':
                 $id = $_POST['id'];
 
@@ -35,18 +35,7 @@ if (isset($_POST['cmd'])) {
                     ":id" => $id,
                 );
 
-                try {
-                    # faccio la connessione al databse
-                    $dbConnect = DB::connect();
-                    $sth = $dbConnect->prepare($sqlStmt);
-
-                    # Eseguo la query;
-                    $sth->execute($parArr);
-
-                    $retArr['ajax_result'] = "ok";
-                } catch (PDOException $e) {
-                    $retArr['error'] = "err";
-                }
+                $sth = DB::doQueryParam($sqlStmt, $parArr, $retArr);
 
                 $row = $sth->fetch(PDO::FETCH_OBJ);
 
@@ -77,18 +66,8 @@ if (isset($_POST['cmd'])) {
                     ":email" => $email
                 );
 
-                try {
-                    # faccio la connessione al databse
-                    $dbConnect = DB::connect();
-                    $sth = $dbConnect->prepare($sqlStmt);
+                $sth = DB::doQueryParam($sqlStmt, $parArr, $retArr);
 
-                    # Eseguo la query;
-                    $sth->execute($parArr);
-
-                    $retArr['ajax_result'] = "ok";
-                } catch (PDOException $e) {
-                    $retArr['error'] = "err";
-                }
 
                 break;
 
@@ -111,18 +90,8 @@ if (isset($_POST['cmd'])) {
                     ":email" => $email
                 );
 
-                try {
-                    # faccio la connessione al databse
-                    $dbConnect = DB::connect();
-                    $sth = $dbConnect->prepare($sqlStmt);
+                $sth = DB::doQueryParam($sqlStmt, $parArr, $retArr); 
 
-                    # Eseguo la query;
-                    $sth->execute($parArr);
-
-                    $retArr['ajax_result'] = "ok";
-                } catch (PDOException $e) {
-                    $retArr['error'] = "err";
-                }
                 break;
 
             case "delContatto":
@@ -135,16 +104,8 @@ if (isset($_POST['cmd'])) {
                     ":id" => $id
                 );
 
-                try {
-                    # faccio la connessione al databse
-                    $dbConnect = DB::connect();
-                    $sth = $dbConnect->prepare($sqlStmt);
-                    # Eseguo la query;
-                    $sth->execute($parArr);
-                    $retArr["ajax_result"] = "ok";
-                } catch (PDOException $e) {
-                    return "errore query: " . $e;
-                }
+                $sth = DB::doQueryParam($sqlStmt, $parArr, $retArr); 
+                
                 break;
         }
     } catch (Exception $e) {

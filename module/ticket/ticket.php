@@ -64,15 +64,7 @@ $sqlStmt = "SELECT tk.*, az.nome as nome_azienda, CONCAT(ute.nome, ' ', ute.cogn
             inner join stato_ticket as sttk on sttk.id = tk.stato
             WHERE 1=1 " . $flt . $limit;
 
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-} catch (PDOException $e) {
-    echo "errore query: " . $e;
-}
+$sth = DB::doQuery($sqlStmt); 
 
 ?>
 <div class="container-fluid">
@@ -136,15 +128,7 @@ function getStatoTicket()
 {
     $sqlStmt = "SELECT * from stato_ticket";
 
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-        # Eseguo la query;
-        $sth->execute();
-    } catch (PDOException $e) {
-        echo "errore query: " . $e;
-    }
+    $sth = DB::doQuery($sqlStmt); 
 
     $combo = "<label for='selStato'>Seleziona stato</label>
                 <select name='selStato' id='selStato'>";

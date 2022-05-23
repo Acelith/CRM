@@ -27,15 +27,7 @@ class Impostazioni
 
         $sqlStmt = "SELECT * FROM impostazioni";
 
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-            # Eseguo la query;
-            $sth->execute();
-        } catch (PDOException $e) {
-            return "errore query: " . $e;
-        }
+        $sth = $db->doQuery($sqlStmt);
 
         $retArr = $sth->fetch(PDO::FETCH_ASSOC);
         return $retArr;
@@ -89,15 +81,6 @@ class Impostazioni
         $sqlStmt = "UPDATE impostazioni "
             . "SET $p_nome=:valore";
 
-
-        try {
-            # faccio la connessione al databse
-            $dbConnect = DB::connect();
-            $sth = $dbConnect->prepare($sqlStmt);
-            # Eseguo la query;
-            $sth->execute($parArr);
-        } catch (PDOException $e) {
-            return "errore query: " . $e;
-        }
+        $sth = $db->doQueryParam($sqlStmt, $parArr);
     }
 }

@@ -42,16 +42,7 @@ function stampaFattTickets()
         ":id" => $id_azienda,
     );
 
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-
-        # Eseguo la query;
-        $sth->execute($parArr);
-    } catch (PDOException $e) {
-        echo $e;
-    }
+    $sth = DB::doQueryParam($sqlStmt, $parArr); 
 
     $ids = array();
 
@@ -96,16 +87,7 @@ function stampaFattTicket()
         ":id" => $id_ticket,
     );
 
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-
-        # Eseguo la query;
-        $sth->execute($parArr);
-    } catch (PDOException $e) {
-        echo $e;
-    }
+    $sth = DB::doQueryParam($sqlStmt, $parArr); 
 
     $row = $sth->fetch(PDO::FETCH_OBJ);
 
@@ -144,16 +126,7 @@ function stampaFattProgetto()
         ":id" => $id_progetto,
     );
 
-    try {
-        # faccio la connessione al databse
-        $dbConnect = DB::connect();
-        $sth = $dbConnect->prepare($sqlStmt);
-
-        # Eseguo la query;
-        $sth->execute($parArr);
-    } catch (PDOException $e) {
-        echo $e;
-    }
+    $sth = DB::doQueryParam($sqlStmt, $parArr); 
 
     $row = $sth->fetch(PDO::FETCH_OBJ);
 

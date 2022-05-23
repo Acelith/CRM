@@ -59,15 +59,7 @@ inner join azienda as az on az.id = prj.id_azienda
 WHERE 1=1 " . $flt . $limit;
 
 
-try {
-    # faccio la connessione al databse
-    $dbConnect = DB::connect();
-    $sth = $dbConnect->prepare($sqlStmt);
-    # Eseguo la query;
-    $sth->execute();
-} catch (PDOException $e) {
-    echo "errore query: " . $e;
-}
+$sth = DB::doQuery($sqlStmt); 
 
 ?>
 <script type='text/javascript' src="/module/progetto/progetto/progetto.js"></script>
