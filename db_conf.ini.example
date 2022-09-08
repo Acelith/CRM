@@ -1,0 +1,5 @@
+; Parametri di connessione al DB 
+db_host = URL_TO_DATABASE
+db_usr = 'DB_USR'
+db_pwd = 'DB_PWD'
+db_name = 'DB_NAME'
