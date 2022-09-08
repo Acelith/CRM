@@ -1,4 +1,4 @@
-; Parametri di connessione al DB 
+; Parameters for the database connection
 db_host = URL_TO_DATABASE
 db_usr = 'DB_USR'
 db_pwd = 'DB_PWD'
